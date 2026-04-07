@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { groupPrograms } from ".";
+import { cleanProgramName, groupPrograms } from ".";
 
 const mockListings = [
   {
@@ -43,5 +43,27 @@ describe('groupPrograms', () => {
 
         expect(result.rfis[0].instructionMethod).toBe("classroom");
         expect(result.linkouts[0].instructionMethod).toBe("classroom");
+    });
+});
+
+describe('cleanProgramName', () => {
+    it("removes trailing degree name", () => {
+        expect(cleanProgramName("Practical Nursing - Diploma")).toBe("Practical Nursing");
+      });
+
+    it("removes leading acronym and trailing degree name", () => {
+          expect(cleanProgramName("AS - Diagnostic Medical Sonography - Associate's")).toBe("Diagnostic Medical Sonography");
+          expect(cleanProgramName("Psy.D. - Clinical Psychology - Doctorate")).toBe("Clinical Psychology");
+      });
+
+    it("removes setting", () => {
+        expect(cleanProgramName("BSN - Nursing: RN to BSN (Online) - Bachelor's")).toBe("Nursing: RN to BSN");
+    });
+
+    it("handles edge cases", () => {
+        expect(cleanProgramName('ABC')).toBe('ABC');
+        expect(cleanProgramName('')).toBe('');
+        expect(cleanProgramName(null)).toBe('');
+        expect(cleanProgramName(undefined)).toBe('');
     })
-})
+});

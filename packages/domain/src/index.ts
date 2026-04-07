@@ -42,7 +42,7 @@ export const groupPrograms = (
     listing.schools.flatMap((school) =>
       school.locations.flatMap((location) =>
         location.programs.map((program: RawProgram) => {
-          return { ...program, instructionMethod: location.instructionMethod };
+          return { ...program, displayName: cleanProgramName(program.displayName), instructionMethod: location.instructionMethod };
         }),
       ),
     ),
@@ -53,3 +53,15 @@ export const groupPrograms = (
     linkouts: allPrograms.filter((p) => !!p.clickTrackingUrl),
   };
 };
+
+export const cleanProgramName = (name: string | undefined | null): string => {
+    if (!name) return "";
+
+    const parts = name.split(" - ");
+
+    const cleanedPrefix = parts[0].replace(/\./g, "");
+    const isPrefix = cleanedPrefix.length <= 6 && !cleanedPrefix.includes(" "); 
+    
+    const programName = isPrefix && parts[1] ? parts[1] : parts[0];
+    return programName.replace(/\s*\(.*?\)\s*$/, "").trim();
+}
