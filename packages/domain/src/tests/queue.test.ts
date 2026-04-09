@@ -4,6 +4,7 @@ import { canAddToQueue } from "../queue";
 
 describe('canAddToQueue', () => {
 const program: Program = {
+        name: "BAND1",
         programId: "1",
         displayName: "Business",
         degreeName: "Bachelor",

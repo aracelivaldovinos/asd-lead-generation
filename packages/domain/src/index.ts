@@ -11,6 +11,7 @@ export const groupPrograms = (
         location.programs.map((program: RawProgram) => {
           return {
             ...program,
+            name: listing.name,
             displayName: cleanProgramName(program.displayName),
             instructionMethod: location.instructionMethod,
             school: {id: school.id, displayName: school.displayName}

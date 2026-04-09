@@ -33,6 +33,7 @@ export interface RawProgram {
 }
 
 export interface Program extends RawProgram {
-  school: Omit<School, 'locations' | 'logo'>;
+  name: string;
+  school: Omit<School, "locations" | "logo">;
   instructionMethod: string;
 }
