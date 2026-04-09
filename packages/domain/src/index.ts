@@ -1,6 +1,7 @@
 import { Listing, Program, RawProgram } from './types';
-export * from './qeueu';
+export * from './queue';
 export * from './types';
+
 export const groupPrograms = (
   listings: Listing[],
 ): { rfis: Program[]; linkouts: Program[] } => {
