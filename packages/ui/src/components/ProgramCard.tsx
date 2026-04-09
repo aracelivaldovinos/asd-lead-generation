@@ -58,7 +58,7 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
             <div className="sm:hidden h-px w-full bg-slate-200" />
             <div className="flex-1 flex items-center gap-5">
               <div className="flex-shrink-0 w-14 h-14 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center text-slate-700">
-                {instructionMethod.toLowerCase().includes("'online'") ? <OnlineIcon/> : <CampusIcon />}
+                {instructionMethod.toLowerCase().includes("online") ? <OnlineIcon/> : <CampusIcon />}
               </div>
               <div>
                 <div className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
