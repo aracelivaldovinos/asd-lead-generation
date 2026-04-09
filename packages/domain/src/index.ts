@@ -14,7 +14,7 @@ export interface School {
 }
 
 export interface Logo {
-  url: string;
+  src: string;
   width: number;
   height: number;
 }
@@ -25,14 +25,16 @@ export interface Location {
 }
 
 export interface RawProgram {
-  programId: string;
   displayName: string;
   degreeName: string;
   clickTrackingUrl?: string;
+  programId: string;
+  programInfo: string;
 }
 
 export interface Program extends RawProgram {
-    instructionMethod: string;
+  school: Omit<School, 'locations' | 'logo'>;
+  instructionMethod: string;
 }
 
 export const groupPrograms = (
@@ -42,7 +44,12 @@ export const groupPrograms = (
     listing.schools.flatMap((school) =>
       school.locations.flatMap((location) =>
         location.programs.map((program: RawProgram) => {
-          return { ...program, displayName: cleanProgramName(program.displayName), instructionMethod: location.instructionMethod };
+          return {
+            ...program,
+            displayName: cleanProgramName(program.displayName),
+            instructionMethod: location.instructionMethod,
+            school: {id: school.id, displayName: school.displayName}
+          };
         }),
       ),
     ),
@@ -55,13 +62,13 @@ export const groupPrograms = (
 };
 
 export const cleanProgramName = (name: string | undefined | null): string => {
-    if (!name) return "";
+  if (!name) return "";
 
-    const parts = name.split(" - ");
+  const parts = name.split(" - ");
 
-    const cleanedPrefix = parts[0].replace(/\./g, "");
-    const isPrefix = cleanedPrefix.length <= 6 && !cleanedPrefix.includes(" "); 
-    
-    const programName = isPrefix && parts[1] ? parts[1] : parts[0];
-    return programName.replace(/\s*\(.*?\)\s*$/, "").trim();
-}
+  const cleanedPrefix = parts[0].replace(/\./g, "");
+  const isPrefix = cleanedPrefix.length <= 6 && !cleanedPrefix.includes(" ");
+
+  const programName = isPrefix && parts[1] ? parts[1] : parts[0];
+  return programName.replace(/\s*\(.*?\)\s*$/, "").trim();
+};
