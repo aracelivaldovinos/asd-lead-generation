@@ -17,6 +17,7 @@ export const RFI: Story = {
       degreeName: "Diploma",
       instructionMethod: "Campus",
       clickTrackingUrl: "",
+      name: "BAND1",
       school: {
         id: 123,
         displayName: "Southeastern College",
@@ -34,6 +35,7 @@ export const Linkout: Story = {
       degreeName: "Associate's",
       instructionMethod: "Online",
       clickTrackingUrl: "http://click.com",
+      name: "BAND1",
       school: {
         id: 123,
         displayName: "Southeastern College",

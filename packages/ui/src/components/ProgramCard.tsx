@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Program } from "@asd/domain";
+
 import CheckMarkIcon from "../assets/svg/CheckMarkIcon";
 import DegreeIcon from "../assets/svg/DegreeIcon";
 import CampusIcon from "../assets/svg/CampusIcon";
 import ProgramButton from "./ProgramButton";
 import OnlineIcon from "../assets/svg/OnlineIcon";
+
+import { useRFIStore } from "../store/rfiStore";
 
 
 interface ProgramCardProps {
@@ -12,6 +15,7 @@ interface ProgramCardProps {
 }
 
 const ProgramCard = ({ program }: ProgramCardProps) => {
+  const { addToQueue } = useRFIStore();
   const [expanded, setExpanded] = useState(false);
 
   const {
@@ -19,7 +23,6 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
     degreeName,
     displayName,
     instructionMethod,
-    programId,
     programInfo,
     school,
   } = program;
@@ -88,7 +91,7 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
             label={clickTrackingUrl ? "Learn More" : "Request Info"}
             url={clickTrackingUrl || undefined}
             onClick={
-              clickTrackingUrl ? undefined : () => console.log(programId)
+              clickTrackingUrl ? undefined : () => addToQueue(program)
             }
           />
         </div>
