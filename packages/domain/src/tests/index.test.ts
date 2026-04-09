@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { cleanProgramName, groupPrograms } from ".";
+import { cleanProgramName, groupPrograms } from "..";
 
 const mockListings = [
   {
