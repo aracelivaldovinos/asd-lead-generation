@@ -37,3 +37,67 @@ export interface Program extends RawProgram {
   school: Omit<School, "locations" | "logo">;
   instructionMethod: string;
 }
+
+export interface RawRFISchemaProperty {
+  title: string;
+  type: string;
+  required: boolean;
+  maxLength: number;
+  pattern?: string;
+  enum?: string[];
+}
+
+export interface RawRFIFieldOption {
+  type: string;
+  optionLabels?: string[];
+}
+
+export interface RawRFIQuestions {
+  schema: {
+    properties: Record<string, RawRFISchemaProperty>;
+  };
+  options: {
+    fields: Record<string, RawRFIFieldOption>;
+  };
+}
+
+export interface RawRFIResponse {
+  displayName: string;
+  schoolName: string;
+  schoolId: number;
+  logo: Logo;
+  useLeadId: boolean;
+  useTrustedForm: boolean;
+  tcpaDisclaimer: string;
+  tcpaCheckboxRequired: boolean;
+  disclaimer: string | null;
+  privacyPolicy: string;
+  questions: RawRFIQuestions;
+}
+
+export interface RFIOption {
+  value: string;
+  displayName: string;
+}
+
+export interface RFIQuestion {
+  key: string;
+  title: string;
+  type: string;
+  required: boolean;
+  pattern: string | null;
+  maxLength: number;
+  options: RFIOption[] | null;
+}
+
+export interface RFIResponse {
+  displayName: string;
+  schoolName: string;
+  schoolId: number;
+  logo: Logo;
+  useLeadId: boolean;
+  useTrustedForm: boolean;
+  tcpaDisclaimer: string;
+  tcpaCheckboxRequired: boolean;
+  questions: RFIQuestion[];
+}

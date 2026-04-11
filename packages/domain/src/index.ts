@@ -1,6 +1,8 @@
 import { Listing, Program, RawProgram } from './types';
 export * from './queue';
+export * from './rfi';
 export * from './types';
+export * from './mocks';
 
 export const groupPrograms = (
   listings: Listing[],
