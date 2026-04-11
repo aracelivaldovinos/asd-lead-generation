@@ -1,4 +1,4 @@
-import { Listing } from "@asd/domain";
+import { Listing, RawRFIResponse, RFIResponse, transformRFIResponse } from "@asd/domain";
 import { useQuery } from "@tanstack/react-query";
 
 export interface ListingsParams {
@@ -8,7 +8,18 @@ export interface ListingsParams {
   s: string;
   [key: string]: string | undefined;
 }
-const fetchListings = async ( baseURL: string, params: ListingsParams): Promise<Listing[]> => {
+
+export interface RFIParams {
+  programId: string;
+  marketContext: string;
+  s: string;
+  [key: string]: string | undefined;
+}
+
+const fetchListings = async (
+  baseURL: string,
+  params: ListingsParams,
+): Promise<Listing[]> => {
   const queryString = new URLSearchParams(
     Object.entries(params).filter(([_, v]) => v !== undefined && v !== "") as [
       string,
@@ -22,8 +33,33 @@ const fetchListings = async ( baseURL: string, params: ListingsParams): Promise<
 };
 
 export const useListings = (baseURL: string, params: ListingsParams) => {
-    return useQuery({
-        queryKey: ["listings", params],
-        queryFn: () => fetchListings(baseURL, params)
-    })
-}
+  return useQuery({
+    queryKey: ["listings", params],
+    queryFn: () => fetchListings(baseURL, params),
+  });
+};
+
+const fetchRFI = async (
+  baseURL: string,
+  params: RFIParams,
+): Promise<RFIResponse> => {
+  const queryString = new URLSearchParams(
+    Object.entries(params).filter(([_, v]) => v !== undefined && v !== "") as [
+      string,
+      string,
+    ][],
+  );
+  const queryUrl = `${baseURL}?${queryString.toString()}`;
+
+  const response = await fetch(queryUrl);
+  const raw: RawRFIResponse = await response.json();
+
+  return transformRFIResponse(raw);
+};
+
+export const useRFI = (baseURL: string, params: RFIParams) => {
+  return useQuery({
+    queryKey: ["rfi", params],
+    queryFn: () => fetchRFI(baseURL, params),
+  });
+};
