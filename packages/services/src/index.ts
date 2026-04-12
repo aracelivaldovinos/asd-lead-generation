@@ -1,5 +1,11 @@
-import { Listing, RawRFIResponse, RFIResponse, transformRFIResponse } from "@asd/domain";
-import { useQuery } from "@tanstack/react-query";
+import {
+  Listing,
+  RawRFIResponse,
+  RawRFISubmitResponse,
+  RFIResponse,
+  transformRFIResponse,
+} from "@asd/domain";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export interface ListingsParams {
   marketContext: string;
@@ -63,3 +69,20 @@ export const useRFI = (baseURL: string, params: RFIParams) => {
     queryFn: () => fetchRFI(baseURL, params),
   });
 };
+
+export const fetchRFISubmit = async ( baseURL: string, programId: string, values: Record<string, string>): Promise<RawRFISubmitResponse> => {
+  const response = await fetch(`${baseURL}/${programId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(values),
+  });
+
+  return response.json();
+};
+
+export const useRFISubmit = (baseURL: string) => {
+  return useMutation({
+    mutationFn: ({programId, values}: {programId: string, values: Record<string, string>}) =>
+      fetchRFISubmit(baseURL, programId, values)
+  })
+}

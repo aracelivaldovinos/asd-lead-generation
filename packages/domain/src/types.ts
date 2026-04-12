@@ -101,3 +101,12 @@ export interface RFIResponse {
   tcpaCheckboxRequired: boolean;
   questions: RFIQuestion[];
 }
+
+export interface RawRFISubmitResponse {
+  valid: boolean;
+  success: boolean;
+  fieldErrors: Record<string, string>;
+  formErrors: string[];
+}
+
+

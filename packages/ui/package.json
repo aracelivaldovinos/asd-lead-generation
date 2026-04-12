@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@asd/domain": "workspace:*",
+    "@asd/services": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@tanstack/react-query": "^5.96.2",
     "@storybook/addon-essentials": "8.6.18",
     "@storybook/addon-interactions": "8.6.18",
     "@storybook/addon-onboarding": "8.6.18",

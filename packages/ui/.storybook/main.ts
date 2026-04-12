@@ -30,6 +30,18 @@ const config: StorybookConfig = {
   },
   viteFinal: async (config) => {
     config.plugins = [...(config.plugins || []), tailwindcss()];
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        ...config.resolve?.alias,
+        'react/jsx-dev-runtime': require.resolve('react/jsx-dev-runtime'),
+        'react/jsx-runtime': require.resolve('react/jsx-runtime'),
+        'react-dom/test-utils': require.resolve('react-dom/test-utils'),
+        'react-dom/client': require.resolve('react-dom/client'),
+        'react-dom': require.resolve('react-dom'),
+        react: require.resolve('react'),
+      }
+    };
     return config;
   }
 };
