@@ -1,6 +1,7 @@
 import { RawRFIResponse, RFIResponse } from "./types";
 
 export const mockRawRFIResponse: RawRFIResponse = {
+  disclaimer: "<p>Disclaimer text...</p>",
   displayName: "AS - Management - Associate's",
   schoolName: "Post University",
   schoolId: 28,
@@ -8,8 +9,7 @@ export const mockRawRFIResponse: RawRFIResponse = {
   useLeadId: true,
   useTrustedForm: true,
   tcpaDisclaimer: "By pressing Request Info...",
-  tcpaCheckboxRequired: false,
-  disclaimer: null,
+  tcpaCheckboxRequired: true,
   privacyPolicy: "<p>Privacy policy...</p>",
   questions: {
     schema: {
@@ -48,6 +48,7 @@ export const mockRawRFIResponse: RawRFIResponse = {
 };
 
 export const mockRFIResponse: RFIResponse = {
+  disclaimer: "<p>Disclaimer text...</p>",
   displayName: "AS - Management - Associate's",
   schoolName: "Post University",
   schoolId: 28,
@@ -55,7 +56,7 @@ export const mockRFIResponse: RFIResponse = {
   useLeadId: true,
   useTrustedForm: true,
   tcpaDisclaimer: "By pressing Request Info...",
-  tcpaCheckboxRequired: false,
+  tcpaCheckboxRequired: true,
   questions: [
     {
       key: "firstName",

@@ -1,4 +1,4 @@
-import { RawRFIResponse, RFIResponse } from "./types";
+import { RawRFIResponse, RFIQuestion, RFIResponse } from "./types";
 
 export const transformRFIResponse = (response: RawRFIResponse): RFIResponse => {
   const properties = response.questions.schema.properties;
@@ -23,6 +23,7 @@ export const transformRFIResponse = (response: RawRFIResponse): RFIResponse => {
   });
 
   return {
+    disclaimer: response.disclaimer ?? "",
     displayName: response.displayName,
     schoolName: response.schoolName,
     schoolId: response.schoolId,
@@ -33,4 +34,29 @@ export const transformRFIResponse = (response: RawRFIResponse): RFIResponse => {
     tcpaCheckboxRequired: response.tcpaCheckboxRequired,
     questions,
   };
+};
+
+const PERSONAL_KEYS = ["firstName", "lastName", "age"];
+const CONTACT_KEYS = ["emailAddress", "primaryPhone", "secondaryPhone"];
+const ADDRESS_KEYS = ["address", "city", "state", "postalCode"];
+const ACADEMIC_KEYS = ["hsGraduation", "education", "military", "startDate"];
+
+export const groupRFIQuestions = (questions: RFIQuestion[]) => {
+  return questions.reduce(
+    (groups, question) => {
+      if (PERSONAL_KEYS.includes(question.key)) {
+        groups.personal.push(question);
+      } else if (CONTACT_KEYS.includes(question.key)) {
+        groups.contact.push(question);
+      } else if (ADDRESS_KEYS.includes(question.key)) {
+        groups.address.push(question);
+      } else if (ACADEMIC_KEYS.includes(question.key)) {
+        groups.academic.push(question);
+      } else {
+        groups.additional.push(question);
+      }
+      return groups;
+    },
+    { personal: [], contact: [], address: [], academic: [], additional: [] } as Record<string, RFIQuestion[]>
+  );
 };

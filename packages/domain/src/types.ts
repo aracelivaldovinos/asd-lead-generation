@@ -91,6 +91,7 @@ export interface RFIQuestion {
 }
 
 export interface RFIResponse {
+  disclaimer: string;
   displayName: string;
   schoolName: string;
   schoolId: number;
