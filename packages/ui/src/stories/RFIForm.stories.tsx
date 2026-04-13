@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { mockRFIResponse } from "@asd/domain";
-import RFIForm from "../components/RFIForm";
+import RFIForm from "../components/rfi/RFIForm";
 
 
 const meta: Meta<typeof RFIForm> = {
