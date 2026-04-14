@@ -13,6 +13,12 @@ const GROUP_LABELS: Record<string, string> = {
   additional: "Additional Information",
 };
 
+const ROW_GROUPS = [
+  ["firstName", "lastName"],
+  ["city", "state", "postalCode"],
+  ["emailAddress", "primaryPhone"],
+];
+
 const RFIFormQuestions = ({ questions }: RFIFormQuestionsProps) => {
   const { setFormValue, formValues, fieldErrors } = useFormStore();
 
@@ -79,6 +85,53 @@ const RFIFormQuestions = ({ questions }: RFIFormQuestionsProps) => {
         );
     }
   };
+  const renderQuestions = (questions: RFIQuestion[]) => {
+    const rendered = new Set<string>();
+
+    return questions.map((question) => {
+      if (rendered.has(question.key)) return null;
+
+      const rowGroup = ROW_GROUPS.find((group) => group.includes(question.key));
+
+      if (rowGroup) {
+        const rowQuestions = rowGroup
+          .map((key) => questions.find((q) => q.key === key))
+          .filter(Boolean) as RFIQuestion[];
+
+        rowQuestions.forEach((q) => rendered.add(q.key));
+
+        return (
+          <div key={question.key} className="flex gap-4 mb-4">
+            {rowQuestions.map((q) => (
+              <div key={q.key} className="flex-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor={q.key}>
+                  {q.title}
+                </label>
+                {renderQuestionField(q)}
+                {fieldErrors[q.key] && (
+                  <span className="text-red-500">{fieldErrors[q.key]}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        );
+      }
+
+      rendered.add(question.key);
+      return (
+        <div key={question.key} className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor={question.key}>
+            {question.title}
+          </label>
+          {renderQuestionField(question)}
+          {fieldErrors[question.key] && (
+            <span className="text-red-500">{fieldErrors[question.key]}</span>
+          )}
+        </div>
+      );
+    });
+  };
+
   return (
     <div>
       {Object.entries(grouped).map(
@@ -88,20 +141,7 @@ const RFIFormQuestions = ({ questions }: RFIFormQuestionsProps) => {
               <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-5 flex items-center gap-2">
                 {GROUP_LABELS[group]}
               </h3>
-              {questions.map((question) => (
-                <div key={question.key}>
-                  <label
-                    className="block text-sm font-medium text-gray-700 mb-1.5"
-                    htmlFor={question.key}
-                  >
-                    {question.title}
-                  </label>
-                  {renderQuestionField(question)}
-                  {fieldErrors[question.key] && (
-                    <span className="text-red-500">{fieldErrors[question.key]}</span>
-                  )}
-                </div>
-              ))}
+              {renderQuestions(questions)}
             </div>
           ),
       )}

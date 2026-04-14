@@ -36,10 +36,10 @@ export const transformRFIResponse = (response: RawRFIResponse): RFIResponse => {
   };
 };
 
-const PERSONAL_KEYS = ["firstName", "lastName", "age"];
-const CONTACT_KEYS = ["emailAddress", "primaryPhone", "secondaryPhone"];
+const PERSONAL_KEYS = ["firstName", "lastName", "age", "birthDate", "alternatePhone"];
+const CONTACT_KEYS = ["emailAddress", "primaryPhone", "secondaryPhone", "contactTime", "contactPermission"];
 const ADDRESS_KEYS = ["address", "city", "state", "postalCode"];
-const ACADEMIC_KEYS = ["hsGraduation", "education", "military", "startDate"];
+const ACADEMIC_KEYS = ["hsGraduation", "education", "gpa", "military", "startDate", "usCitizen"];
 
 export const groupRFIQuestions = (questions: RFIQuestion[]) => {
   return questions.reduce(
