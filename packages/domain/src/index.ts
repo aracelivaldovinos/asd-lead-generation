@@ -3,6 +3,7 @@ export * from './queue';
 export * from './rfi';
 export * from './types';
 export * from './mocks';
+export * from './urlParams';
 
 export const groupPrograms = (
   listings: Listing[],
