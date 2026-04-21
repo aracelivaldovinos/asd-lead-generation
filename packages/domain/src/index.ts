@@ -1,17 +1,23 @@
-import { Listing, Program, RawProgram } from './types';
+import { Listing, ListingsConfig, Program, RawProgram } from './types';
 export * from './queue';
 export * from './rfi';
 export * from './types';
 export * from './mocks';
 export * from './urlParams';
 
+const DEFAULT_CONFIG: ListingsConfig = {
+  maxSchools: Infinity,
+  maxPrograms: 3
+}
+
 export const groupPrograms = (
   listings: Listing[],
+  config = DEFAULT_CONFIG
 ): { rfis: Program[]; linkouts: Program[] } => {
   const allPrograms = listings.flatMap((listing) =>
-    listing.schools.flatMap((school) =>
+    listing.schools.slice(0, config.maxSchools).flatMap((school) =>
       school.locations.flatMap((location) =>
-        location.programs.map((program: RawProgram) => {
+        location.programs.slice(0, config.maxPrograms).map((program: RawProgram) => {
           return {
             ...program,
             name: listing.name,

@@ -46,6 +46,31 @@ describe('groupPrograms', () => {
         expect(result.rfis[0].instructionMethod).toBe("classroom");
         expect(result.linkouts[0].instructionMethod).toBe("classroom");
     });
+    it('should limit schools per listing when maxSchools is provided', () => {
+        const result = groupPrograms(mockListings, {maxSchools: 1});
+
+        expect(result.rfis).toHaveLength(1);
+        expect(result.linkouts).toHaveLength(1);
+
+        expect(result.rfis[0].instructionMethod).toBe("classroom");
+        expect(result.linkouts[0].instructionMethod).toBe("classroom");
+    });
+    it('should limit program per listing when maxPrograms is provided', () => {
+        const result = groupPrograms(mockListings, {maxPrograms: 1});
+
+        expect(result.rfis).toHaveLength(1);
+        expect(result.linkouts).toHaveLength(0);
+
+        expect(result.rfis[0].instructionMethod).toBe("classroom");
+    });
+      it('should limit both school and program per listing when maxSchools and maxPrograms is provided', () => {
+        const result = groupPrograms(mockListings, {maxPrograms: 1, maxSchools: 1});
+
+        expect(result.rfis).toHaveLength(1);
+        expect(result.linkouts).toHaveLength(0);
+
+        expect(result.rfis[0].instructionMethod).toBe("classroom");
+    });
 });
 
 describe('cleanProgramName', () => {

@@ -1,5 +1,10 @@
 export type Band = "BAND1" | "BAND_COLLAB" | "BAND2" | "BAND3" | "BAND_BASIC";
 
+export interface ListingsConfig {
+  maxSchools?: number;
+  maxPrograms?: number;
+}
+
 export interface Listing {
   name: string;
   message: string;
@@ -111,3 +116,52 @@ export interface RawRFISubmitResponse {
 }
 
 
+export interface RawFiltersResponse {
+  filter: RawFilters;
+  prefilter: RawPrefilter;
+}
+
+export interface RawFilters {
+  settings: RawSettingsDegree[];
+  degree: RawSettingsDegree[]
+  subjectArea: RawSubjectArea
+}
+
+export interface RawSettingsDegree {
+  value: string;
+  displayName: string;
+}
+
+export interface RawSubjectArea extends RawFilterQuestion {
+  specialization: RawSpecialization[]
+}
+
+export interface RawPrefilter {
+  schema: {
+    properties: Record<string, RawPrefilterSchemaProperty>;
+  };
+  options: {
+    fields: Record<string, RawPrefilterFieldOption>;
+  };
+}
+
+export interface RawFilterQuestion {
+  value: string;
+  displayName: string;
+  description: string;
+}
+export type RawSpecialization = RawFilterQuestion;
+
+export type RawPrefilterSchemaProperty = RawRFISchemaProperty;
+
+export type RawPrefilterFieldOption = RawRFIFieldOption;
+
+export interface FilterResponse {
+  setting: FilterQuestion[];
+  degree: FilterQuestion[];
+  subjectArea: FilterQuestion[];
+  specialization: FilterQuestion[];
+  distance: FilterQuestion[];
+}
+
+export type FilterQuestion = RFIQuestion;
