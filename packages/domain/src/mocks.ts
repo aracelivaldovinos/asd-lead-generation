@@ -1,4 +1,36 @@
-import { RawRFIResponse, RFIResponse } from "./types";
+import { Listing, Program, RawRFIResponse, RFIResponse } from "./types";
+
+export const mockSchool = { id: 28, displayName: "Post University" };
+
+export const mockPrograms: Program[] = [
+  {
+    programId: "1",
+    displayName: "Management - Associate's",
+    name: "Management",
+    degreeName: "Associate's",
+    programInfo: "",
+    instructionMethod: "Online",
+    school: mockSchool,
+  },
+  {
+    programId: "2",
+    displayName: "Business Administration - Bachelor's",
+    name: "Business Administration",
+    degreeName: "Bachelor's",
+    programInfo: "",
+    instructionMethod: "Online",
+    school: mockSchool,
+  },
+  {
+    programId: "3",
+    displayName: "Accounting - Master's",
+    name: "Accounting",
+    degreeName: "Master's",
+    programInfo: "",
+    instructionMethod: "Online",
+    school: mockSchool,
+  },
+];
 
 export const mockRawRFIResponse: RawRFIResponse = {
   disclaimer: "<p>Disclaimer text...</p>",
@@ -241,3 +273,68 @@ export const mockRFIResponse: RFIResponse = {
     },
   ],
 };
+
+export const mockListings: Listing[] = [
+  {
+    name: "Management",
+    message: "",
+    schools: [
+      {
+        id: 28,
+        displayName: "Post University",
+        logo: { src: "https://example.com/logo.jpg", width: 350, height: 149 },
+        locations: [
+          {
+            instructionMethod: "Online",
+            programs: [
+              {
+                programId: "1",
+                displayName: "Management - Associate's",
+                degreeName: "Associate's",
+                programInfo: "<p>Learn the fundamentals of business management.</p>",
+              },
+              {
+                programId: "2",
+                displayName: "Management - Bachelor's",
+                degreeName: "Bachelor's",
+                programInfo: "<p>Advanced management principles for working professionals.</p>",
+                clickTrackingUrl: "https://example.com/click/2",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Business Administration",
+    message: "",
+    schools: [
+      {
+        id: 29,
+        displayName: "Southern New Hampshire University",
+        logo: { src: "https://example.com/snhu-logo.jpg", width: 350, height: 149 },
+        locations: [
+          {
+            instructionMethod: "Online",
+            programs: [
+              {
+                programId: "3",
+                displayName: "Business Administration - Bachelor's",
+                degreeName: "Bachelor's",
+                programInfo: "<p>Prepare for leadership roles in business.</p>",
+              },
+              {
+                programId: "4",
+                displayName: "Business Administration - Master's",
+                degreeName: "Master's",
+                programInfo: "<p>MBA program designed for career advancement.</p>",
+                clickTrackingUrl: "https://example.com/click/4",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];

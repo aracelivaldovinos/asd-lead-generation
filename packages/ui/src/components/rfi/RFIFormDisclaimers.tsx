@@ -12,7 +12,7 @@ const RFIFormDiclaimers = ({
   tcpaCheckboxRequired,
 }: RFIFormDisclaimersProps) => {
   return (
-    <div className="bg-gray-50 p-5 rounded-xl border border-gray-200 flex flex-col gap-3 hover:border-gray-300 transition-colors">
+    <div className="bg-gray-50 p-5 rounded-xl border border-gray-200 flex flex-col gap-3 hover:border-gray-300 transition-colors mb-6">
       {tcpaDisclaimer && (
         <div className="flex items-start gap-4">
           <div className="flex items-center h-5 mt-0.5">

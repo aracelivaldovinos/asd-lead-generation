@@ -1,4 +1,4 @@
-import { RFIResponse } from "@asd/domain";
+import { Program, RFIResponse } from "@asd/domain";
 import { useRFISubmit } from "@asd/services";
 import { useFormStore } from "../../store/formStore";
 import { useRFIStore } from "../../store/rfiStore";
@@ -9,9 +9,25 @@ import ThirdPartyScript from "./scripts/ThirdPartyScripts";
 
 interface RFIFormProps {
   response: RFIResponse;
+  programs: Program[];
+  onComplete: () => void;
+  onProgramChange: (program: Program) => void;
+  onProgramSkip: () => void;
 }
-const RFIForm = ({ response }: RFIFormProps) => {
-  const { currentProgram, submitCurrent } = useRFIStore();
+const RFIForm = ({
+  response,
+  programs,
+  onComplete,
+  onProgramChange,
+  onProgramSkip,
+}: RFIFormProps) => {
+  const {
+    queue,
+    currentProgram,
+    setCurrentProgram,
+    submitCurrent,
+    skipCurrent,
+  } = useRFIStore();
   const { formValues, setFieldErrors } = useFormStore();
   const { mutate } = useRFISubmit("www.test.com");
 
@@ -31,12 +47,15 @@ const RFIForm = ({ response }: RFIFormProps) => {
             mutate(
               {
                 programId: currentProgram?.programId ?? "",
-                values: formValues,
+                values: { ...formValues, band: currentProgram?.name ?? "" },
               },
               {
                 onSuccess: (data) => {
                   if (Object.keys(data.fieldErrors).length === 0) {
                     submitCurrent();
+                    if (queue.length <= 1) {
+                      onComplete();
+                    }
                   } else {
                     setFieldErrors(data.fieldErrors);
                   }
@@ -46,7 +65,7 @@ const RFIForm = ({ response }: RFIFormProps) => {
           }}
         >
           <div className="p-8 md:p-10 lg:p-12">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-10 border-b border-gray-100 pb-8">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
               <div>
                 <div className="text-2xl font-bold text-gray-900">
                   Request Information
@@ -56,6 +75,28 @@ const RFIForm = ({ response }: RFIFormProps) => {
                   required.
                 </p>
               </div>
+              {programs?.length > 1 && (
+                <select
+                  className="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block p-3 outline-none transition-all duration-200 shadow-sm cursor-pointer"
+                  name="program"
+                  value={currentProgram?.programId ?? ""}
+                  onChange={(e) => {
+                    const program = programs.find(
+                      (p) => p.programId === e.target.value,
+                    );
+                    if (program) {
+                      setCurrentProgram(program);
+                      onProgramChange(program);
+                    }
+                  }}
+                >
+                  {programs.map((program) => (
+                    <option key={program.programId} value={program.programId}>
+                      {program.displayName}
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
             <RFIFormQuestions questions={response.questions} />
             {(response.disclaimer || response.tcpaDisclaimer) && (
@@ -71,6 +112,20 @@ const RFIForm = ({ response }: RFIFormProps) => {
               type="submit"
             >
               Request Information
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                skipCurrent();
+
+                if (queue.length <= 1) {
+                  onComplete();
+                } else {
+                  onProgramSkip();
+                }
+              }}
+            >
+              Skip
             </button>
           </div>
         </form>
