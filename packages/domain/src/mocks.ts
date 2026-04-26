@@ -1,4 +1,4 @@
-import { Listing, Program, RawRFIResponse, RFIResponse } from "./types";
+import { FiltersResponse, Listing, Program, RawFiltersResponse, RawRFIResponse, RFIResponse } from "./types";
 
 export const mockSchool = { id: 28, displayName: "Post University" };
 
@@ -338,3 +338,126 @@ export const mockListings: Listing[] = [
     ],
   },
 ];
+
+export const mockRawFiltersResponse: RawFiltersResponse = {
+  filter: {
+    settings: [
+      { value: "online", displayName: "Online" },
+      { value: "classroom", displayName: "Classroom" },
+    ],
+    degree: [
+      { value: "associates", displayName: "Associate's" },
+      { value: "bachelors", displayName: "Bachelor's" },
+      { value: "masters", displayName: "Master's" },
+    ],
+    subjectArea: [
+      {
+        value: "business-administration-mba-concentration",
+        displayName: "Business Administration / MBA",
+        description: "Monitor finances, operations and other facets of an organization.",
+        specialization: [
+          { value: "business-administration", displayName: "Business Administration", description: "Lead on." },
+          { value: "international-business", displayName: "International Business", description: "The world is your oyster." },
+        ],
+      },
+      {
+        value: "computer-science-concentration",
+        displayName: "Computer Science Programs",
+        description: "IT professionals manage network and organizational systems.",
+        specialization: [
+          { value: "web-development", displayName: "Web Development", description: "Make web pages that work hard." },
+        ],
+      },
+    ],
+  },
+  prefilter: {
+    schema: {
+      properties: {
+        postalCode: {
+          title: "ZIP or Postal Code",
+          type: "string",
+          required: true,
+          maxLength: 255,
+        },
+        hsGraduation: {
+          title: "High school graduation year",
+          type: "string",
+          required: true,
+          maxLength: 255,
+          enum: ["2026", "2025", "2024"],
+        },
+        education: {
+          title: "Highest level of education",
+          type: "string",
+          required: true,
+          maxLength: 255,
+          enum: ["Some High School", "High School Diploma (or GED)", "Some College (No Degree)"],
+        },
+      },
+    },
+    options: {
+      fields: {
+        postalCode: { type: "text" },
+        hsGraduation: { type: "select", optionLabels: ["2026", "2025", "2024"] },
+        education: { type: "select", optionLabels: ["Some High School", "High School Diploma (or GED)", "Some College (No Degree)"] },
+      },
+    },
+  },
+};
+
+export const mockFiltersResponse: FiltersResponse = {
+  postalCode: {
+    key: "postalCode",
+    title: "ZIP or Postal Code",
+    type: "input",
+    options: null,
+    pattern: "^(\\d{5}|[A-Za-z]\\d[A-Za-z] ?\\d[A-Za-z]\\d)$",
+  },
+  setting: {
+    key: "setting",
+    title: "Learning Format",
+    type: "radio",
+    options: [
+      { value: "online", displayName: "Online" },
+      { value: "classroom", displayName: "Classroom" },
+    ],
+  },
+  degree: {
+    key: "degree",
+    title: "Degree Level",
+    type: "select",
+    options: [
+      { value: "associates", displayName: "Associate's" },
+      { value: "bachelors", displayName: "Bachelor's" },
+      { value: "masters", displayName: "Master's" },
+    ],
+  },
+  subjectArea: {
+    key: "subjectArea",
+    title: "Field of Study",
+    type: "select",
+    options: [
+      { value: "business-administration-mba-concentration", displayName: "Business Administration / MBA" },
+      { value: "computer-science-concentration", displayName: "Computer Science Programs" },
+    ],
+  },
+  specialization: {
+    key: "specialization",
+    title: "Concentration",
+    type: "select",
+    options: [
+      { value: "business-administration", displayName: "Business Administration" },
+      { value: "international-business", displayName: "International Business" },
+      { value: "web-development", displayName: "Web Development" },
+    ],
+  },
+  distance: {
+    key: "distance",
+    title: "Distance Range",
+    type: "range",
+    options: null,
+    min: 0,
+    max: 1000,
+    step: 10,
+  },
+};

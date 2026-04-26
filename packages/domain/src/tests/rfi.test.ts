@@ -177,7 +177,6 @@ const mockGroupRFIQuestions = {
 describe("transformRFIResponse", () => {
   it("tansforms rfi questions", () => {
     const response = transformRFIResponse(mockRawRFIResponse);
-    console.log(response, '***response')
     expect(response).toStrictEqual(mockRFIResponse);
   });
 });

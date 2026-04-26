@@ -124,7 +124,7 @@ export interface RawFiltersResponse {
 export interface RawFilters {
   settings: RawSettingsDegree[];
   degree: RawSettingsDegree[]
-  subjectArea: RawSubjectArea
+  subjectArea: RawSubjectArea[]
 }
 
 export interface RawSettingsDegree {
@@ -164,4 +164,26 @@ export interface FilterResponse {
   distance: FilterQuestion[];
 }
 
-export type FilterQuestion = RFIQuestion;
+export interface FilterOption {
+  value: string;
+  displayName: string;
+}
+export interface FilterQuestion {
+  key: string;
+  title: string;
+  type: "input" | "radio" | "select" | "range";
+  options: FilterOption[] | null;
+  pattern?: string;
+  min?: number;
+  max?: number;
+  step?: number;
+}
+
+export interface FiltersResponse {
+  postalCode: FilterQuestion;
+  setting: FilterQuestion;
+  degree: FilterQuestion;
+  subjectArea: FilterQuestion;
+  specialization: FilterQuestion;
+  distance: FilterQuestion;
+}
