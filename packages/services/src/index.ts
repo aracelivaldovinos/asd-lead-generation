@@ -2,8 +2,11 @@ import {
   Listing,
   RawRFIResponse,
   RawRFISubmitResponse,
+  RawFiltersResponse,
   RFIResponse,
   transformRFIResponse,
+  transformFiltersResponse,
+  FiltersResponse,
 } from "@asd/domain";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -70,7 +73,11 @@ export const useRFI = (baseURL: string, params: RFIParams) => {
   });
 };
 
-export const fetchRFISubmit = async ( baseURL: string, programId: string, values: Record<string, string>): Promise<RawRFISubmitResponse> => {
+const fetchRFISubmit = async (
+  baseURL: string,
+  programId: string,
+  values: Record<string, string>,
+): Promise<RawRFISubmitResponse> => {
   const response = await fetch(`${baseURL}/${programId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -82,7 +89,26 @@ export const fetchRFISubmit = async ( baseURL: string, programId: string, values
 
 export const useRFISubmit = (baseURL: string) => {
   return useMutation({
-    mutationFn: ({programId, values}: {programId: string, values: Record<string, string>}) =>
-      fetchRFISubmit(baseURL, programId, values)
-  })
-}
+    mutationFn: ({
+      programId,
+      values,
+    }: {
+      programId: string;
+      values: Record<string, string>;
+    }) => fetchRFISubmit(baseURL, programId, values),
+  });
+};
+
+const fetchFilters = async (baseURL: string): Promise<FiltersResponse> => {
+  const response = await fetch(baseURL);
+  const raw: RawFiltersResponse = await response.json();
+  return transformFiltersResponse(raw);
+};
+
+export const useFilters = (baseURL: string) => {
+  return useQuery({
+    queryKey: ["filters"],
+    queryFn: () => fetchFilters(baseURL),
+    staleTime: Infinity,
+  });
+};
