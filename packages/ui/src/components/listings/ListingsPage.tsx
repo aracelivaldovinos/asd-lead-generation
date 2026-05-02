@@ -1,13 +1,16 @@
-import { Listing, Program } from "@asd/domain";
+import { FiltersResponse, Listing, Program } from "@asd/domain";
 import { useRFIStore } from "../../store/rfiStore";
 import ProgramCard from "../ProgramCard";
+import FiltersPanel from "./FiltersPanel";
 
 interface ListingsPageProps {
   listings: Listing[];
+  filters: FiltersResponse;
   onNextStep: () => void;
+  onApplyFilters: (values: Record<string, string>) => void;
 }
 
-const ListingsPage = ({ listings, onNextStep }: ListingsPageProps) => {
+const ListingsPage = ({ listings, filters, onNextStep, onApplyFilters }: ListingsPageProps) => {
   const { queue } = useRFIStore();
 
   const programCount = listings.flatMap((listing) =>
@@ -21,9 +24,9 @@ const ListingsPage = ({ listings, onNextStep }: ListingsPageProps) => {
       <h1 className="text-3xl font-bold text-gray-900 mb-8">
         Available Programs ({programCount})
       </h1>
-      <div className="flex gap-8">
-        <aside className="w-64 shrink-0">
-          {/* Filters go here */}
+      <div className="flex flex-col lg:flex-row gap-8">
+        <aside className="w-full lg:w-64 lg:shrink-0">
+          <FiltersPanel filters={filters} onApply={onApplyFilters} />
         </aside>
         <main className="flex-1 pb-24">
           {queue.length > 0 && (

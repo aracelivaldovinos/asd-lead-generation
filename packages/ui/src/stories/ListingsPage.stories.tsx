@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { mockListings } from "@asd/domain";
+import { mockFiltersResponse, mockListings } from "@asd/domain";
 import ListingsPage from "../components/listings/ListingsPage";
 
 const meta: Meta<typeof ListingsPage> = {
@@ -13,6 +13,8 @@ type Story = StoryObj<typeof ListingsPage>;
 export const Default: Story = {
   args: {
     listings: mockListings,
+    filters: mockFiltersResponse,
     onNextStep: () => console.log("next step"),
+    onApplyFilters: (values) => console.log("apply filters", values),
   },
 };
