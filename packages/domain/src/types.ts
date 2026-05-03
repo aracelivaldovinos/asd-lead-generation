@@ -167,6 +167,7 @@ export interface FilterResponse {
 export interface FilterOption {
   value: string;
   displayName: string;
+  specializations?: FilterOption[];
 }
 export interface FilterQuestion {
   key: string;

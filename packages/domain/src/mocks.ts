@@ -418,6 +418,7 @@ export const mockFiltersResponse: FiltersResponse = {
     title: "Learning Format",
     type: "radio",
     options: [
+      { value: "", displayName: "Both" },
       { value: "online", displayName: "Online" },
       { value: "classroom", displayName: "Classroom" },
     ],
@@ -437,19 +438,28 @@ export const mockFiltersResponse: FiltersResponse = {
     title: "Field of Study",
     type: "select",
     options: [
-      { value: "business-administration-mba-concentration", displayName: "Business Administration / MBA" },
-      { value: "computer-science-concentration", displayName: "Computer Science Programs" },
+      {
+        value: "business-administration-mba-concentration",
+        displayName: "Business Administration / MBA",
+        specializations: [
+          { value: "business-administration", displayName: "Business Administration" },
+          { value: "international-business", displayName: "International Business" },
+        ],
+      },
+      {
+        value: "computer-science-concentration",
+        displayName: "Computer Science Programs",
+        specializations: [
+          { value: "web-development", displayName: "Web Development" },
+        ],
+      },
     ],
   },
   specialization: {
     key: "specialization",
     title: "Concentration",
     type: "select",
-    options: [
-      { value: "business-administration", displayName: "Business Administration" },
-      { value: "international-business", displayName: "International Business" },
-      { value: "web-development", displayName: "Web Development" },
-    ],
+    options: [],
   },
   distance: {
     key: "distance",

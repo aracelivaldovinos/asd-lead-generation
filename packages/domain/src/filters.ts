@@ -13,7 +13,7 @@ export const transformFiltersResponse = (response: RawFiltersResponse): FiltersR
       key: "setting",
       title: "Learning Format",
       type: "radio",
-      options: response.filter.settings,
+      options: [{ value: "", displayName: "Both" }, ...response.filter.settings],
     },
     degree: {
       key: "degree",
@@ -25,15 +25,17 @@ export const transformFiltersResponse = (response: RawFiltersResponse): FiltersR
       key: "subjectArea",
       title: "Field of Study",
       type: "select",
-      options: response.filter.subjectArea.map(({ value, displayName }) => ({ value, displayName })),
+      options: response.filter.subjectArea.map(({ value, displayName, specialization }) => ({
+        value,
+        displayName,
+        specializations: specialization.map(({ value, displayName }) => ({ value, displayName })),
+      })),
     },
     specialization: {
       key: "specialization",
-      title: "Concentration",
+      title: "Field of Concentration",
       type: "select",
-      options: response.filter.subjectArea.flatMap(({ specialization }) =>
-        specialization.map(({ value, displayName }) => ({ value, displayName }))
-      ),
+      options: [],
     },
     distance: {
       key: "distance",
