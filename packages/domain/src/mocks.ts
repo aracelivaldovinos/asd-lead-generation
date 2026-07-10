@@ -457,7 +457,7 @@ export const mockFiltersResponse: FiltersResponse = {
   },
   specialization: {
     key: "specialization",
-    title: "Concentration",
+    title: "Field of Concentration",
     type: "select",
     options: [],
   },

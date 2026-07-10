@@ -48,18 +48,18 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
         <div className="text-muted mb-2 tracking-widest text-xs font-semibold uppercase">
           {school.displayName}
         </div>
-        <div className="text-white text-2xl uppercase font-extrabold leading-tight">
+        <div className="text-white text-xl sm:text-2xl uppercase font-extrabold leading-tight">
           {displayName}
         </div>
       </div>
       <div className="p-6 grow flex flex-col gap-6">
-        <div className="flex flex-row gap-6 p-4 bg-slate-50">
-          <div className="flex-1 flex items-center gap-3 sm:gap-5">
-            <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center text-slate-700">
+        <div className="flex flex-row gap-3 p-3 bg-slate-50">
+          <div className="flex-1 flex items-center gap-3">
+            <div className="flex-shrink-0 w-10 h-10 bg-white rounded-lg shadow-sm border border-slate-100 flex items-center justify-center text-slate-700">
               <DegreeIcon />
             </div>
             <div>
-              <div className="text-base sm:text-xl font-extrabold text-slate-900 tracking-tight">
+              <div className="text-base font-extrabold text-slate-900 tracking-tight">
                 {degreeName}
               </div>
               <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-0.5">
@@ -68,8 +68,8 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
             </div>
           </div>
           <div className="w-px bg-slate-200 self-stretch" />
-          <div className="flex-1 flex items-center gap-3 sm:gap-5">
-            <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center text-slate-700">
+          <div className="flex-1 flex items-center gap-3">
+            <div className="flex-shrink-0 w-10 h-10 bg-white rounded-lg shadow-sm border border-slate-100 flex items-center justify-center text-slate-700">
               {instructionMethod.toLowerCase().includes("online") ? (
                 <OnlineIcon />
               ) : (
@@ -77,7 +77,7 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
               )}
             </div>
             <div>
-              <div className="text-base sm:text-xl font-extrabold text-slate-900 tracking-tight">
+              <div className="text-base font-extrabold text-slate-900 tracking-tight">
                 {instructionMethod}
               </div>
               <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-0.5">

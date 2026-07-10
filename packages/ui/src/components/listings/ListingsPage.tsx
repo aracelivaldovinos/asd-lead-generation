@@ -8,14 +8,15 @@ import FiltersIcon from "../../assets/svg/FiltersIcon";
 interface ListingsPageProps {
   listings: Listing[];
   filters: FiltersResponse;
+  initialValues?: Record<string, string>;
   onNextStep: () => void;
   onApplyFilters: (values: Record<string, string>) => void;
 }
 
-const ListingsPage = ({ listings, filters, onNextStep, onApplyFilters }: ListingsPageProps) => {
+const ListingsPage = ({ listings, filters, initialValues, onNextStep, onApplyFilters }: ListingsPageProps) => {
   const { queue } = useRFIStore();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [filterValues, setFilterValues] = useState<Record<string, string>>({});
+  const [filterValues, setFilterValues] = useState<Record<string, string>>(initialValues ?? {});
 
   const appliedCount = Object.values(filterValues).filter(Boolean).length;
 
@@ -30,6 +31,14 @@ const ListingsPage = ({ listings, filters, onNextStep, onApplyFilters }: Listing
     )
   ).length;
 
+  const hasRFIPrograms = listings.some((listing) =>
+    listing.schools.some((school) =>
+      school.locations.some((location) =>
+        location.programs.some((program) => !program.clickTrackingUrl)
+      )
+    )
+  );
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-8">
@@ -39,7 +48,7 @@ const ListingsPage = ({ listings, filters, onNextStep, onApplyFilters }: Listing
         {/* Mobile filter button */}
         <button
           onClick={() => setDrawerOpen(true)}
-          className="md:hidden flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm"
+          className="lg:hidden flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm"
         >
           <FiltersIcon />
           Filters
@@ -53,7 +62,7 @@ const ListingsPage = ({ listings, filters, onNextStep, onApplyFilters }: Listing
 
       {/* Mobile drawer */}
       {drawerOpen && (
-        <div className="md:hidden fixed inset-0 z-50 flex flex-col justify-end">
+        <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end">
           <div className="absolute inset-0 bg-black/40" onClick={() => setDrawerOpen(false)} />
           <div className="relative bg-white rounded-t-2xl p-6 max-h-[85vh] overflow-y-auto">
             <FiltersPanel
@@ -67,15 +76,15 @@ const ListingsPage = ({ listings, filters, onNextStep, onApplyFilters }: Listing
       )}
 
       <div className="flex flex-col md:flex-row gap-8">
-        <aside className="hidden md:block md:w-64 md:shrink-0">
+        <aside className="hidden lg:block lg:w-64 lg:shrink-0">
           <FiltersPanel filters={filters} values={filterValues} onApply={handleApplyFilters} />
         </aside>
         <main className="flex-1 pb-24">
-          {queue.length > 0 && (
-            <div className="fixed bottom-6 left-[calc(50%+8rem)] -translate-x-1/2 z-20">
-              <div className="inline-flex items-center gap-8 bg-dark border-2 border-primary rounded-full px-6 py-4">
+          {hasRFIPrograms && (
+            <div className="fixed bottom-6 left-1/2 lg:left-[calc(50%+8rem)] -translate-x-1/2 z-20">
+              <div className="inline-flex items-center gap-4 md:gap-8 bg-dark border-2 border-primary rounded-full px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                 <span className="font-semibold text-white">
-                  <span className="text-primary font-extrabold">{queue.length}</span> Program{queue.length > 1 ? "s" : ""} selected for submission
+                  <span className="text-primary font-extrabold">{queue.length}</span>&nbsp;&nbsp;Program{queue.length > 1 ? "s" : ""} selected for submission
                 </span>
                 <button
                   onClick={onNextStep}

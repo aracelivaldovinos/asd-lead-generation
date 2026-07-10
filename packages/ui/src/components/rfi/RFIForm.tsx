@@ -38,7 +38,7 @@ const RFIForm = ({
         schoolName={response.schoolName}
         logo={response.logo}
       />
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-20 relative z-10 pb-24">
+      <div className="w-full sm:max-w-5xl sm:mx-auto px-0 sm:px-6 -mt-20 relative z-10 pb-24">
         <form
           className="bg-white rounded-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] border border-gray-100 overflow-hidden"
           id="rfi-form"

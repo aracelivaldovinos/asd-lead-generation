@@ -101,7 +101,7 @@ const RFIFormQuestions = ({ questions }: RFIFormQuestionsProps) => {
         rowQuestions.forEach((q) => rendered.add(q.key));
 
         return (
-          <div key={question.key} className="flex gap-4 mb-4">
+          <div key={question.key} className="flex flex-col sm:flex-row gap-4 mb-4">
             {rowQuestions.map((q) => (
               <div key={q.key} className="flex-1">
                 <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor={q.key}>

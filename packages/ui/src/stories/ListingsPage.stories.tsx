@@ -14,6 +14,7 @@ export const Default: Story = {
   args: {
     listings: mockListings,
     filters: mockFiltersResponse,
+    initialValues: { postalCode: "90210" },
     onNextStep: () => console.log("next step"),
     onApplyFilters: (values) => console.log("apply filters", values),
   },
