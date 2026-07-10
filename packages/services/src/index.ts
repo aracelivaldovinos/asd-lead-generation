@@ -6,7 +6,9 @@ import {
   RFIResponse,
   transformRFIResponse,
   transformFiltersResponse,
+  transformPrefilter,
   FiltersResponse,
+  PrefilterQuestion,
 } from "@asd/domain";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -99,10 +101,18 @@ export const useRFISubmit = (baseURL: string) => {
   });
 };
 
-const fetchFilters = async (baseURL: string): Promise<FiltersResponse> => {
+interface FiltersData {
+  filters: FiltersResponse;
+  prefilter: PrefilterQuestion[];
+}
+
+const fetchFilters = async (baseURL: string): Promise<FiltersData> => {
   const response = await fetch(baseURL);
   const raw: RawFiltersResponse = await response.json();
-  return transformFiltersResponse(raw);
+  return {
+    filters: transformFiltersResponse(raw),
+    prefilter: transformPrefilter(raw),
+  };
 };
 
 export const useFilters = (baseURL: string) => {

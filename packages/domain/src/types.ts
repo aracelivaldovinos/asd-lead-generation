@@ -188,3 +188,18 @@ export interface FiltersResponse {
   specialization: FilterQuestion;
   distance: FilterQuestion;
 }
+
+export interface PrefilterOption {
+  value: string;
+  displayName: string;
+}
+
+export interface PrefilterQuestion {
+  key: string;
+  title: string;
+  type: string;
+  required: boolean;
+  pattern: string | null;
+  maxLength: number;
+  options: PrefilterOption[] | null;
+}

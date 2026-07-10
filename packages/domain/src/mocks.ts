@@ -1,4 +1,4 @@
-import { FiltersResponse, Listing, Program, RawFiltersResponse, RawRFIResponse, RFIResponse } from "./types";
+import { FiltersResponse, Listing, PrefilterQuestion, Program, RawFiltersResponse, RawRFIResponse, RFIResponse } from "./types";
 
 export const mockSchool = { id: 28, displayName: "Post University" };
 
@@ -404,6 +404,56 @@ export const mockRawFiltersResponse: RawFiltersResponse = {
     },
   },
 };
+
+export const mockPrefilterQuestions: PrefilterQuestion[] = [
+  {
+    key: "postalCode",
+    title: "ZIP or Postal Code",
+    type: "text",
+    required: true,
+    maxLength: 255,
+    pattern: null,
+    options: null,
+  },
+  {
+    key: "hsGraduation",
+    title: "High school graduation year",
+    type: "select",
+    required: true,
+    maxLength: 255,
+    pattern: null,
+    options: [
+      { value: "2026", displayName: "2026" },
+      { value: "2025", displayName: "2025" },
+      { value: "2024", displayName: "2024" },
+    ],
+  },
+  {
+    key: "education",
+    title: "Highest level of education",
+    type: "select",
+    required: true,
+    maxLength: 255,
+    pattern: null,
+    options: [
+      { value: "Some High School", displayName: "Some High School" },
+      { value: "High School Diploma (or GED)", displayName: "High School Diploma (or GED)" },
+      { value: "Some College (No Degree)", displayName: "Some College (No Degree)" },
+    ],
+  },
+  {
+    key: "subjectArea",
+    title: "Field of Study",
+    type: "select",
+    required: false,
+    maxLength: 255,
+    pattern: null,
+    options: [
+      { value: "business-administration-mba-concentration", displayName: "Business Administration / MBA" },
+      { value: "computer-science-concentration", displayName: "Computer Science Programs" },
+    ],
+  },
+];
 
 export const mockFiltersResponse: FiltersResponse = {
   postalCode: {

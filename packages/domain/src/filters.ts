@@ -1,4 +1,47 @@
-import { FiltersResponse, RawFiltersResponse } from "./types";
+import { FiltersResponse, PrefilterQuestion, RawFiltersResponse } from "./types";
+
+export const transformPrefilter = (response: RawFiltersResponse): PrefilterQuestion[] => {
+  const properties = response.prefilter.schema.properties;
+  const fields = response.prefilter.options.fields;
+
+  const questions: PrefilterQuestion[] = Object.entries(properties).map(([key, property]) => {
+    const field = fields[key];
+    return {
+      key,
+      title: property.title,
+      type: field.type,
+      required: property.required,
+      maxLength: property.maxLength,
+      pattern: property.pattern ?? null,
+      options: property.enum
+        ? property.enum.map((value, index) => ({
+            value,
+            displayName: field.optionLabels?.[index] ?? value,
+          }))
+        : null,
+    };
+  });
+
+  questions.push({
+    key: "subjectArea",
+    title: "Field of Study",
+    type: "select",
+    required: false,
+    maxLength: 255,
+    pattern: null,
+    options: response.filter.subjectArea.map(({ value, displayName }) => ({ value, displayName })),
+  });
+
+  return questions;
+};
+
+export const selectPrefilterQuestions = (
+  questions: PrefilterQuestion[],
+  keys: string[]
+): PrefilterQuestion[] =>
+  keys
+    .map((key) => questions.find((q) => q.key === key))
+    .filter(Boolean) as PrefilterQuestion[];
 
 export const transformFiltersResponse = (response: RawFiltersResponse): FiltersResponse => {
   return {
