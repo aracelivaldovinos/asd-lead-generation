@@ -44,7 +44,7 @@ describe("transformPrefilter", () => {
       key: "subjectArea",
       title: "Field of Study",
       type: "select",
-      required: false,
+      required: true,
       maxLength: 255,
       pattern: null,
       options: [

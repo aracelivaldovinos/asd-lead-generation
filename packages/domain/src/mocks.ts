@@ -308,7 +308,7 @@ export const mockListings: Listing[] = [
   },
   {
     name: "Business Administration",
-    message: "",
+    message: "People who viewed Management programs were also interested in these Business programs.",
     schools: [
       {
         id: 29,
@@ -436,16 +436,16 @@ export const mockPrefilterQuestions: PrefilterQuestion[] = [
     maxLength: 255,
     pattern: null,
     options: [
-      { value: "Some High School", displayName: "Some High School" },
-      { value: "High School Diploma (or GED)", displayName: "High School Diploma (or GED)" },
-      { value: "Some College (No Degree)", displayName: "Some College (No Degree)" },
+      { value: "1", displayName: "Some High School" },
+      { value: "2", displayName: "High School Diploma (or GED)" },
+      { value: "3", displayName: "Some College (No Degree)" },
     ],
   },
   {
     key: "subjectArea",
     title: "Field of Study",
     type: "select",
-    required: false,
+    required: true,
     maxLength: 255,
     pattern: null,
     options: [

@@ -8,8 +8,8 @@
         "dev": "tsc --watch"                                                             
     },                                                                                      
     "dependencies": {
-        "@asd/domain": "workspace:*",                                                       
-        "@tanstack/react-query": "^5.0.0"                                                
+        "@asd/domain": "workspace:*",
+        "@tanstack/react-query": "^5.0.0"
     },
     "devDependencies": {
         "typescript": "^5.0.0"                                                              

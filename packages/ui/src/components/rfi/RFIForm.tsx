@@ -10,6 +10,7 @@ import ThirdPartyScript from "./scripts/ThirdPartyScripts";
 interface RFIFormProps {
   response: RFIResponse;
   programs: Program[];
+  submitUrl: string;
   onComplete: () => void;
   onProgramChange: (program: Program) => void;
   onProgramSkip: () => void;
@@ -17,6 +18,7 @@ interface RFIFormProps {
 const RFIForm = ({
   response,
   programs,
+  submitUrl,
   onComplete,
   onProgramChange,
   onProgramSkip,
@@ -29,7 +31,7 @@ const RFIForm = ({
     skipCurrent,
   } = useRFIStore();
   const { formValues, setFieldErrors } = useFormStore();
-  const { mutate } = useRFISubmit("www.test.com");
+  const { mutate } = useRFISubmit(submitUrl);
 
   return (
     <div>
@@ -50,7 +52,7 @@ const RFIForm = ({
                 values: { ...formValues, band: currentProgram?.name ?? "" },
               },
               {
-                onSuccess: (data) => {
+                onSuccess: (data:any) => {
                   if (Object.keys(data.fieldErrors).length === 0) {
                     submitCurrent();
                     if (queue.length <= 1) {

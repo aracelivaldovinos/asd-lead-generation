@@ -15,7 +15,7 @@ export const transformPrefilter = (response: RawFiltersResponse): PrefilterQuest
       pattern: property.pattern ?? null,
       options: property.enum
         ? property.enum.map((value, index) => ({
-            value,
+            value: key === "education" ? String(index + 1) : value,
             displayName: field.optionLabels?.[index] ?? value,
           }))
         : null,
@@ -26,7 +26,7 @@ export const transformPrefilter = (response: RawFiltersResponse): PrefilterQuest
     key: "subjectArea",
     title: "Field of Study",
     type: "select",
-    required: false,
+    required: true,
     maxLength: 255,
     pattern: null,
     options: [{ value: "", displayName: "All" }, ...response.filters.subjectArea.map(({ value, displayName }) => ({ value, displayName }))],

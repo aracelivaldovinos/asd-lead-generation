@@ -1,4 +1,6 @@
-import { FiltersResponse, Listing, Program } from "@asd/domain";
+"use client";
+
+import { FiltersResponse, Listing } from "@asd/domain";
 import { useState } from "react";
 import { useRFIStore } from "../../store/rfiStore";
 import ProgramCard from "../ProgramCard";
@@ -95,24 +97,31 @@ const ListingsPage = ({ listings, filters, initialValues, onNextStep, onApplyFil
               </div>
             </div>
           )}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {listings.map((listing) =>
-              listing.schools.map((school) =>
-                school.locations.map((location) =>
-                  location.programs.map((program) => (
-                    <ProgramCard
-                      key={program.programId}
-                      program={{
-                        ...program,
-                        name: listing.name,
-                        school: { id: school.id, displayName: school.displayName },
-                        instructionMethod: location.instructionMethod,
-                      }}
-                    />
-                  ))
-                )
-              )
-            )}
+          <div className="flex flex-col gap-8">
+            {listings.filter((listing) => listing.schools.length > 0).map((listing) => (
+              <div key={listing.name}>
+                {listing.message && (
+                  <p className="text-sm font-semibold text-muted mb-4">{listing.message}</p>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {listing.schools.map((school) =>
+                    school.locations.map((location) =>
+                      location.programs.map((program) => (
+                        <ProgramCard
+                          key={program.programId}
+                          program={{
+                            ...program,
+                            name: listing.name,
+                            school: { id: school.id, displayName: school.displayName },
+                            instructionMethod: location.instructionMethod,
+                          }}
+                        />
+                      ))
+                    )
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </main>
       </div>
