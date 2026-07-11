@@ -106,7 +106,7 @@ interface FiltersData {
   prefilter: PrefilterQuestion[];
 }
 
-const fetchFilters = async (baseURL: string): Promise<FiltersData> => {
+export const fetchFilters = async (baseURL: string): Promise<FiltersData> => {
   const response = await fetch(baseURL);
   const raw: RawFiltersResponse = await response.json();
   return {

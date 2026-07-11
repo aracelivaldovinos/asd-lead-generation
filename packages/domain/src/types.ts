@@ -117,14 +117,14 @@ export interface RawRFISubmitResponse {
 
 
 export interface RawFiltersResponse {
-  filter: RawFilters;
-  prefilter: RawPrefilter;
+  filters: RawFilters;
+  prefilters: RawPrefilter;
 }
 
 export interface RawFilters {
-  settings: RawSettingsDegree[];
-  degree: RawSettingsDegree[]
-  subjectArea: RawSubjectArea[]
+  setting: RawSettingsDegree[];
+  degree: RawSettingsDegree[];
+  subjectArea: RawSubjectArea[];
 }
 
 export interface RawSettingsDegree {
@@ -133,7 +133,7 @@ export interface RawSettingsDegree {
 }
 
 export interface RawSubjectArea extends RawFilterQuestion {
-  specialization: RawSpecialization[]
+  specializations: RawSpecialization[];
 }
 
 export interface RawPrefilter {

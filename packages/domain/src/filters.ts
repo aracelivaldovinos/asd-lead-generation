@@ -1,8 +1,8 @@
 import { FiltersResponse, PrefilterQuestion, RawFiltersResponse } from "./types";
 
 export const transformPrefilter = (response: RawFiltersResponse): PrefilterQuestion[] => {
-  const properties = response.prefilter.schema.properties;
-  const fields = response.prefilter.options.fields;
+  const properties = response.prefilters.schema.properties;
+  const fields = response.prefilters.options.fields;
 
   const questions: PrefilterQuestion[] = Object.entries(properties).map(([key, property]) => {
     const field = fields[key];
@@ -29,7 +29,7 @@ export const transformPrefilter = (response: RawFiltersResponse): PrefilterQuest
     required: false,
     maxLength: 255,
     pattern: null,
-    options: response.filter.subjectArea.map(({ value, displayName }) => ({ value, displayName })),
+    options: [{ value: "", displayName: "All" }, ...response.filters.subjectArea.map(({ value, displayName }) => ({ value, displayName }))],
   });
 
   return questions;
@@ -56,22 +56,22 @@ export const transformFiltersResponse = (response: RawFiltersResponse): FiltersR
       key: "setting",
       title: "Learning Format",
       type: "radio",
-      options: [{ value: "", displayName: "Both" }, ...response.filter.settings],
+      options: [{ value: "", displayName: "Both" }, ...response.filters.setting],
     },
     degree: {
       key: "degree",
       title: "Degree Level",
       type: "select",
-      options: response.filter.degree,
+      options: response.filters.degree,
     },
     subjectArea: {
       key: "subjectArea",
       title: "Field of Study",
       type: "select",
-      options: response.filter.subjectArea.map(({ value, displayName, specialization }) => ({
+      options: response.filters.subjectArea.map(({ value, displayName, specializations }) => ({
         value,
         displayName,
-        specializations: specialization.map(({ value, displayName }) => ({ value, displayName })),
+        specializations: specializations.map(({ value, displayName }) => ({ value, displayName })),
       })),
     },
     specialization: {

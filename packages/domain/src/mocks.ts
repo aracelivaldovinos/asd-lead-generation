@@ -340,8 +340,8 @@ export const mockListings: Listing[] = [
 ];
 
 export const mockRawFiltersResponse: RawFiltersResponse = {
-  filter: {
-    settings: [
+  filters: {
+    setting: [
       { value: "online", displayName: "Online" },
       { value: "classroom", displayName: "Classroom" },
     ],
@@ -355,7 +355,7 @@ export const mockRawFiltersResponse: RawFiltersResponse = {
         value: "business-administration-mba-concentration",
         displayName: "Business Administration / MBA",
         description: "Monitor finances, operations and other facets of an organization.",
-        specialization: [
+        specializations: [
           { value: "business-administration", displayName: "Business Administration", description: "Lead on." },
           { value: "international-business", displayName: "International Business", description: "The world is your oyster." },
         ],
@@ -364,13 +364,13 @@ export const mockRawFiltersResponse: RawFiltersResponse = {
         value: "computer-science-concentration",
         displayName: "Computer Science Programs",
         description: "IT professionals manage network and organizational systems.",
-        specialization: [
+        specializations: [
           { value: "web-development", displayName: "Web Development", description: "Make web pages that work hard." },
         ],
       },
     ],
   },
-  prefilter: {
+  prefilters: {
     schema: {
       properties: {
         postalCode: {
@@ -449,6 +449,7 @@ export const mockPrefilterQuestions: PrefilterQuestion[] = [
     maxLength: 255,
     pattern: null,
     options: [
+      { value: "", displayName: "All" },
       { value: "business-administration-mba-concentration", displayName: "Business Administration / MBA" },
       { value: "computer-science-concentration", displayName: "Computer Science Programs" },
     ],

@@ -19,7 +19,7 @@ export const Default: Story = {
   args: {
     questions: selectPrefilterQuestions(mockPrefilterQuestions, ["postalCode", "education", "subjectArea"]),
     config: defaultConfig,
-    onSubmit: (values) => console.log("submit", values),
+    action: "/search",
   },
 };
 
@@ -28,7 +28,7 @@ export const SingleDropdown: Story = {
     variant: "single-dropdown",
     question: mockPrefilterQuestions.find((q) => q.key === "subjectArea")!,
     config: defaultConfig,
-    onSubmit: (values) => console.log("submit", values),
+    action: "/search",
   },
 };
 

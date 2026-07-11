@@ -48,6 +48,7 @@ describe("transformPrefilter", () => {
       maxLength: 255,
       pattern: null,
       options: [
+        { value: "", displayName: "All" },
         { value: "business-administration-mba-concentration", displayName: "Business Administration / MBA" },
         { value: "computer-science-concentration", displayName: "Computer Science Programs" },
       ],
