@@ -50,7 +50,7 @@ export const useListings = (baseURL: string, params: ListingsParams) => {
   });
 };
 
-const fetchRFI = async (
+export const fetchRFI = async (
   baseURL: string,
   params: RFIParams,
 ): Promise<RFIResponse> => {
