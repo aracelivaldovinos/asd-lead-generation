@@ -52,7 +52,7 @@ const RFIForm = ({
                 values: { ...formValues, band: currentProgram?.name ?? "" },
               },
               {
-                onSuccess: (data:any) => {
+                onSuccess: (data) => {
                   if (Object.keys(data.fieldErrors).length === 0) {
                     submitCurrent();
                     if (queue.length <= 1) {

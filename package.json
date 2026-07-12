@@ -1,6 +1,7 @@
 {
     "name": "asd-lead-generation",
     "private": true,
+    "packageManager": "pnpm@10.0.0",
     "scripts": {
         "build": "turbo build",
         "dev": "turbo dev",
@@ -9,5 +10,4 @@
     "devDependencies": {
         "turbo": "^2.9.3"
     }
-
 }
