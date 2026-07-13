@@ -14,10 +14,13 @@ export const transformPrefilter = (response: RawFiltersResponse): PrefilterQuest
       maxLength: property.maxLength,
       pattern: property.pattern ?? null,
       options: property.enum
-        ? property.enum.map((value, index) => ({
-            value: key === "education" ? String(index + 1) : value,
-            displayName: field.optionLabels?.[index] ?? value,
-          }))
+        ? [
+            { value: "", displayName: "- Select One -" },
+            ...property.enum.map((value, index) => ({
+              value: key === "education" ? String(index + 1) : value,
+              displayName: field.optionLabels?.[index] ?? value,
+            })),
+          ]
         : null,
     };
   });

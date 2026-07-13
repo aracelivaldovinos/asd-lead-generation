@@ -19,6 +19,7 @@ describe("transformPrefilter", () => {
     const questions = transformPrefilter(mockRawFiltersResponse);
     const hsGraduation = questions.find((q) => q.key === "hsGraduation");
     expect(hsGraduation?.options).toStrictEqual([
+      { value: "", displayName: "- Select One -" },
       { value: "2026", displayName: "2026" },
       { value: "2025", displayName: "2025" },
       { value: "2024", displayName: "2024" },

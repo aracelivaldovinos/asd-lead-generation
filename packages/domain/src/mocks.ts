@@ -423,6 +423,7 @@ export const mockPrefilterQuestions: PrefilterQuestion[] = [
     maxLength: 255,
     pattern: null,
     options: [
+      { value: "", displayName: "- Select One -" },
       { value: "2026", displayName: "2026" },
       { value: "2025", displayName: "2025" },
       { value: "2024", displayName: "2024" },
@@ -436,6 +437,7 @@ export const mockPrefilterQuestions: PrefilterQuestion[] = [
     maxLength: 255,
     pattern: null,
     options: [
+      { value: "", displayName: "- Select One -" },
       { value: "1", displayName: "Some High School" },
       { value: "2", displayName: "High School Diploma (or GED)" },
       { value: "3", displayName: "Some College (No Degree)" },
