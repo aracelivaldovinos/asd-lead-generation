@@ -12,6 +12,7 @@ export interface CTAConfig {
 
 type CTAProps = PrefilterVariant & {
   action: string | ((formData: FormData) => void | Promise<void>);
+  onClientSubmit?: (formData: FormData) => void;
   config?: CTAConfig;
 };
 
@@ -52,9 +53,16 @@ const CTA = (props: CTAProps) => {
   const title = props.variant !== "button" ? (props.config?.title ?? "Search for programs near you") : null;
   const buttonLabel = props.variant === "button" ? props.label : (props.config?.buttonLabel ?? "Find Schools");
 
+  const handleSubmit = props.onClientSubmit
+    ? (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        props.onClientSubmit!(new FormData(e.currentTarget));
+      }
+    : undefined;
+
   if (props.variant === "button") {
     return (
-      <form action={formAction(props.action)}>
+      <form action={formAction(props.action)} onSubmit={handleSubmit}>
         <button
           type="submit"
           className="inline-flex items-center justify-center bg-primary hover:bg-primaryHover text-white font-bold py-4 px-8 rounded-xl transition-colors duration-200 min-w-[360px]"
@@ -68,7 +76,7 @@ const CTA = (props: CTAProps) => {
   if (props.variant === "single-dropdown") {
     const { question } = props;
     return (
-      <form action={formAction(props.action)} className="flex flex-col gap-3">
+      <form action={formAction(props.action)} onSubmit={handleSubmit} className="flex flex-col gap-3">
         {title && <h2 className="text-2xl font-bold text-gray-900 text-center">{title}</h2>}
         <label className="text-sm font-semibold text-gray-900" htmlFor={question.key}>
           {question.title}
@@ -90,7 +98,7 @@ const CTA = (props: CTAProps) => {
 
   const { questions } = props;
   return (
-    <form action={formAction(props.action)} className="flex flex-col gap-4">
+    <form action={formAction(props.action)} onSubmit={handleSubmit} className="flex flex-col gap-4">
       {title && <h2 className="text-2xl font-bold text-gray-900 text-center">{title}</h2>}
       <div className="flex flex-col min-[600px]:flex-row gap-4">
         {questions.map((question) => (

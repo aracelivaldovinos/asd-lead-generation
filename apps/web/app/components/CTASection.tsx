@@ -16,7 +16,7 @@ export default async function CTASection({ redirectPath = "/listings" }: { redir
     "use server";
     const params = new URLSearchParams();
     formData.forEach((value, key) => {
-      if (value) params.set(key, value.toString());
+      if (value && !key.startsWith("$ACTION")) params.set(key, value.toString());
     });
     redirect(`${redirectPath}?${params.toString()}`);
   }

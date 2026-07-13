@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@source "../../../packages/ui/src";
+
+@theme {
+  --color-primary: #ff6900;
+  --color-primary-hover: #e66000;
+  --color-dark: #1b2127;
+  --color-muted: #8a949d;
+}

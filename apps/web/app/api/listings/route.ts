@@ -18,6 +18,8 @@ const STRING_PARAMS = [
   "pingEnabled",
   "setting",
   "resultSize",
+  "maxSchools",
+  "maxPrograms",
 ] as const;
 
 export async function GET(request: NextRequest) {
@@ -33,9 +35,12 @@ export async function GET(request: NextRequest) {
     if (value) params.set(key, value);
   }
 
-  // degree is an array param
+  // array params
   for (const value of searchParams.getAll("degree")) {
     params.append("degree", value);
+  }
+  for (const value of searchParams.getAll("offerType")) {
+    params.append("offerType", value);
   }
 
   // inquiries is an object: inquiries[programId]=date
