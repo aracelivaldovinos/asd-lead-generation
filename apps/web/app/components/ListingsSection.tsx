@@ -12,6 +12,7 @@ export const LISTING_PARAMS = [
   "education",
   "setting",
   "resultSize",
+  "marketContext",
 ] as const;
 
 interface ListingsSectionProps {
@@ -21,7 +22,6 @@ interface ListingsSectionProps {
 export default async function ListingsSection({ params }: ListingsSectionProps) {
   const query = new URLSearchParams({
     s: process.env.SESSION_TOKEN!,
-    marketContext: process.env.MARKET_CONTEXT!,
   });
 
   for (const key of LISTING_PARAMS) {
