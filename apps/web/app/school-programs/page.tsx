@@ -15,8 +15,9 @@ export default async function SchoolProgramsPage({ searchParams }: PageProps) {
       <main className="min-h-screen flex items-center justify-center bg-gray-50 p-8">
         <div className="w-full max-w-3xl">
           <CTASection
-            redirectPath="/school-programs"
             prefilterQuestions={config.prefilterQuestions}
+            marketContext={config.marketContext}
+            existingParams={params}
           />
         </div>
       </main>

@@ -11,6 +11,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-site-dark: #333;
+  --color-site-accent: #145078;
   --color-primary: #ff6900;
   --color-primaryHover: #e66000;
   --color-dark: #1b2127;

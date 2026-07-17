@@ -1,10 +1,12 @@
 import { headers } from "next/headers";
+import { POLICE_ACADEMY_QUOTE_HTML, POLICE_ACADEMY_BODY } from "@asd/domain";
 
 export type Quote = {
   badge?: string;
-  text: string;
-  link: string;
-  url: string;
+  text?: string;
+  html?: string;
+  link?: string;
+  url?: string;
 };
 
 export type SiteConfig = {
@@ -24,6 +26,7 @@ export type SiteConfig = {
     heroImage: string;
     headerLogo: { src: string; width: number; height: number };
     quotes: Quote[];
+    bodyContent?: string;
   };
 };
 
@@ -62,7 +65,7 @@ const defaultConfig: SiteConfig = {
     description: "My Health Degree Search",
   },
   colors: {
-    primary: "#0066cc",
+    primary: "#097f92",
   },
   marketContext: "health-acs",
   prefilterQuestions: ["subjectArea", "hsGraduation", "education"],
@@ -100,7 +103,7 @@ const siteConfigs: Record<string, SiteConfig> = {
       title: "Join the Thriving Healthcare Industry—Find Health Care Schools | Find Health Care Schools",
       description: "Find Health Care Schools",
     },
-    colors: { primary: "#0066cc" },
+    colors: { primary: "#097f92" },
     marketContext: "health-acs",
     prefilterQuestions: ["subjectArea", "hsGraduation", "education"],
     page: {
@@ -117,7 +120,7 @@ const siteConfigs: Record<string, SiteConfig> = {
       title: "Join the Thriving Healthcare Industry—Find Health Care Schools | Health School Search",
       description: "Health School Search",
     },
-    colors: { primary: "#0066cc" },
+    colors: { primary: "#097f92" },
     marketContext: "health-acs",
     prefilterQuestions: ["subjectArea", "hsGraduation", "education"],
     page: {
@@ -134,7 +137,7 @@ const siteConfigs: Record<string, SiteConfig> = {
       title: "Join the Thriving Healthcare Industry—Find Healthcare Schools | My Health School Search",
       description: "My Health School Search",
     },
-    colors: { primary: "#0066cc" },
+    colors: { primary: "#097f92" },
     marketContext: "health-acs",
     prefilterQuestions: ["subjectArea", "hsGraduation", "education"],
     page: {
@@ -151,9 +154,9 @@ const siteConfigs: Record<string, SiteConfig> = {
       title: "Administer Superior Care - Find Nursing Schools | Nursing School Degrees",
       description: "Nursing School Degrees",
     },
-    colors: { primary: "#0066cc" },
+    colors: { primary: "#097f92" },
     marketContext: "ans-basic",
-    prefilterQuestions: ["subjectArea", "hsGraduation", "education"],
+    prefilterQuestions: ["subjectArea", "education", "nursingLicense"],
     page: {
       title: "Prepare to Enter the Healthcare Field",
       description: "The right education is closer than you think!",
@@ -182,54 +185,19 @@ const siteConfigs: Record<string, SiteConfig> = {
     },
     colors: { primary: "#0066cc" },
     marketContext: "health-acs",
-    prefilterQuestions: ["subjectArea", "hsGraduation", "education"],
+    prefilterQuestions: ["postalCode", "hsGraduation", "education"],
     page: {
-      title: "Prepare to Serve & Protect Your Community",
-      description: "Find police academy and law enforcement training near you.",
+      title: "Pursue an Education in Law Enforcement & Criminal Justice",
+      description: "Find the info you need to start your degree in law enforcement, corrections, or criminal justice.",
       heroImage: "/funnels/police-academy-search/hero-960px.jpg",
-      headerLogo: { src: "/funnels/police-academy-search/header-logo.png", width: 163, height: 30 },
+      headerLogo: { src: "/funnels/police-academy-search/header-logo.png", width: 173, height: 30 },
       quotes: [
         {
           badge: "/funnels/police-academy-search/badge-logo.jpg",
-          text: "Find Police Academy and Law Enforcement Training - Prepare to Serve & Protect Your Community",
-          link: "Police Academy Search",
-          url: "https://police-academy-search.com",
+          html: POLICE_ACADEMY_QUOTE_HTML,
         },
       ],
-    },
-  },
-  "mybusinessschoolsearch.com": {
-    name: "My Business School Search",
-    meta: {
-      title: "Find Business School Programs | MyBusinessSchoolSearch.com",
-      description: "My Business School Search",
-    },
-    colors: { primary: "#0066cc" },
-    marketContext: "health-acs",
-    prefilterQuestions: ["subjectArea", "hsGraduation", "education"],
-    page: {
-      title: "Find the Right Business School Program",
-      description: "Start your business education journey today.",
-      heroImage: "/funnels/mybusinessschoolsearch/hero-960px.jpg",
-      headerLogo: { src: "/funnels/mybusinessschoolsearch/header-logo.png", width: 163, height: 30 },
-      quotes: [],
-    },
-  },
-  "tradeschoolsearch.com": {
-    name: "Trade School Search",
-    meta: {
-      title: "Find Trade School Programs | TradeSchoolSearch.com",
-      description: "Trade School Search",
-    },
-    colors: { primary: "#0066cc" },
-    marketContext: "health-acs",
-    prefilterQuestions: ["subjectArea", "hsGraduation", "education"],
-    page: {
-      title: "Find Trade School Programs Near You",
-      description: "Discover vocational and trade programs in your area.",
-      heroImage: "/funnels/tradeschoolsearch/hero-960px.jpg",
-      headerLogo: { src: "/funnels/tradeschoolsearch/header-logo.png", width: 163, height: 30 },
-      quotes: [],
+      bodyContent: POLICE_ACADEMY_BODY,
     },
   },
 };

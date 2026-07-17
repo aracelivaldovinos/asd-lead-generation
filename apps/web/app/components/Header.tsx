@@ -7,7 +7,7 @@ export default async function Header() {
   const { headerLogo } = config.page;
 
   return (
-    <div className="w-full h-9 bg-gray-800">
+    <div className="w-full h-9 bg-site-dark">
       <div className="w-full h-full max-w-5xl mx-auto pl-2 flex items-center">
         <Link href="/">
           <Image

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Quote } from "@/app/lib/site-config";
 
 export default function Quotes({ quotes }: { quotes: Quote[] }) {
@@ -15,13 +14,21 @@ export default function Quotes({ quotes }: { quotes: Quote[] }) {
                 <Image src={quote.badge} alt="badge" width={112} height={109} />
               </div>
             )}
-            <em>{quote.text}</em>
-            <div className="text-right text-sm py-3">
-              -{" "}
-              <Link className="hover:underline" href={quote.url} target="_blank">
-                {quote.link}
-              </Link>
-            </div>
+            {quote.html ? (
+              <div dangerouslySetInnerHTML={{ __html: quote.html }} />
+            ) : (
+              <>
+                <em>{quote.text}</em>
+                {quote.link && quote.url && (
+                  <div className="text-right text-sm py-3">
+                    -{" "}
+                    <a href={quote.url} target="_blank" rel="noopener noreferrer" className="hover:underline text-site-accent">
+                      {quote.link}
+                    </a>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </div>
       ))}

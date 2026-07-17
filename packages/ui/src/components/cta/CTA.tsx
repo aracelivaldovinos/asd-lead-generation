@@ -14,15 +14,17 @@ type CTAProps = PrefilterVariant & {
   action: string | ((formData: FormData) => void | Promise<void>);
   onClientSubmit?: (formData: FormData) => void;
   config?: CTAConfig;
+  defaultValues?: Record<string, string>;
 };
 
-const renderField = (question: PrefilterQuestion) => {
+const renderField = (question: PrefilterQuestion, defaultValue?: string) => {
   if (question.options) {
     return (
       <select
         id={question.key}
         name={question.key}
         required={question.required}
+        defaultValue={defaultValue ?? ""}
         className="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block p-3 outline-none transition-all duration-200 shadow-sm cursor-pointer"
       >
         {question.options.map((opt) => (
@@ -42,12 +44,11 @@ const renderField = (question: PrefilterQuestion) => {
       required={question.required}
       pattern={question.pattern ?? undefined}
       placeholder={question.title}
+      defaultValue={defaultValue ?? ""}
       className="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block p-3 outline-none transition-all duration-200 shadow-sm"
     />
   );
 };
-
-const formAction = (action: CTAProps["action"]) => action as any;
 
 const CTA = (props: CTAProps) => {
   const title = props.variant !== "button" ? (props.config?.title ?? "Search for programs near you") : null;
@@ -62,7 +63,7 @@ const CTA = (props: CTAProps) => {
 
   if (props.variant === "button") {
     return (
-      <form action={formAction(props.action)} onSubmit={handleSubmit}>
+      <form action={props.action as any} onSubmit={handleSubmit}>
         <button
           type="submit"
           className="inline-flex items-center justify-center bg-primary hover:bg-primaryHover text-white font-bold py-4 px-8 rounded-xl transition-colors duration-200 min-w-[360px]"
@@ -76,9 +77,9 @@ const CTA = (props: CTAProps) => {
   if (props.variant === "single-dropdown") {
     const { question } = props;
     return (
-      <form action={formAction(props.action)} onSubmit={handleSubmit} className="flex flex-col gap-3">
-        {title && <h2 className="text-2xl font-bold text-gray-900 text-center">{title}</h2>}
-        <label className="text-sm font-semibold text-gray-900" htmlFor={question.key}>
+      <form action={props.action as any} onSubmit={handleSubmit} className="flex flex-col gap-3">
+        {title && <h2 className="text-2xl font-bold text-inherit text-center">{title}</h2>}
+        <label className="text-md font-semibold text-inherit" htmlFor={question.key}>
           {question.title}
         </label>
         <div className="flex flex-col min-[600px]:flex-row min-[600px]:items-center gap-3">
@@ -97,16 +98,17 @@ const CTA = (props: CTAProps) => {
   }
 
   const { questions } = props;
+  const defaultValues = props.defaultValues ?? {};
   return (
-    <form action={formAction(props.action)} onSubmit={handleSubmit} className="flex flex-col gap-4">
-      {title && <h2 className="text-2xl font-bold text-gray-900 text-center">{title}</h2>}
-      <div className="flex flex-col min-[600px]:flex-row gap-4">
+    <form action={props.action as any} onSubmit={handleSubmit} className="flex flex-col gap-4 w-full p-4 lg:max-w-[300px]">
+      {title && <h2 className="text-2xl font-bold text-inherit text-center">{title}</h2>}
+      <div className="flex flex-col md:flex-row lg:flex-col gap-4">
         {questions.map((question) => (
-          <div key={question.key} className="flex flex-col gap-2 min-[600px]:flex-1">
-            <label className="text-sm font-semibold text-gray-900" htmlFor={question.key}>
+          <div key={question.key} className="flex flex-col gap-2 md:flex-1 lg:flex-none">
+            <label className="text-md font-semibold text-inherit" htmlFor={question.key}>
               {question.title}
             </label>
-            {renderField(question)}
+            {renderField(question, defaultValues[question.key])}
           </div>
         ))}
       </div>

@@ -678,3 +678,109 @@ export const PRIVACY_POLICY = `<p>Effective Date: December 5, 2025</p>
     Attention: Data Privacy Officer
 </p>
 `;
+
+export const TERMS_OF_USE = `<h3>ACCEPTANCE OF TERMS</h3>
+
+<p>The Services that All Star Directories provides to you on, or through, this Website are subject to the following terms and conditions ("Terms of Use"). All Star Directories shall have the right at any time to change or modify these Terms and Conditions, or any part thereof, or to impose new conditions. Such changes, modifications, additions or deletions shall be effective immediately upon notice thereof, which may be given by means including, but not limited to, posting on this Website, or by electronic or conventional mail, or by any other means by which a User obtains notice thereof. The most current version of the Terms of Use can be reviewed by clicking on the "Terms of Use" hypertext link located at the bottom of our homepage.</p>
+
+<h3>Definitions</h3>
+
+<p>"User" means each person who establishes or accesses a connection for access to and use of the Services.</p>
+
+<p>"Website" means this Website located at www.AllCollegeSearch.com.</p>
+
+<h3>DESCRIPTION OF SERVICES</h3>
+
+<p>Through this Website, All Star Directories provides you with access to a variety of resources and services, including searchable lists of schools, information about degree programs and specialty areas of study, common questions and answers, detailed school fact sheets, and a system to request more information from Featured Schools (collectively "Services"). The Services, including any updates, enhancements, new features, and/or the addition of any new web properties, are subject to the Terms and Conditions.</p>
+
+<h3>PERSONAL AND NON-COMMERCIAL USE</h3>
+
+<p>Unless otherwise specified, the Services are for your personal and non-commercial use. You may not modify, copy, distribute, transmit, display, perform, reproduce, publish, license, create derivative works from, transfer, or sell any information, software, products or services obtained from the Services.</p>
+
+<p>Elements of this Website are protected by copyright, trade dress, trademark, unfair competition, and other laws and may not be copied or imitated in whole or in part. No logo, graphic, sound or image from any All Star Directories Website may be copied or retransmitted unless expressly permitted by All Star Directories.</p>
+
+<h3>REPRESENTATIONS AND WARRANTIES</h3>
+
+<p>ALL STAR DIRECTORIES AND/OR ITS RESPECTIVE SUPPLIERS MAKE NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE INFORMATION CONTAINED IN THE DOCUMENTS AND RELATED GRAPHICS PUBLISHED AS PART OF THE SERVICES FOR ANY PURPOSE. ALL SUCH DOCUMENTS AND RELATED GRAPHICS ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. ALL STAR DIRECTORIES AND/OR ITS RESPECTIVE SUPPLIERS HEREBY DISCLAIM ALL WARRANTIES AND CONDITIONS WITH REGARD TO THIS INFORMATION, INCLUDING ALL WARRANTIES AND CONDITIONS OF MERCHANTABILITY, WHETHER EXPRESS, IMPLIED OR STATUTORY, FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT SHALL ALL STAR DIRECTORIES AND/OR ITS RESPECTIVE SUPPLIERS BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF INFORMATION AVAILABLE FROM THE SERVICES.</p>
+
+<p>THE DOCUMENTS AND RELATED GRAPHICS PUBLISHED ON THE SERVICES COULD INCLUDE INACCURACIES OR TYPOGRAPHICAL ERRORS. CHANGES ARE PERIODICALLY ADDED TO THE INFORMATION HEREIN. ALL STAR DIRECTORIES AND/OR ITS RESPECTIVE SUPPLIERS MAY MAKE IMPROVEMENTS AND/OR CHANGES IN THE PRODUCT(S) AND/OR THE PROGRAM(S) DESCRIBED HEREIN AT ANY TIME.</p>
+
+<p>ALL STAR DIRECTORIES MAKES EVERY EFFORT TO ENSURE THAT THE INFORMATION IN ITS DIRECTORIES IS ACCURATE AND CURRENT. HOWEVER, EDUCATIONAL INSTITUTIONS, ACCREDITING COMPANIES, AND OTHER ENTITIES CHANGE THEIR INFORMATION FREQUENTLY, AND THERE MAY OFTEN BE A TIME DELAY BEFORE ALL STAR DIRECTORIES OBTAINS THE REVISED INFORMATION AND UPDATES ITS DIRECTORIES APPROPRIATELY. FOR THIS REASON, ALL STAR DIRECTORIES MAKES NO REPRESENTATION AS TO THE CURRENCY OR ACCURACY OF THE INFORMATION IN ITS SERVICE, AND WILL NOT BE LIABLE FOR ANY LOSSES OR DAMAGES INCURRED AS A RESULT OF RELIANCE ON SUCH INFORMATION.</p>
+
+<h3>LIMITATION OF LIABILITY</h3>
+
+<p>THIS DISCLAIMER OF LIABILITY APPLIES TO ANY DAMAGES OR INJURY CAUSED BY ANY FAILURE OF PERFORMANCE, ERROR, OMISSION, INTERRUPTION, DELETION, DEFECT, DELAY IN OPERATION OR TRANSMISSION, COMPUTER VIRUS, COMMUNICATION LINE FAILURE, THEFT OR DESTRUCTION OR UNAUTHORIZED ACCESS TO, ALTERATION OF, OR USE OF RECORD, WHETHER FOR BREACH OF CONTRACT, TORTIOUS BEHAVIOR, NEGLIGENCE, OR UNDER ANY OTHER CAUSE OF ACTION. EACH USER SPECIFICALLY ACKNOWLEDGES THAT WE ARE NOT LIABLE FOR THE DEFAMATORY, OFFENSIVE OR ILLEGAL CONDUCT OF OTHER USERS OR THIRD-PARTIES AND THAT THE RISK OF INJURY FROM THE FOREGOING RESTS ENTIRELY WITH EACH USER.</p>
+
+<p>IN NO EVENT WILL WE, OR ANY PERSON OR ENTITY INVOLVED IN CREATING, PRODUCING OR DISTRIBUTING CONTENT ON THIS WEBSITE, BE LIABLE FOR ANY DAMAGES, INCLUDING, WITHOUT LIMITATION, DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR PUNITIVE DAMAGES ARISING OUT OF THE USE OF OR INABILITY TO USE THE SERVICES. EACH USER HEREBY ACKNOWLEDGES THAT THE PROVISIONS OF THIS SECTION SHALL APPLY TO ALL CONTENT ON THIS WEBSITE.</p>
+
+<p>IN ADDITION TO THE TERMS SET FORTH ABOVE WE SHALL NOT BE LIABLE REGARDLESS OF THE CAUSE OR DURATION, FOR ANY ERRORS, INACCURACIES, OMISSIONS, OR OTHER DEFECTS IN, OR UNTIMELINESS OR UNAUTHENTICITY OF, THE INFORMATION CONTAINED WITHIN THIS WEBSITE, OR FOR ANY DELAY OR INTERRUPTION IN THE TRANSMISSION THEREOF TO THE USER, OR FOR ANY CLAIMS OR LOSSES ARISING THEREFROM OR OCCASIONED THEREBY. WE SHALL NOT BE LIABLE FOR ANY THIRD-PARTY CLAIMS OR LOSSES OF ANY NATURE, INCLUDING, BUT NOT LIMITED TO, LOST PROFITS, PUNITIVE OR CONSEQUENTIAL DAMAGES.</p>
+
+<h3>PRIVACY AND PROTECTION OF PERSONAL INFORMATION</h3>
+
+<p>See the Privacy Statement disclosures relating to the collection and use of your information.</p>
+
+<h3>NO UNLAWFUL OR PROHIBITED USE</h3>
+
+<p>As a condition of your use of the Services, you will not use the Services for any purpose that is unlawful or prohibited by these terms, conditions, and notices. You may not use the Services in any manner that could damage, disable, overburden, or impair any All Star Directories server, or the network(s) connected to any All Star Directories server, or interfere with any other party's use and enjoyment of any Services. You may not attempt to gain unauthorized access to any Services, other accounts, computer systems or networks connected to any All Star Directories server or to any of the Services, through hacking, password mining or any other means. You may not obtain or attempt to obtain any materials or information through any means not intentionally made available through the Services.</p>
+
+<h3>FRAUDULENT OR FALSE INFORMATION</h3>
+
+<p>You agree not to submit, provide, or transmit any information through this website or its services that is false, inaccurate, misleading, incomplete, or fraudulent. This includes, without limitation, providing false personal or contact information, impersonating any person or entity, misrepresenting your affiliation with any person or entity, submitting information on behalf of another person without authorization, or expressing interest in an educational program you have no genuine intent to consider. You acknowledge that All Star Directories and the schools and education partners it works with rely on the accuracy of the information you submit in order to connect you with schools and programs, and you represent and warrant that all information you submit is truthful, accurate, and current, and that you will promptly update such information as needed to keep it accurate. All Star Directories reserves the right, in its sole discretion, to refuse, suspend, or terminate access to its services, remove or decline to transmit any submitted information, and pursue any available legal remedies against any user who submits fraudulent or false information.</p>
+
+<h3>INDEMNIFICATION FOR FALSE INFORMATION</h3>
+
+<p>You agree to indemnify, defend, and hold harmless All Star Directories, its officers, directors, employees, agents, affiliates, and its school and education partners (collectively, the "Indemnified Parties") from and against any and all claims, demands, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to any false, inaccurate, misleading, or fraudulent information you submit through this website or its services. This obligation includes any legal action, proceeding, investigation, or claim brought against any Indemnified Party by any third party, regulatory body, or governmental authority as a result of information you have provided. All Star Directories reserves the right, at your expense, to assume the exclusive defense and control of any matter subject to indemnification under this section, and you agree not to settle any such matter without the prior written consent of All Star Directories, which may be granted or withheld in its sole discretion. You acknowledge that you bear sole responsibility for the accuracy and truthfulness of the information you submit, and this obligation survives any termination of your use of the website or its services.</p>
+
+<h3>DEALINGS WITH ADVERTISERS</h3>
+
+<p>Your correspondence or business dealings with, or participation in promotions of, advertisers found on or through the Service, including payment and delivery of related goods or services, and any other terms, conditions, warranties or representations associated with such dealings, are solely between you and such advertiser. You agree that we shall not be responsible or liable for any loss or damage of any sort incurred as the result of any such dealings or as the result of the presence of such advertisers on the Service.</p>
+
+<h3>LINKS TO THIRD PARTY SITES</h3>
+
+<p>THE SERVICE MAY PROVIDE, OR THIRD PARTIES MAY PROVIDE, LINKS TO OTHER WORLD WIDE WEB SITES OR RESOURCES. BECAUSE WE HAVE NO CONTROL OVER SUCH SITES AND RESOURCES, YOU ACKNOWLEDGE AND AGREE THAT WE ARE NOT RESPONSIBLE FOR THE AVAILABILITY OF SUCH EXTERNAL SITES OR RESOURCES, AND DO NOT ENDORSE AND ARE NOT RESPONSIBLE OR LIABLE FOR ANY CONTENT, ADVERTISING, PRODUCTS OR OTHER MATERIALS ON OR AVAILABLE FROM SUCH SITES OR RESOURCES. YOU FURTHER ACKNOWLEDGE AND AGREE THAT WE SHALL NOT BE RESPONSIBLE OR LIABLE, DIRECTLY OR INDIRECTLY, FOR ANY DAMAGE OR LOSS CAUSED OR ALLEGED TO BE CAUSED BY OR IN CONNECTION WITH USE OF OR RELIANCE ON ANY SUCH CONTENT, GOODS OR SERVICES AVAILABLE ON OR THROUGH ANY SUCH SITE OR RESOURCE. ALL STAR DIRECTORIES IS PROVIDING THESE LINKS TO YOU ONLY AS A CONVENIENCE, AND THE INCLUSION OF ANY LINK DOES NOT IMPLY ENDORSEMENT BY ALL STAR DIRECTORIES OF THE SITE.</p>
+
+<h3>NOTICES AND PROCEDURE FOR MAKING CLAIMS OF COPYRIGHT INFRINGEMENT</h3>
+
+<p>Pursuant to Title 17, United States Code, Section 512(c)(2), notifications of claimed copyright infringement should be sent to Service Provider's Designated Agent: Dave Davis, All Star Directories, Inc., P.O. Box 1677, Renton, WA 98057; telephone - (206) 436-7500.</p>
+`;
+
+export const POLICE_ACADEMY_QUOTE_HTML = `The U.S. Bureau of Labor Statistics <a href="https://www.bls.gov/ooh/protective-service/police-and-detectives.htm#tab-6" target="_blank" rel="noopener noreferrer" style="color:#145078">anticipates a 5% job growth</a>, resulting in <strong>40,600 job openings for police officers and detectives</strong> through 2029. Demand for more law enforcement officers may vary by location, but the continued desire for public safety may be expected to lead to new job openings in the next decade.`;
+
+export const POLICE_ACADEMY_BODY = `<p>With a <strong>degree in law enforcement</strong>, you may be one step above the rest when applying to a police academy, applying for other law enforcement jobs, or looking to advance your current career within law enforcement.</p>
+<p>Law enforcement officers may be able to work in government or even private organizations. No matter what career path you choose, be <strong>prepared for a challenging but rewarding experience</strong>. No two days are the same in law enforcement.</p>
+<p>While you don't need a degree in law enforcement to enroll in a police academy, <strong>a bachelor's degree may be required to apply</strong> or achieve any career advancement. Pursuing a bachelor's in law enforcement or criminal justice may give you in-depth knowledge into the criminal justice system and can be incredibly useful for your career.</p>
+<p><strong>Online degree programs are convenient and available for both bachelor's and master's degrees in law enforcement or criminal justice</strong>. It's important to check that an online program is accredited through the U.S. Department Of Education. This not only allows you to apply for federal financial aid, but many employers may require you to obtain a degree from an accredited school.</p>
+<p>With ease of convenient degree programs and a robust job growth for the future, there's no better time than now to take the first steps toward your law enforcement degree and career.</p>`;
+
+export const IMPORTANT_INFORMATION = `<p>Put simply, All Star is in the business of connecting students and schools. We help students find schools that are great matches for their educational needs, personal preferences and lifestyles, and schools pay us for our work.</p>
+
+<p>Here's a quick Q &amp; A of information we think you should know if you choose to use our websites. The main takeaways: Using our services is free, but starting and completing a degree, certificate or diploma program takes commitment and effort and should be considered carefully.</p>
+
+<p>1. How do you provide your services for free?</p>
+
+<p>Schools pay to advertise on our sites. This allows us to offer our service to prospective students like you for free.</p>
+
+<p>Schools place a very high priority on enrolling students who go on to graduate. By using All Star's focused, information-rich services, schools can be more confident that the prospective students we introduce them to are truly committed to their education and to succeeding once they're enrolled in school.</p>
+
+<p>2. How do you differ from your competitors?</p>
+
+<p>There are other companies out there that do what we do. But there is no one that does it with more integrity or respect for our users and their choices. We put you, the student, in control. You get to choose the schools you're interested in, and you get to choose what programs you'd like to learn more about. We will never submit your contact information to a school without your consent.</p>
+
+<p>3. Do you really work with ALL schools?</p>
+
+<p>No. Our listings are not exhaustive, we do not list all schools, but they do include a rich selection of options. We believe this wide variety of options from hundreds of schools meets the needs of most prospective students who visit our sites. We partner with smaller schools that specialize in one particular career field, such as Pima Medical Institute, as well as world-class, multi-discipline institutions like the University of Southern California.</p>
+
+<p>4. Is getting a degree really going to open up doors for me?</p>
+
+<p>We really want you to succeed in the program you choose. So does your school. But we feel compelled to be very frank and upfront: You must work hard and stay committed to graduate. And assuming you do graduate, there is no guarantee you will find a job in your chosen field, or any job for that matter.</p>
+
+<p>Obtaining an education has many personal benefits and can also improve your financial prospects. However, it's important to keep in mind that obtaining an education does not guarantee financial success or even a job. Job markets vary greatly by region, state, and even locally, and are affected by trends in the national economy and even international events. Other factors affecting your job-hunting success may include your job history and experience, and your level of education, degree, or certificate type. Your area of specialization plays a role, too.</p>
+
+<p>5. If I do find a job, what can I expect in terms of salary?</p>
+
+<p>The government publishes a great deal of information related to hundreds of jobs on the Bureau of Labor Statistics (BLS) website. We use this as a resource for many of the articles on the All Star websites. As comprehensive as the BLS information is, it is neither complete nor entirely accurate. The BLS salary information we publish is a national average. Actual salaries for a particular job or skill may be different where you live. For example, if you live in a large city or where the job market for particular skills is especially competitive, such as Silicon Valley in California, you're likely to receive a higher wage or salary for the same job than you would in a rural or economically depressed market. Other factors that can affect salary rates include the size of the employer, union contracts and governmental regulations to name a few.</p>
+
+<p>6. Where are you located? How can I contact you?</p>
+
+<p>All Star Directories is located at P.O. Box 1677, Renton, WA 98057. You can reach us at (206) 436-7500 or at customerservice@allstardirectories.com.</p>
+`;
