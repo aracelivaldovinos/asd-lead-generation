@@ -4,6 +4,22 @@ import { v4 as uuid } from "uuid";
 const COOKIE_NAME = "asd_s_meta";
 const THIRTY_MINUTES = 1800;
 
+const CSP = [
+  "default-src 'self' https://*.leadid.com https://*.trustedform.com https://*.cloudfront.net https://www.google-analytics.com",
+  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV !== "production" ? " 'unsafe-eval'" : ""}`,
+  "style-src 'self' 'unsafe-inline'",
+  "script-src-elem 'self' https: 'unsafe-inline'",
+  "img-src 'self' blob: data: https:",
+  "style-src-attr 'self' 'unsafe-inline'",
+  "font-src 'self'",
+  "connect-src 'self' https://api.zippopotam.us https://*.leadid.com http://*.leadid.com https://*.trustedform.com https://*.cloudfront.net https://www.google-analytics.com",
+  "frame-src https://*.cloudfront.net http://*.cloudfront.net https://*.lidstatic.com",
+  "object-src 'none'",
+  "base-uri 'none'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+].join("; ");
+
 export const config = {
   matcher: [
     {
@@ -24,6 +40,7 @@ export async function proxy(request: NextRequest) {
       JSON.parse(existing.value); // validate
       const response = NextResponse.next();
       response.headers.append("Set-Cookie", `${COOKIE_NAME}=${existing.value}; Path=/; Max-Age=${THIRTY_MINUTES}`);
+      response.headers.set("Content-Security-Policy", CSP);
       return response;
     } catch {
       // fall through to create a new session
@@ -64,5 +81,6 @@ export async function proxy(request: NextRequest) {
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.append("Set-Cookie", `${COOKIE_NAME}=${cookieValue}; Path=/; Max-Age=${THIRTY_MINUTES}`);
+  response.headers.set("Content-Security-Policy", CSP);
   return response;
 }
