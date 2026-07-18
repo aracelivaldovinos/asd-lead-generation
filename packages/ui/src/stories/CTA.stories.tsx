@@ -12,7 +12,7 @@ type Story = StoryObj<typeof CTA>;
 
 const defaultConfig: CTAConfig = {
   title: "Search for programs near you",
-  buttonLabel: "Find Schools",
+  buttonLabel: "FIND SCHOOLS",
 };
 
 export const Default: Story = {
@@ -35,7 +35,7 @@ export const SingleDropdown: Story = {
 export const Button: Story = {
   args: {
     variant: "button",
-    label: "Find Schools",
+    label: "FIND SCHOOLS",
     onSubmit: () => console.log("submit"),
   },
 };

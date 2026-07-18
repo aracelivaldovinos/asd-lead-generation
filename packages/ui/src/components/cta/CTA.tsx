@@ -52,7 +52,7 @@ const renderField = (question: PrefilterQuestion, defaultValue?: string) => {
 
 const CTA = (props: CTAProps) => {
   const title = props.variant !== "button" ? (props.config?.title ?? "Search for programs near you") : null;
-  const buttonLabel = props.variant === "button" ? props.label : (props.config?.buttonLabel ?? "Find Schools");
+  const buttonLabel = props.variant === "button" ? props.label : (props.config?.buttonLabel ?? "FIND SCHOOLS");
 
   const handleSubmit = props.onClientSubmit
     ? (e: React.FormEvent<HTMLFormElement>) => {
