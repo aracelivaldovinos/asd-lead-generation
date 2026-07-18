@@ -8,12 +8,21 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: "programId is required" }, { status: 400 });
   }
 
-  const params = new URLSearchParams({
-    s: process.env.SESSION_TOKEN!,
-    marketContext: process.env.MARKET_CONTEXT!,
-  });
+  const metaValue = request.cookies.get("asd_s_meta")?.value ?? "";
+  const { fp } = JSON.parse(metaValue);
 
-  const response = await fetch(`${process.env.API_BASE_URL}/api/v3/rfi/${programId}?${params}`);
+  const params = new URLSearchParams(searchParams);
+  params.delete("programId");
+
+  const response = await fetch(
+    `${process.env.API_BASE_URL}/api/v3/rfi/${programId}?${params}`,
+    {
+      headers: {
+        "Cookie": `asd_s_meta=${metaValue}`,
+        "x-asd-fp": fp,
+      },
+    }
+  );
   const data = await response.json();
   return Response.json(data);
 }

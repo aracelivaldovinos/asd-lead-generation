@@ -40,7 +40,8 @@ const fetchListings = async (
   const queryUrl = `${baseURL}?${queryString.toString()}`;
 
   const response = await fetch(queryUrl);
-  return await response.json();
+  const data = await response.json();
+  return data.listings ?? data;
 };
 
 export const useListings = (baseURL: string, params: ListingsParams) => {
@@ -106,8 +107,8 @@ interface FiltersData {
   prefilter: PrefilterQuestion[];
 }
 
-export const fetchFilters = async (baseURL: string): Promise<FiltersData> => {
-  const response = await fetch(baseURL);
+export const fetchFilters = async (baseURL: string, init?: RequestInit): Promise<FiltersData> => {
+  const response = await fetch(baseURL, init);
   const raw: RawFiltersResponse = await response.json();
   return {
     filters: transformFiltersResponse(raw),
@@ -119,6 +120,20 @@ export const useFilters = (baseURL: string) => {
   return useQuery({
     queryKey: ["filters"],
     queryFn: () => fetchFilters(baseURL),
+    staleTime: Infinity,
+  });
+};
+
+export type GeoData = {
+  postalCode: string;
+  city: string;
+  state: string;
+};
+
+export const useGeoData = (baseURL: string) => {
+  return useQuery<GeoData>({
+    queryKey: ["geo"],
+    queryFn: () => fetch(`${baseURL}/api/geo`).then((r) => r.json()),
     staleTime: Infinity,
   });
 };

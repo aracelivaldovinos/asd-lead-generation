@@ -11,7 +11,7 @@ export default function Quotes({ quotes }: { quotes: Quote[] }) {
           <div>
             {quote.badge && (
               <div className="float-left pr-3">
-                <Image src={quote.badge} alt="badge" width={112} height={109} />
+                <Image src={quote.badge} alt="badge" width={112} height={109} style={{ height: "auto" }} />
               </div>
             )}
             {quote.html ? (
