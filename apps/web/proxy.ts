@@ -63,9 +63,11 @@ export async function proxy(request: NextRequest) {
 
   const isApiRoute = request.nextUrl.pathname.startsWith("/api/");
   const referer = request.headers.get("referer") || "";
+  const host = request.headers.get("host") || request.nextUrl.host;
+  const protocol = request.nextUrl.protocol;
   const landing_url = isApiRoute
-    ? (referer || request.nextUrl.origin)
-    : request.nextUrl.toString();
+    ? (referer || `${protocol}//${host}`)
+    : `${protocol}//${host}${request.nextUrl.pathname}${request.nextUrl.search}`;
   const meta = {
     session: uuid(),
     landing_url,
