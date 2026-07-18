@@ -7,18 +7,16 @@ import { getGeoData } from "@/app/lib/geo";
 interface CTASectionProps {
   redirectPath?: string;
   prefilterQuestions: string[];
-  marketContext: string;
-  existingParams?: Record<string, string>;
+  existingParams?: Record<string, string | string[]>;
 }
 
 export default async function CTASection({
   redirectPath = "/school-programs",
   prefilterQuestions,
-  marketContext,
   existingParams = {},
 }: CTASectionProps) {
   const [{ prefilter }, { postalCode }] = await Promise.all([
-    getCachedFilters(),
+    getCachedFilters(existingParams),
     getGeoData(),
   ]);
 
@@ -26,11 +24,14 @@ export default async function CTASection({
 
   async function handleSearch(formData: FormData) {
     "use server";
-    const params = new URLSearchParams(existingParams);
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(existingParams)) {
+      if (Array.isArray(value)) value.forEach((v) => params.append(key, v));
+      else params.set(key, value);
+    }
     formData.forEach((value, key) => {
       if (value && !key.startsWith("$ACTION")) params.set(key, value.toString());
     });
-    if (marketContext) params.set("marketContext", marketContext);
     if (postalCode && !params.has("postalCode")) params.set("postalCode", postalCode);
     redirect(`${redirectPath}?${params.toString()}`);
   }

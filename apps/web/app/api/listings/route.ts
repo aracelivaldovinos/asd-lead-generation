@@ -1,28 +1,9 @@
 import { type NextRequest } from "next/server";
+import { LISTING_PARAMS } from "@/app/lib/listing-params";
 
 const API_BASE_URL = process.env.API_BASE_URL;
 
-const STRING_PARAMS = [
-  "utm_medium",
-  "utm_source",
-  "subjectArea",
-  "marketContext",
-  "distance",
-  "hsGraduation",
-  "nursingLicense",
-  "education",
-  "firstName",
-  "lastName",
-  "emailAddress",
-  "phoneNumber",
-  "startDate",
-  "universalLeadId",
-  "pingEnabled",
-  "setting",
-  "resultSize",
-  "maxSchools",
-  "maxPrograms",
-] as const;
+const STRING_PARAMS = [...LISTING_PARAMS.filter((p) => p !== "postalCode" && p !== "degree"), "maxSchools", "maxPrograms"] as const;
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;

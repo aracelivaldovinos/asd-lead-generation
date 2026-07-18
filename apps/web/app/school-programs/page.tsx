@@ -3,7 +3,7 @@ import ListingsSection from "@/app/components/ListingsSection";
 import { getSiteConfig } from "@/app/lib/site-config";
 
 interface PageProps {
-  searchParams: Promise<Record<string, string>>;
+  searchParams: Promise<Record<string, string | string[]>>;
 }
 
 export default async function SchoolProgramsPage({ searchParams }: PageProps) {
@@ -16,7 +16,6 @@ export default async function SchoolProgramsPage({ searchParams }: PageProps) {
         <div className="w-full max-w-3xl">
           <CTASection
             prefilterQuestions={config.prefilterQuestions}
-            marketContext={config.marketContext}
             existingParams={params}
           />
         </div>

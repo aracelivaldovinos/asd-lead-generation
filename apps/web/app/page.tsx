@@ -1,21 +1,23 @@
-import { headers } from "next/headers";
 import CTASection from "@/app/components/CTASection";
 import HeroImage from "@/app/components/HeroImage";
 import Title from "@/app/components/Title";
 import Quotes from "@/app/components/Quotes";
 import { getSiteConfig } from "@/app/lib/site-config";
+import { getSessionMeta } from "@/app/lib/session";
 
 interface PageProps {
   searchParams: Promise<Record<string, string>>;
 }
 
 export default async function HomePage({ searchParams }: PageProps) {
-  const [params, config, headersList] = await Promise.all([searchParams, getSiteConfig(), headers()]);
+  const [params, config, session] = await Promise.all([searchParams, getSiteConfig(), getSessionMeta()]);
   const { page } = config;
-
-  const referrer = headersList.get("referer");
-  const effectiveParams = { ...params };
-  if (!effectiveParams.utm_source && !effectiveParams.utm_medium && !referrer) {
+  
+  const effectiveParams: Record<string, string> = { marketContext: config.marketContext, ...params };
+  const isExternalReferer = session?.dom_referer && !session.dom_referer.startsWith(session.dom_current);
+  
+  //Review this referer***
+  if (!effectiveParams.utm_source && !effectiveParams.utm_medium && !isExternalReferer) {
     effectiveParams.utm_source = "other";
     effectiveParams.utm_medium = "direct";
   }
@@ -32,7 +34,6 @@ export default async function HomePage({ searchParams }: PageProps) {
           >
             <CTASection
               prefilterQuestions={config.prefilterQuestions}
-              marketContext={config.marketContext}
               existingParams={effectiveParams}
             />
           </div>
