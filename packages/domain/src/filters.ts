@@ -64,7 +64,7 @@ export const transformFiltersResponse = (response: RawFiltersResponse): FiltersR
     degree: {
       key: "degree",
       title: "Degree Level",
-      type: "select",
+      type: "checkbox",
       options: response.filters.degree,
     },
     subjectArea: {

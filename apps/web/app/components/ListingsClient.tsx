@@ -8,7 +8,7 @@ import { useRFIStore } from "@asd/ui/src/store/rfiStore";
 interface ListingsClientProps {
   listings: Listing[];
   filters: FiltersResponse;
-  initialValues: Record<string, string>;
+  initialValues: Record<string, string | string[]>;
 }
 
 export default function ListingsClient({ listings, filters, initialValues }: ListingsClientProps) {
@@ -16,10 +16,14 @@ export default function ListingsClient({ listings, filters, initialValues }: Lis
   const pathname = usePathname();
   const { queue, initQueue } = useRFIStore();
 
-  const handleApplyFilters = (values: Record<string, string>) => {
+  const handleApplyFilters = (values: Record<string, string | string[]>) => {
     const params = new URLSearchParams();
     for (const [key, value] of Object.entries(values)) {
-      if (value) params.set(key, value);
+      if (Array.isArray(value)) {
+        value.forEach((v) => params.append(key, v));
+      } else if (value) {
+        params.set(key, value);
+      }
     }
     router.push(`${pathname}?${params.toString()}`);
   };

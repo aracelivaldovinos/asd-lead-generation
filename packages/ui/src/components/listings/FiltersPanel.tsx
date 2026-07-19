@@ -4,16 +4,24 @@ import CloseIcon from "../../assets/svg/CloseIcon";
 
 interface FiltersPanelProps {
   filters: FiltersResponse;
-  values: Record<string, string>;
-  onApply: (values: Record<string, string>) => void;
+  values: Record<string, string | string[]>;
+  onApply: (values: Record<string, string | string[]>) => void;
   onClose?: () => void;
 }
 
 const FiltersPanel = ({ filters, values: initialValues, onApply, onClose }: FiltersPanelProps) => {
-  const [values, setValues] = useState<Record<string, string>>(initialValues);
+  const [values, setValues] = useState<Record<string, string | string[]>>(initialValues);
 
   const setValue = (key: string, value: string) => {
     setValues((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const toggleCheckbox = (key: string, value: string) => {
+    setValues((prev) => {
+      const current = Array.isArray(prev[key]) ? (prev[key] as string[]) : [];
+      const exists = current.includes(value);
+      return { ...prev, [key]: exists ? current.filter((v) => v !== value) : [...current, value] };
+    });
   };
 
   const renderFilter = (filter: FilterQuestion) => {
@@ -52,6 +60,24 @@ const FiltersPanel = ({ filters, values: initialValues, onApply, onClose }: Filt
             })}
           </div>
         );
+      case "checkbox": {
+        const selected = Array.isArray(values[filter.key]) ? (values[filter.key] as string[]) : [];
+        return (
+          <div className="flex flex-col gap-2">
+            {filter.options?.map((option) => (
+              <label key={option.value} className="flex items-center gap-2 cursor-pointer text-sm text-gray-700">
+                <input
+                  type="checkbox"
+                  checked={selected.includes(option.value)}
+                  onChange={() => toggleCheckbox(filter.key, option.value)}
+                  className="w-4 h-4 accent-primary cursor-pointer"
+                />
+                {option.displayName}
+              </label>
+            ))}
+          </div>
+        );
+      }
       case "select":
         return (
           <select

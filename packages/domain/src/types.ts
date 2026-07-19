@@ -172,7 +172,7 @@ export interface FilterOption {
 export interface FilterQuestion {
   key: string;
   title: string;
-  type: "input" | "radio" | "select" | "range";
+  type: "input" | "radio" | "select" | "checkbox" | "range";
   options: FilterOption[] | null;
   pattern?: string;
   min?: number;

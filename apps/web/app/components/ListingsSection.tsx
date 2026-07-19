@@ -52,6 +52,7 @@ export default async function ListingsSection({ params }: ListingsSectionProps) 
       .filter((key) => key in params)
       .map((key) => {
         const value = params[key];
+        if (key === "degree") return [key, Array.isArray(value) ? value : [value]];
         return [key, Array.isArray(value) ? value[0] : value];
       })
   );

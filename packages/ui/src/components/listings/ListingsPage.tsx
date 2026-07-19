@@ -10,19 +10,23 @@ import FiltersIcon from "../../assets/svg/FiltersIcon";
 interface ListingsPageProps {
   listings: Listing[];
   filters: FiltersResponse;
-  initialValues?: Record<string, string>;
+  initialValues?: Record<string, string | string[]>;
   onNextStep: () => void;
-  onApplyFilters: (values: Record<string, string>) => void;
+  onApplyFilters: (values: Record<string, string | string[]>) => void;
 }
 
 const ListingsPage = ({ listings, filters, initialValues, onNextStep, onApplyFilters }: ListingsPageProps) => {
   const { queue } = useRFIStore();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [filterValues, setFilterValues] = useState<Record<string, string>>(initialValues ?? {});
+  const [filterValues, setFilterValues] = useState<Record<string, string | string[]>>(initialValues ?? {});
 
-  const appliedCount = Object.values(filterValues).filter(Boolean).length;
+  const FILTER_KEYS = ["postalCode", "setting", "degree", "subjectArea", "specialization", "distance"];
+  const appliedCount = FILTER_KEYS.filter((key) => {
+    const v = filterValues[key];
+    return Array.isArray(v) ? v.length > 0 : Boolean(v);
+  }).length;
 
-  const handleApplyFilters = (values: Record<string, string>) => {
+  const handleApplyFilters = (values: Record<string, string | string[]>) => {
     setFilterValues(values);
     onApplyFilters(values);
   };
