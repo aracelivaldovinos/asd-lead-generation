@@ -1,7 +1,8 @@
-import { type NextRequest } from "next/server";
+import { type NextRequest, after } from "next/server";
 import { fetchProviderResults } from "@/app/lib/listings/fetchProviderResults";
 import { processListings } from "@/app/lib/listings/processListings";
 import { parseMetaCookie, buildClickConfig } from "@/app/lib/listings/context";
+import { fireImpressions } from "@/app/lib/listings/fireImpressions";
 import type { RequestContext } from "@/app/lib/listings/types";
 
 const OFFER_TYPE_MAP: Record<string, string> = { LINKOUT: "linkouts", RFI: "rfi" };
@@ -59,6 +60,9 @@ export async function GET(request: NextRequest) {
 
   const raw = await fetchProviderResults(params, ctx);
   const { listings, isFallback } = processListings(raw, session, clickConfig, groups, truncateConfig);
+
+  const search = crypto.randomUUID();
+  after(() => fireImpressions(listings, ctx, search));
 
   return Response.json({ listings, isFallback });
 }
