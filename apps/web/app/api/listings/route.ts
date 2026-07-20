@@ -1,49 +1,64 @@
 import { type NextRequest } from "next/server";
-import { LISTING_PARAMS } from "@/app/lib/listing-params";
+import { fetchProviderResults } from "@/app/lib/listings/fetchProviderResults";
+import { processListings } from "@/app/lib/listings/processListings";
+import { parseMetaCookie, buildClickConfig } from "@/app/lib/listings/context";
+import type { RequestContext } from "@/app/lib/listings/types";
 
-const API_BASE_URL = process.env.API_BASE_URL;
-
-const STRING_PARAMS = [...LISTING_PARAMS.filter((p) => p !== "postalCode" && p !== "degree"), "maxSchools", "maxPrograms"] as const;
+const OFFER_TYPE_MAP: Record<string, string> = { LINKOUT: "linkouts", RFI: "rfi" };
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
+
   const metaValue = request.cookies.get("asd_s_meta")?.value ?? "";
-  const { fp } = JSON.parse(metaValue);
+  const { meta, session, fp } = parseMetaCookie(metaValue);
+
+  // build params record — postalCode with Vercel IP fallback
+  const params: Record<string, string | string[]> = {};
 
   const postalCode =
     searchParams.get("postalCode") ??
     request.headers.get("x-vercel-ip-postal-code") ??
+    process.env.DEV_POSTAL_CODE ??
     "";
+  if (postalCode) params.postalCode = postalCode;
 
-  const params = new URLSearchParams();
-  if (postalCode) params.set("postalCode", postalCode);
-
-  for (const key of STRING_PARAMS) {
-    const value = searchParams.get(key);
-    if (value) params.set(key, value);
-  }
-
-  // array params
-  for (const value of searchParams.getAll("degree")) {
-    params.append("degree", value);
-  }
-  for (const value of searchParams.getAll("offerType")) {
-    params.append("offerType", value);
-  }
-
-  // inquiries is an object: inquiries[programId]=date
   for (const [key, value] of searchParams.entries()) {
-    if (key.startsWith("inquiries[")) {
-      params.append(key, value);
-    }
+    if (key === "postalCode" || key === "degree" || key === "offerType") continue;
+    params[key] = value;
   }
 
-  const response = await fetch(`${API_BASE_URL}/api/v3/listings?${params}`, {
-    headers: {
-      "Cookie": `asd_s_meta=${metaValue}`,
-      "x-asd-fp": fp,
-    },
-  });
-  const data = await response.json();
-  return Response.json(data);
+  const degrees = searchParams.getAll("degree");
+  if (degrees.length) params.degree = degrees;
+
+  for (const [key, value] of searchParams.entries()) {
+    if (key.startsWith("inquiries[")) params[key] = value;
+  }
+
+  const ctx: RequestContext = {
+    query: params,
+    headers: Object.fromEntries(request.headers.entries()),
+    meta,
+    session,
+    fp,
+  };
+
+  const clickConfig = buildClickConfig(params);
+
+  // offerType drives which provider groups to use
+  const offerTypes = searchParams.getAll("offerType");
+  const groups = offerTypes.length
+    ? [offerTypes.map((t) => OFFER_TYPE_MAP[t] ?? t.toLowerCase())]
+    : undefined;
+
+  const maxSchools = searchParams.get("maxSchools");
+  const maxPrograms = searchParams.get("maxPrograms");
+  const truncateConfig = {
+    ...(maxSchools ? { maxSchools: parseInt(maxSchools) } : {}),
+    ...(maxPrograms ? { maxPrograms: parseInt(maxPrograms) } : {}),
+  };
+
+  const raw = await fetchProviderResults(params, ctx);
+  const { listings, isFallback } = processListings(raw, session, clickConfig, groups, truncateConfig);
+
+  return Response.json({ listings, isFallback });
 }

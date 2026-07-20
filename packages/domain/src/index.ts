@@ -12,22 +12,39 @@ const DEFAULT_CONFIG: ListingsConfig = {
   maxPrograms: 3
 }
 
+export const transformListings = (
+  listings: Listing[],
+  config: ListingsConfig = {}
+): Listing[] =>
+  listings
+    .map((listing) => ({
+      ...listing,
+      schools: listing.schools.slice(0, config.maxSchools).map((school) => ({
+        ...school,
+        locations: school.locations.map((location) => ({
+          ...location,
+          programs: location.programs.slice(0, config.maxPrograms).map((program) => ({
+            ...program,
+            displayName: cleanProgramName(program.displayName),
+          })),
+        })),
+      })),
+    }))
+    .filter((listing) => listing.schools.some((s) => s.locations.some((l) => l.programs.length > 0)));
+
 export const groupPrograms = (
   listings: Listing[],
   config = DEFAULT_CONFIG
 ): { rfis: Program[]; linkouts: Program[] } => {
-  const allPrograms = listings.flatMap((listing) =>
-    listing.schools.slice(0, config.maxSchools).flatMap((school) =>
+  const allPrograms = transformListings(listings, config).flatMap((listing) =>
+    listing.schools.flatMap((school) =>
       school.locations.flatMap((location) =>
-        location.programs.slice(0, config.maxPrograms).map((program: RawProgram) => {
-          return {
-            ...program,
-            name: listing.name,
-            displayName: cleanProgramName(program.displayName),
-            instructionMethod: location.instructionMethod,
-            school: {id: school.id, displayName: school.displayName}
-          };
-        }),
+        location.programs.map((program: RawProgram) => ({
+          ...program,
+          name: listing.name,
+          instructionMethod: location.instructionMethod,
+          school: { id: school.id, displayName: school.displayName },
+        })),
       ),
     ),
   );

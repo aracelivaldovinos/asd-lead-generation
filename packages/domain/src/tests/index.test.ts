@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { cleanProgramName, groupPrograms } from "..";
+import { cleanProgramName, groupPrograms, transformListings } from "..";
 
 const mockListings = [
   {
@@ -35,6 +35,43 @@ const mockListings = [
     ],
   },
 ];
+
+describe('transformListings', () => {
+  it('returns listings unchanged when no config provided', () => {
+    const result = transformListings(mockListings);
+    expect(result).toHaveLength(1);
+    expect(result[0].schools).toHaveLength(1);
+    expect(result[0].schools[0].locations[0].programs).toHaveLength(2);
+  });
+
+  it('cleans program displayNames', () => {
+    const result = transformListings(mockListings);
+    // "Business" has no prefix to strip — stays as-is
+    expect(result[0].schools[0].locations[0].programs[0].displayName).toBe('Business');
+  });
+
+  it('limits schools per listing with maxSchools', () => {
+    const listings = [{ ...mockListings[0], schools: [...mockListings[0].schools, ...mockListings[0].schools] }];
+    const result = transformListings(listings, { maxSchools: 1 });
+    expect(result[0].schools).toHaveLength(1);
+  });
+
+  it('limits programs per location with maxPrograms', () => {
+    const result = transformListings(mockListings, { maxPrograms: 1 });
+    expect(result[0].schools[0].locations[0].programs).toHaveLength(1);
+  });
+
+  it('filters out listings with no programs after truncation', () => {
+    const result = transformListings(mockListings, { maxPrograms: 0 });
+    expect(result).toHaveLength(0);
+  });
+
+  it('does not mutate the original listings', () => {
+    const original = mockListings[0].schools[0].locations[0].programs.length;
+    transformListings(mockListings, { maxPrograms: 1 });
+    expect(mockListings[0].schools[0].locations[0].programs).toHaveLength(original);
+  });
+});
 
 describe('groupPrograms', () => {
     it('separates rfis and linkouts', () => {
