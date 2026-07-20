@@ -9,10 +9,10 @@ interface ListingsClientProps {
   listings: Listing[];
   filters: FiltersResponse;
   initialValues: Record<string, string | string[]>;
-  isFallback?: boolean;
+  message?: string;
 }
 
-export default function ListingsClient({ listings, filters, initialValues, isFallback }: ListingsClientProps) {
+export default function ListingsClient({ listings, filters, initialValues, message }: ListingsClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const { queue, initQueue } = useRFIStore();
@@ -39,7 +39,7 @@ export default function ListingsClient({ listings, filters, initialValues, isFal
       listings={listings}
       filters={filters}
       initialValues={initialValues}
-      isFallback={isFallback}
+      message={message}
       onApplyFilters={handleApplyFilters}
       onNextStep={handleNextStep}
     />

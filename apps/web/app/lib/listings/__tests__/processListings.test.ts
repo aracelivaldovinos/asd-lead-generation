@@ -164,15 +164,20 @@ describe("processListings", () => {
     expect(() => processListings(raw, "session-1", CLICK_CONFIG)).not.toThrow();
   });
 
-  it("isFallback is false when first group has results", () => {
-    const raw: ProviderRawResults = { webui: { listings: [rfiListing] }, mm: mmRaw, eddy: null };
-    const { isFallback } = processListings(raw, "session-1", CLICK_CONFIG);
-    expect(isFallback).toBe(false);
+  it("sets fallback message when falling through to sponsored listings", () => {
+    const raw: ProviderRawResults = { webui: { listings: [] }, mm: mmRaw, eddy: null };
+    const { message } = processListings(raw, "session-1", CLICK_CONFIG);
+    expect(message).toBeTruthy();
   });
 
-  it("isFallback is true when falling through to sponsored listings", () => {
-    const raw: ProviderRawResults = { webui: { listings: [] }, mm: mmRaw, eddy: null };
-    const { isFallback } = processListings(raw, "session-1", CLICK_CONFIG);
-    expect(isFallback).toBe(true);
+  it("sets no-results message when all providers are empty", () => {
+    const { message } = processListings(emptyRaw, "session-1", CLICK_CONFIG, [["rfi"], ["mm"]]);
+    expect(message).toBeTruthy();
+  });
+
+  it("sets no message when webui has results", () => {
+    const raw: ProviderRawResults = { webui: { listings: [rfiListing] }, mm: null, eddy: null };
+    const { message } = processListings(raw, "session-1", CLICK_CONFIG);
+    expect(message).toBeUndefined();
   });
 });

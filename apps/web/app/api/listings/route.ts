@@ -59,10 +59,10 @@ export async function GET(request: NextRequest) {
   };
 
   const raw = await fetchProviderResults(params, ctx);
-  const { listings, isFallback } = processListings(raw, session, clickConfig, groups, truncateConfig);
+  const { listings, message } = processListings(raw, session, clickConfig, groups, truncateConfig);
 
   const search = crypto.randomUUID();
   after(() => fireImpressions(listings, ctx, search));
 
-  return Response.json({ listings, isFallback });
+  return Response.json({ listings, message });
 }

@@ -3,11 +3,12 @@ import { mapResponse, mapZeta } from "./mapResponse";
 import { applyClickURLs, type ClickConfig } from "./clickURL";
 import { splitWebUIListings, resolveListingGroups } from "./filter";
 import { PROVIDER_CLICK_ENVS } from "./providers";
+import { NO_RESULTS_MESSAGE, FALLBACK_MESSAGE } from "./messages";
 import type { ProviderRawResults } from "./fetchProviderResults";
 
 const DEFAULT_GROUPS = [["linkouts", "rfi"], ["zeta", "mm", "eddy"]];
 
-export type ProcessListingsResult = { listings: Listing[]; isFallback: boolean };
+export type ProcessListingsResult = { listings: Listing[]; message?: string };
 
 export const processListings = (
   raw: ProviderRawResults,
@@ -35,5 +36,6 @@ export const processListings = (
   };
 
   const { listings, groupIndex } = resolveListingGroups(providerResults, groups, { maxSchools: 20, ...truncateConfig });
-  return { listings, isFallback: groupIndex > 0 };
+  const message = listings.length === 0 ? NO_RESULTS_MESSAGE : groupIndex > 0 ? FALLBACK_MESSAGE : undefined;
+  return { listings, message };
 };

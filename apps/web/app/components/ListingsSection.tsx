@@ -33,7 +33,7 @@ export default async function ListingsSection({ params }: ListingsSectionProps) 
     fetchProviderResults(params, ctx),
   ]);
 
-  const { listings, isFallback } = processListings(raw, session, clickConfig);
+  const { listings, message } = processListings(raw, session, clickConfig);
 
   const search = crypto.randomUUID();
   after(() => fireImpressions(listings, ctx, search));
@@ -53,7 +53,7 @@ export default async function ListingsSection({ params }: ListingsSectionProps) 
       listings={listings}
       filters={filters}
       initialValues={initialValues}
-      isFallback={isFallback}
+      message={message}
     />
   );
 }

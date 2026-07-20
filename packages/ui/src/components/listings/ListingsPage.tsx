@@ -11,12 +11,12 @@ interface ListingsPageProps {
   listings: Listing[];
   filters: FiltersResponse;
   initialValues?: Record<string, string | string[]>;
-  isFallback?: boolean;
+  message?: string;
   onNextStep: () => void;
   onApplyFilters: (values: Record<string, string | string[]>) => void;
 }
 
-const ListingsPage = ({ listings, filters, initialValues, isFallback, onNextStep, onApplyFilters }: ListingsPageProps) => {
+const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, onApplyFilters }: ListingsPageProps) => {
   const { queue } = useRFIStore();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filterValues, setFilterValues] = useState<Record<string, string | string[]>>(initialValues ?? {});
@@ -87,10 +87,8 @@ const ListingsPage = ({ listings, filters, initialValues, isFallback, onNextStep
           <FiltersPanel filters={filters} values={filterValues} onApply={handleApplyFilters} />
         </aside>
         <main className="flex-1 pb-24">
-          {isFallback && (
-            <p className="text-sm text-gray-500 mb-6">
-              We couldn&apos;t find exact matches for your search, but here are some programs you might be interested in.
-            </p>
+          {message && (
+            <p className="text-sm text-gray-500 mb-6">{message}</p>
           )}
           {hasRFIPrograms && (
             <div className="fixed bottom-6 left-1/2 lg:left-[calc(50%+8rem)] -translate-x-1/2 z-20">
