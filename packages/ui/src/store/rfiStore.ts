@@ -4,7 +4,7 @@ import { Program, canAddToQueue } from "@asd/domain";
 export interface RFIStore {
   // state
   queue: Program[];
-  submittedSchoolIds: number[];
+  submittedSchoolIds: (number | string)[];
   currentProgram: Program | null;
   // actions
   addToQueue: (program: Program) => void;

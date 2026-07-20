@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 import CTASection from "@/app/components/CTASection";
 import ListingsSection from "@/app/components/ListingsSection";
 import { getSiteConfig, getPrefilterQuestions } from "@/app/lib/site-config";

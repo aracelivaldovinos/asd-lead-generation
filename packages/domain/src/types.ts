@@ -12,7 +12,7 @@ export interface Listing {
 }
 
 export interface School {
-  id: number;
+  id: number | string;
   displayName: string;
   logo: Logo;
   locations: Location[];
@@ -29,12 +29,20 @@ export interface Location {
   programs: RawProgram[];
 }
 
+export interface ImpressionData {
+  impression?: string;
+  offer?: string;
+  search?: string;
+  session?: string;
+}
+
 export interface RawProgram {
   displayName: string;
   degreeName: string;
   clickTrackingUrl?: string;
   programId: string;
   programInfo: string;
+  impressionData?: ImpressionData;
 }
 
 export interface Program extends RawProgram {

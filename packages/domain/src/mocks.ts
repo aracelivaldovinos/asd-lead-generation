@@ -479,7 +479,7 @@ export const mockFiltersResponse: FiltersResponse = {
   degree: {
     key: "degree",
     title: "Degree Level",
-    type: "select",
+    type: "checkbox",
     options: [
       { value: "associates", displayName: "Associate's" },
       { value: "bachelors", displayName: "Bachelor's" },
