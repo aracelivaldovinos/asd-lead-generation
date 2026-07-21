@@ -1,20 +1,13 @@
-import { Logo } from "@asd/domain";
 
 interface RFIFormHeaderProps {
   displayName: string;
   schoolName: string;
-  logo: Logo;
 }
 
-const RFIFormHeader = ({displayName, schoolName, logo}: RFIFormHeaderProps) => {
+const RFIFormHeader = ({displayName}: RFIFormHeaderProps) => {
   return (
     <header className="bg-dark relative">
       <div className="max-w-5xl mx-auto px-6 pt-8 pb-32">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
-          <div className="flex items-center gap-3 group cursor-pointer">
-            <img src={logo.src} />
-          </div>
-        </div>
         <div className="max-w-3xl">
           <div className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight mb-4">
             {displayName}

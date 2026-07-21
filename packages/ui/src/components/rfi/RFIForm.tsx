@@ -38,7 +38,6 @@ const RFIForm = ({
       <RFIFormHeader
         displayName={response.displayName}
         schoolName={response.schoolName}
-        logo={response.logo}
       />
       <div className="w-full sm:max-w-5xl sm:mx-auto px-0 sm:px-6 -mt-20 relative z-10 pb-24">
         <form
@@ -68,14 +67,25 @@ const RFIForm = ({
         >
           <div className="p-8 md:p-10 lg:p-12">
             <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
-              <div>
-                <div className="text-2xl font-bold text-gray-900">
-                  Request Information
+              <div className="flex items-center justify-between gap-4 w-full">
+                <div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    Request Information
+                  </div>
+                  <p className="text-gray-500 text-sm mt-1">
+                    Fields marked with <span className="text-red-500">*</span> are
+                    required.
+                  </p>
                 </div>
-                <p className="text-gray-500 text-sm mt-1">
-                  Fields marked with <span className="text-red-500">*</span> are
-                  required.
-                </p>
+                {response.logo && (
+                  <img
+                    src={response.logo.src}
+                    width={response.logo.width}
+                    height={response.logo.height}
+                    alt={response.schoolName}
+                    className="max-h-16 max-w-[160px] object-contain"
+                  />
+                )}
               </div>
               {programs?.length > 1 && (
                 <select

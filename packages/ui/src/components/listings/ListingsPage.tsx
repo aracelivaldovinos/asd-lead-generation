@@ -1,8 +1,9 @@
 "use client";
 
-import { FiltersResponse, Listing } from "@asd/domain";
+import { FiltersResponse, Listing, IMPORTANT_INFORMATION } from "@asd/domain";
 import { useState } from "react";
 import { useRFIStore } from "../../store/rfiStore";
+import Modal from "../modal/Modal";
 import ProgramCard from "../ProgramCard";
 import FiltersPanel from "./FiltersPanel";
 import FiltersIcon from "../../assets/svg/FiltersIcon";
@@ -19,6 +20,7 @@ interface ListingsPageProps {
 const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, onApplyFilters }: ListingsPageProps) => {
   const { queue } = useRFIStore();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
   const [filterValues, setFilterValues] = useState<Record<string, string | string[]>>(initialValues ?? {});
 
   const FILTER_KEYS = ["postalCode", "setting", "degree", "subjectArea", "specialization", "distance"];
@@ -48,6 +50,15 @@ const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, o
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      <p className="text-xs text-center text-gray-500 mb-4">
+        Sponsored Program Listings.{" "}
+        <button onClick={() => setInfoOpen(true)} className="text-primary underline">
+          Additional Information
+        </button>
+      </p>
+      <Modal isOpen={infoOpen} onClose={() => setInfoOpen(false)} title="Important Information for Students">
+        <div dangerouslySetInnerHTML={{ __html: IMPORTANT_INFORMATION }} />
+      </Modal>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold text-gray-900">
           Available Programs ({programCount})

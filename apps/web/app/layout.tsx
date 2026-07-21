@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Providers from "./providers";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { getSiteConfig } from "./lib/site-config";
@@ -42,7 +41,7 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       style={{ "--color-primary": config.colors.primary } as React.CSSProperties}
     >
-      <body className="min-h-screen flex flex-col"><Header /><div className="flex-1"><Providers>{children}</Providers></div><Footer /></body>
+      <body className="min-h-screen flex flex-col"><Header /><div className="flex-1">{children}</div><Footer /></body>
     </html>
   );
 }
