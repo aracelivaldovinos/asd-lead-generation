@@ -7,7 +7,6 @@ export interface FormStore {
   //actions
   setFormValue: (key: string, value: string) => void;
   setFieldErrors: (errors: Record<string, string>) => void;
-
 }
 
 export const useFormStore = create<FormStore>((set) => ({
@@ -15,6 +14,6 @@ export const useFormStore = create<FormStore>((set) => ({
   fieldErrors: {},
   setFormValue: (key: string, value: string) =>
     set((state) => ({ formValues: { ...state.formValues, [key]: value } })),
-  setFieldErrors: (errors: Record<string, string>) => 
-    set(() => ({fieldErrors: errors}))
+  setFieldErrors: (errors: Record<string, string>) =>
+    set(() => ({ fieldErrors: errors })),
 }));

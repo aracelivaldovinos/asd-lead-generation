@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRouter, usePathname } from "next/navigation";
-import { FiltersResponse, Listing, Program, RFIResponse } from "@asd/domain";
+import { FiltersResponse, Listing, Program, RFIResponse, groupPrograms } from "@asd/domain";
 import { fetchRFI } from "@asd/services";
 import ListingsPage from "@asd/ui/src/components/listings/ListingsPage";
 import RFIModal from "@asd/ui/src/components/rfi/RFIModal";
@@ -19,7 +19,7 @@ interface ListingsClientProps {
 export default function ListingsClient({ listings, filters, initialValues, message }: ListingsClientProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { queue, initQueue } = useRFIStore();
+  const { queue, initQueue, initPrograms } = useRFIStore();
   const [queryClient] = useState(() => new QueryClient());
   const [modalOpen, setModalOpen] = useState(false);
   const [rfiResponse, setRfiResponse] = useState<RFIResponse | null>(null);
@@ -58,6 +58,7 @@ export default function ListingsClient({ listings, filters, initialValues, messa
   const handleNextStep = () => {
     const programs = queue;
     initQueue(programs);
+    initPrograms(groupPrograms(listings).rfis);
     setModalOpen(true);
     if (programs[0]) fetchRFIForProgram(programs[0]);
   };
@@ -85,7 +86,6 @@ export default function ListingsClient({ listings, filters, initialValues, messa
         <RFIModal
           isOpen={modalOpen}
           rfiResponse={rfiResponse}
-          programs={queue}
           submitUrl="/api/rfi"
           onClose={handleClose}
           onProgramChange={handleProgramChange}

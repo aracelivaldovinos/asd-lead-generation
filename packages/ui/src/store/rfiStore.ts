@@ -4,21 +4,32 @@ import { Program, canAddToQueue } from "@asd/domain";
 export interface RFIStore {
   // state
   queue: Program[];
+  allPrograms: Program[];
   submittedSchoolIds: (number | string)[];
   currentProgram: Program | null;
   // actions
   addToQueue: (program: Program) => void;
   initQueue: (programs: Program[]) => void;
+  initPrograms: (programs: Program[]) => void;
   setCurrentProgram: (program: Program) => void;
   skipCurrent: () => void;
   submitCurrent: () => void;
   removeFromQueue: (programId: string) => void;
 }
 
+export const selectSchoolPrograms = (state: RFIStore) =>
+  state.allPrograms.filter(
+    (p) =>
+      p.school.id === state.currentProgram?.school.id &&
+      (p.name === "BAND1" || p.name === "BAND_COLLAB"),
+  );
+
 export const useRFIStore = create<RFIStore>((set) => ({
   queue: [],
+  allPrograms: [],
   submittedSchoolIds: [],
   currentProgram: null,
+  initPrograms: (programs: Program[]) => set(() => ({ allPrograms: programs })),
   addToQueue: (program: Program) =>
     set((state: RFIStore) => {
       if (!canAddToQueue(program, state.submittedSchoolIds)) return state;

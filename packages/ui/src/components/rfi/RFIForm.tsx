@@ -1,15 +1,17 @@
-import { Program, RFIResponse } from "@asd/domain";
+import { useState } from "react";
+import { Program, RFIResponse, PRIVACY_POLICY } from "@asd/domain";
 import { useRFISubmit } from "@asd/services";
 import { useFormStore } from "../../store/formStore";
-import { useRFIStore } from "../../store/rfiStore";
+import { useShallow } from "zustand/react/shallow";
+import { useRFIStore, selectSchoolPrograms } from "../../store/rfiStore";
 import RFIFormHeader from "./RFIFormHeader";
 import RFIFormQuestions from "./RFIFormQuestions";
 import RFIFormDisclaimers from "./RFIFormDisclaimers";
 import ThirdPartyScript from "./scripts/ThirdPartyScripts";
+import Modal from "../modal/Modal";
 
 interface RFIFormProps {
   response: RFIResponse;
-  programs: Program[];
   submitUrl: string;
   onComplete: () => void;
   onProgramChange: (program: Program) => void;
@@ -17,7 +19,6 @@ interface RFIFormProps {
 }
 const RFIForm = ({
   response,
-  programs,
   submitUrl,
   onComplete,
   onProgramChange,
@@ -30,8 +31,10 @@ const RFIForm = ({
     submitCurrent,
     skipCurrent,
   } = useRFIStore();
+  const schoolPrograms = useRFIStore(useShallow(selectSchoolPrograms));
   const { formValues, setFieldErrors } = useFormStore();
   const { mutate } = useRFISubmit(submitUrl);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   return (
     <div>
@@ -87,13 +90,13 @@ const RFIForm = ({
                   />
                 )}
               </div>
-              {programs?.length > 1 && (
+              {schoolPrograms.length > 1 && (
                 <select
                   className="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block p-3 outline-none transition-all duration-200 shadow-sm cursor-pointer"
                   name="program"
                   value={currentProgram?.programId ?? ""}
                   onChange={(e) => {
-                    const program = programs.find(
+                    const program = schoolPrograms.find(
                       (p) => p.programId === e.target.value,
                     );
                     if (program) {
@@ -102,7 +105,7 @@ const RFIForm = ({
                     }
                   }}
                 >
-                  {programs.map((program) => (
+                  {schoolPrograms.map((program) => (
                     <option key={program.programId} value={program.programId}>
                       {program.displayName}
                     </option>
@@ -139,8 +142,20 @@ const RFIForm = ({
             >
               Skip
             </button>
+            <p className="text-center mt-4">
+              <button
+                type="button"
+                onClick={() => setPrivacyOpen(true)}
+                className="text-sm text-primary underline"
+              >
+                Show Privacy Policy
+              </button>
+            </p>
           </div>
         </form>
+        <Modal isOpen={privacyOpen} onClose={() => setPrivacyOpen(false)} title="Privacy Policy">
+          <div dangerouslySetInnerHTML={{ __html: PRIVACY_POLICY }} />
+        </Modal>
       </div>
       {(response.useLeadId || response.useTrustedForm) && (
         <ThirdPartyScript

@@ -6,7 +6,6 @@ import RFIForm from "./RFIForm";
 interface RFIModalProps {
   isOpen: boolean;
   rfiResponse: RFIResponse | null;
-  programs: Program[];
   submitUrl: string;
   onClose: () => void;
   onProgramChange: (program: Program) => void;
@@ -16,7 +15,6 @@ interface RFIModalProps {
 const RFIModal = ({
   isOpen,
   rfiResponse,
-  programs,
   submitUrl,
   onClose,
   onProgramChange,
@@ -39,7 +37,6 @@ const RFIModal = ({
         {rfiResponse ? (
           <RFIForm
             response={rfiResponse}
-            programs={programs}
             submitUrl={submitUrl}
             onComplete={onClose}
             onProgramChange={onProgramChange}

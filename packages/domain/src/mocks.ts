@@ -6,7 +6,7 @@ export const mockPrograms: Program[] = [
   {
     programId: "1",
     displayName: "Management - Associate's",
-    name: "Management",
+    name: "BAND1",
     degreeName: "Associate's",
     programInfo: "",
     instructionMethod: "Online",
@@ -15,7 +15,7 @@ export const mockPrograms: Program[] = [
   {
     programId: "2",
     displayName: "Business Administration - Bachelor's",
-    name: "Business Administration",
+    name: "BAND1",
     degreeName: "Bachelor's",
     programInfo: "",
     instructionMethod: "Online",
@@ -24,7 +24,7 @@ export const mockPrograms: Program[] = [
   {
     programId: "3",
     displayName: "Accounting - Master's",
-    name: "Accounting",
+    name: "BAND_COLLAB",
     degreeName: "Master's",
     programInfo: "",
     instructionMethod: "Online",
