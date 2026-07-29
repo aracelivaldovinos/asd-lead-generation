@@ -79,9 +79,11 @@ export const useRFI = (baseURL: string, params: RFIParams) => {
 const fetchRFISubmit = async (
   baseURL: string,
   programId: string,
-  values: Record<string, string>,
+  values: Record<string, string | Record<string, string>>,
 ): Promise<RawRFISubmitResponse> => {
-  const response = await fetch(`${baseURL}/${programId}`, {
+  const [base, qs] = baseURL.split("?");
+  const url = qs ? `${base}/${programId}?${qs}` : `${base}/${programId}`;
+  const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(values),
@@ -97,7 +99,7 @@ export const useRFISubmit = (baseURL: string) => {
       values,
     }: {
       programId: string;
-      values: Record<string, string>;
+      values: Record<string, string | Record<string, string>>;
     }) => fetchRFISubmit(baseURL, programId, values),
   });
 };

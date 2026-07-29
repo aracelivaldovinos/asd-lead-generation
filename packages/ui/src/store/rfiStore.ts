@@ -60,12 +60,15 @@ export const useRFIStore = create<RFIStore>((set) => ({
       const current: Program | null = state.currentProgram;
       if (!current) return state;
 
+      const updatedSubmittedSchoolIds = [...state.submittedSchoolIds, current.school.id];
+      const remainingQueue = state.queue.filter(
+        (program: Program) => program.school.id !== current.school.id,
+      );
+
       return {
-        queue: state.queue.filter(
-          (program: Program) => program.programId !== current.programId,
-        ),
-        submittedSchoolIds: [...state.submittedSchoolIds, current.school.id],
-        currentProgram: state.queue[1] ?? null,
+        queue: remainingQueue,
+        submittedSchoolIds: updatedSubmittedSchoolIds,
+        currentProgram: remainingQueue[0] ?? null,
       };
     }),
   removeFromQueue: (programId: string) =>

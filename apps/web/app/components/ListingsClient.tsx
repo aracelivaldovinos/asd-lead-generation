@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { FiltersResponse, Listing, Program, RFIResponse, groupPrograms } from "@asd/domain";
 import { fetchRFI } from "@asd/services";
 import ListingsPage from "@asd/ui/src/components/listings/ListingsPage";
@@ -19,6 +19,7 @@ interface ListingsClientProps {
 export default function ListingsClient({ listings, filters, initialValues, message }: ListingsClientProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { queue, initQueue, initPrograms } = useRFIStore();
   const [queryClient] = useState(() => new QueryClient());
   const [modalOpen, setModalOpen] = useState(false);
@@ -86,7 +87,7 @@ export default function ListingsClient({ listings, filters, initialValues, messa
         <RFIModal
           isOpen={modalOpen}
           rfiResponse={rfiResponse}
-          submitUrl="/api/rfi"
+          submitUrl={`/api/rfi?${searchParams.toString()}`}
           onClose={handleClose}
           onProgramChange={handleProgramChange}
           onProgramSkip={handleClose}

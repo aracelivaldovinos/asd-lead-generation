@@ -38,7 +38,7 @@ const WithProgramsDecorator = (Story: React.ComponentType) => {
   const { initQueue, initPrograms } = useRFIStore();
   useEffect(() => {
     initPrograms(mockPrograms);
-    initQueue([mockPrograms[0]]);
+    initQueue(mockPrograms);
   }, []);
   return <Story />;
 };

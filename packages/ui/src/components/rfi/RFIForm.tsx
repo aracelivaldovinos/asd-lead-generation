@@ -48,10 +48,26 @@ const RFIForm = ({
           id="rfi-form"
           onSubmit={(e) => {
             e.preventDefault();
+            const merged = { ...formValues };
+            for (const question of response.questions) {
+              if ((question.type === "select" || question.type === "radio") && merged[question.key] === undefined && question.options?.[0]) {
+                merged[question.key] = question.options[0].value;
+              }
+            }
+            const custom: Record<string, string> = {};
+            const rest: Record<string, string> = {};
+            for (const [key, value] of Object.entries(merged)) {
+              const match = key.match(/^custom\[(\d+)\]$/);
+              if (match) {
+                custom[match[1]] = value;
+              } else {
+                rest[key] = value;
+              }
+            }
             mutate(
               {
                 programId: currentProgram?.programId ?? "",
-                values: { ...formValues, band: currentProgram?.name ?? "" },
+                values: { ...rest, ...(Object.keys(custom).length > 0 && { custom }), band: currentProgram?.name ?? "", selection: "selected" },
               },
               {
                 onSuccess: (data) => {
@@ -128,20 +144,26 @@ const RFIForm = ({
             >
               Request Information
             </button>
-            <button
-              type="button"
-              onClick={() => {
-                skipCurrent();
-
-                if (queue.length <= 1) {
-                  onComplete();
-                } else {
+            {queue.length > 1 && (
+              <button
+                type="button"
+                className="w-full flex items-center gap-4 mt-4 p-4 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-colors duration-200 text-left"
+                onClick={() => {
+                  skipCurrent();
                   onProgramSkip();
-                }
-              }}
-            >
-              Skip
-            </button>
+                }}
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-gray-500">Not interested in {currentProgram?.displayName}?</p>
+                  <p className="text-sm font-bold text-gray-900 truncate">Skip to {queue[1]?.displayName}</p>
+                </div>
+                <div className="flex-shrink-0 w-9 h-9 rounded-full bg-primary flex items-center justify-center">
+                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </button>
+            )}
             <p className="text-center mt-4">
               <button
                 type="button"
