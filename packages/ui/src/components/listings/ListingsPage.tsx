@@ -18,7 +18,7 @@ interface ListingsPageProps {
 }
 
 const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, onApplyFilters }: ListingsPageProps) => {
-  const { queue, submittedSchoolIds } = useRFIStore();
+  const { queue } = useRFIStore();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
   const [filterValues, setFilterValues] = useState<Record<string, string | string[]>>(initialValues ?? {});
@@ -123,7 +123,7 @@ const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, o
                   <p className="text-sm font-semibold text-muted mb-4">{listing.message}</p>
                 )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {listing.schools.filter((school) => !submittedSchoolIds.includes(school.id)).map((school) =>
+                  {listing.schools.map((school) =>
                     school.locations.map((location) =>
                       location.programs.map((program) => (
                         <ProgramCard

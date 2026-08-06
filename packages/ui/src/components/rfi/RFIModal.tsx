@@ -8,6 +8,7 @@ interface RFIModalProps {
   rfiResponse: RFIResponse | null;
   submitUrl: string;
   onClose: () => void;
+  onComplete: () => void;
   onProgramChange: (program: Program) => void;
   onProgramSkip: () => void;
 }
@@ -17,6 +18,7 @@ const RFIModal = ({
   rfiResponse,
   submitUrl,
   onClose,
+  onComplete,
   onProgramChange,
   onProgramSkip,
 }: RFIModalProps) => {
@@ -38,7 +40,7 @@ const RFIModal = ({
           <RFIForm
             response={rfiResponse}
             submitUrl={submitUrl}
-            onComplete={onClose}
+            onComplete={onComplete}
             onProgramChange={onProgramChange}
             onProgramSkip={onProgramSkip}
           />

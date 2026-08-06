@@ -73,9 +73,7 @@ const RFIForm = ({
                 onSuccess: (data) => {
                   if (Object.keys(data.fieldErrors).length === 0) {
                     submitCurrent();
-                    if (queue.length <= 1) {
-                      onComplete();
-                    }
+                    onComplete();
                   } else {
                     setFieldErrors(data.fieldErrors);
                   }

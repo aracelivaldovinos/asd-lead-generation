@@ -1,6 +1,7 @@
 import { FiltersResponse, Listing, PrefilterQuestion, Program, RawFiltersResponse, RawRFIResponse, RFIResponse } from "./types";
 
 export const mockSchool = { id: 28, displayName: "Post University" };
+export const mockSchool2 = { id: 29, displayName: "Southern New Hampshire University" };
 
 export const mockPrograms: Program[] = [
   {
@@ -29,6 +30,27 @@ export const mockPrograms: Program[] = [
     programInfo: "",
     instructionMethod: "Online",
     school: mockSchool,
+  },
+];
+
+export const mockProgramsSchool2: Program[] = [
+  {
+    programId: "4",
+    displayName: "Healthcare Administration - Bachelor's",
+    name: "BAND1",
+    degreeName: "Bachelor's",
+    programInfo: "",
+    instructionMethod: "Online",
+    school: mockSchool2,
+  },
+  {
+    programId: "5",
+    displayName: "Psychology - Master's",
+    name: "BAND1",
+    degreeName: "Master's",
+    programInfo: "",
+    instructionMethod: "Online",
+    school: mockSchool2,
   },
 ];
 
@@ -272,6 +294,14 @@ export const mockRFIResponse: RFIResponse = {
       ],
     },
   ],
+};
+
+export const mockRFIResponse2: RFIResponse = {
+  ...mockRFIResponse,
+  displayName: "Healthcare Administration - Bachelor's",
+  schoolName: "Southern New Hampshire University",
+  schoolId: 29,
+  logo: { src: "https://example.com/snhu-logo.jpg", width: 350, height: 149 },
 };
 
 export const mockListings: Listing[] = [
