@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { LISTING_PARAMS } from "@/app/lib/listing-params";
 import { buildURL } from "./buildURL";
 import { createProviders } from "./providers";
@@ -15,10 +16,24 @@ export const fetchProviderResults = async (
 ): Promise<ProviderRawResults> => {
   const providers = createProviders({ webUiHost: process.env.API_BASE_URL! });
 
+  const cookieStore = await cookies();
+  const inquiriesCookie = cookieStore.get("asd_inquiries")?.value;
+  const cookieInquiries: Record<string, string> = {};
+  if (inquiriesCookie) {
+    try {
+      const parsed = JSON.parse(decodeURIComponent(inquiriesCookie));
+      for (const [programId, timestamp] of Object.entries(parsed)) {
+        cookieInquiries[`inquiries[${programId}]`] = timestamp as string;
+      }
+    } catch {}
+  }
+
   const query = new URLSearchParams();
   for (const key of LISTING_PARAMS) {
     if (key === "degree") continue;
-    const value = params[key];
+    const value = key === "phoneNumber"
+      ? (params["phoneNumber"] ?? params["primaryPhone"])
+      : params[key];
     if (value) query.set(key, Array.isArray(value) ? value[0] : value);
   }
   const degrees = params["degree"];
@@ -30,6 +45,19 @@ export const fetchProviderResults = async (
     if (key.startsWith("inquiries["))
       query.append(key, Array.isArray(value) ? value[0] : value);
   }
+  for (const [key, value] of Object.entries(cookieInquiries)) {
+    if (!query.has(key)) query.append(key, value);
+  }
+
+  const prepingCookie = cookieStore.get("asd_preping")?.value;
+  if (prepingCookie) {
+    try {
+      const preping: Record<string, string> = JSON.parse(decodeURIComponent(prepingCookie));
+      for (const [key, value] of Object.entries(preping)) {
+        if (value) query.set(key, value);
+      }
+    } catch {}
+  }
 
   const wuiHeaders = {
     Cookie: `asd_s_meta=${JSON.stringify(ctx.meta)}`,
@@ -37,6 +65,8 @@ export const fetchProviderResults = async (
   };
 
   const eddyUrl = buildURL(providers.eddy, ctx);
+
+  console.log("[listings] page load URL:", `${process.env.API_BASE_URL}/api/v3/listings?${query}`);
 
   const [webui, mm, eddy] = await Promise.all([
     fetch(`${process.env.API_BASE_URL}/api/v3/listings?${query}`, {

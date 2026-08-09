@@ -3,7 +3,7 @@ import { Program, RFIResponse, PRIVACY_POLICY } from "@asd/domain";
 import { useRFISubmit } from "@asd/services";
 import { useFormStore } from "../../store/formStore";
 import { useShallow } from "zustand/react/shallow";
-import { useRFIStore, selectSchoolPrograms } from "../../store/rfiStore";
+import { useRFIStore, selectSchoolProgramsById, MAX_RFIS } from "../../store/rfiStore";
 import RFIFormHeader from "./RFIFormHeader";
 import RFIFormQuestions from "./RFIFormQuestions";
 import RFIFormDisclaimers from "./RFIFormDisclaimers";
@@ -15,7 +15,7 @@ interface RFIFormProps {
   submitUrl: string;
   onComplete: () => void;
   onProgramChange: (program: Program) => void;
-  onProgramSkip: () => void;
+  onProgramSkip: (program: Program | null) => void;
 }
 const RFIForm = ({
   response,
@@ -27,11 +27,14 @@ const RFIForm = ({
   const {
     queue,
     currentProgram,
+    submittedSchoolIds,
+    skippedSchoolIds,
+    isSuggestedMode,
     setCurrentProgram,
     submitCurrent,
     skipCurrent,
   } = useRFIStore();
-  const schoolPrograms = useRFIStore(useShallow(selectSchoolPrograms));
+  const schoolPrograms = useRFIStore(useShallow(selectSchoolProgramsById(response.schoolId)));
   const { formValues, setFieldErrors } = useFormStore();
   const { mutate } = useRFISubmit(submitUrl);
   const [privacyOpen, setPrivacyOpen] = useState(false);
@@ -67,7 +70,7 @@ const RFIForm = ({
             mutate(
               {
                 programId: currentProgram?.programId ?? "",
-                values: { ...rest, ...(Object.keys(custom).length > 0 && { custom }), band: currentProgram?.name ?? "", selection: "selected" },
+                values: { ...rest, ...(Object.keys(custom).length > 0 && { custom }), band: currentProgram?.name ?? "", selection: isSuggestedMode ? "suggested" : "selected" },
               },
               {
                 onSuccess: (data) => {
@@ -108,7 +111,7 @@ const RFIForm = ({
                 <select
                   className="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block p-3 outline-none transition-all duration-200 shadow-sm cursor-pointer"
                   name="program"
-                  value={currentProgram?.programId ?? ""}
+                  value={response.programId}
                   onChange={(e) => {
                     const program = schoolPrograms.find(
                       (p) => p.programId === e.target.value,
@@ -142,13 +145,14 @@ const RFIForm = ({
             >
               Request Information
             </button>
-            {queue.length > 1 && (
+            {queue.length > 1 && (submittedSchoolIds.length + skippedSchoolIds.length) < MAX_RFIS - 1 && (
               <button
                 type="button"
                 className="w-full flex items-center gap-4 mt-4 p-4 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-colors duration-200 text-left"
                 onClick={() => {
+                  const program = currentProgram;
                   skipCurrent();
-                  onProgramSkip();
+                  onProgramSkip(program);
                 }}
               >
                 <div className="flex-1 min-w-0">

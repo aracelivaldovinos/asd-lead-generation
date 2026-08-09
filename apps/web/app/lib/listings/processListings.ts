@@ -15,7 +15,7 @@ export const processListings = (
   session: string,
   clickConfig: ClickConfig,
   groups: string[][] = DEFAULT_GROUPS,
-  truncateConfig: { maxSchools?: number; maxPrograms?: number } = {},
+  truncateConfig: { maxSchools?: number; maxPrograms?: number } = { maxPrograms: 3 },
 ): ProcessListingsResult => {
   const clickCfg = (providerId: string) => ({
     ...clickConfig,

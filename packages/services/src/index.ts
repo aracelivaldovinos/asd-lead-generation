@@ -66,7 +66,7 @@ export const fetchRFI = async (
   const response = await fetch(queryUrl);
   const raw: RawRFIResponse = await response.json();
 
-  return transformRFIResponse(raw);
+  return { ...transformRFIResponse(raw), programId: params.programId ?? "" };
 };
 
 export const useRFI = (baseURL: string, params: RFIParams) => {

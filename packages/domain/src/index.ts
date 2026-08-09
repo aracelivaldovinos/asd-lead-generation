@@ -9,7 +9,6 @@ export * from './urlParams';
 
 const DEFAULT_CONFIG: ListingsConfig = {
   maxSchools: Infinity,
-  maxPrograms: 3
 }
 
 export const transformListings = (
@@ -19,16 +18,20 @@ export const transformListings = (
   listings
     .map((listing) => ({
       ...listing,
-      schools: listing.schools.slice(0, config.maxSchools).map((school) => ({
-        ...school,
-        locations: school.locations.map((location) => ({
-          ...location,
-          programs: location.programs.slice(0, config.maxPrograms).map((program) => ({
-            ...program,
-            displayName: cleanProgramName(program.displayName),
-          })),
-        })),
-      })),
+      schools: listing.schools.slice(0, config.maxSchools).map((school) => {
+        const maxP = config.maxPrograms ?? Infinity;
+        let remaining = maxP;
+        return {
+          ...school,
+          locations: school.locations.map((location) => ({
+            ...location,
+            programs: location.programs.slice(0, remaining).map((program) => {
+              remaining--;
+              return { ...program, displayName: cleanProgramName(program.displayName) };
+            }),
+          })).filter((l) => l.programs.length > 0),
+        };
+      }),
     }))
     .filter((listing) => listing.schools.some((s) => s.locations.some((l) => l.programs.length > 0)));
 

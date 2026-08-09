@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { FiltersResponse, Listing, Program, RFIResponse, groupPrograms } from "@asd/domain";
-import { fetchRFI } from "@asd/services";
+import { FiltersResponse, Listing } from "@asd/domain";
 import ListingsPage from "@asd/ui/src/components/listings/ListingsPage";
 import RFIModal from "@asd/ui/src/components/rfi/RFIModal";
-import { useRFIStore } from "@asd/ui/src/store/rfiStore";
+import { useRFIFlow } from "@asd/ui/src/hooks/useRFIFlow";
 
 interface ListingsClientProps {
   listings: Listing[];
@@ -16,35 +15,27 @@ interface ListingsClientProps {
   message?: string;
 }
 
-export default function ListingsClient({ listings, filters, initialValues, message }: ListingsClientProps) {
+export default function ListingsClient({ listings: initialListings, filters, initialValues, message }: ListingsClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { queue, initQueue, initPrograms } = useRFIStore();
   const [queryClient] = useState(() => new QueryClient());
-  const [modalOpen, setModalOpen] = useState(false);
-  const [rfiResponse, setRfiResponse] = useState<RFIResponse | null>(null);
+  const [clientListings, setClientListings] = useState<Listing[] | null>(null);
+  const listings = clientListings ?? initialListings;
 
-  const getUrlParams = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const params: Record<string, string> = {};
-    urlParams.forEach((value, key) => { params[key] = value; });
-    return params;
-  };
-
-  const fetchRFIForProgram = async (program: Program) => {
-    setRfiResponse(null);
-    const params = getUrlParams();
-    const rfi = await fetchRFI("/api/rfi", {
-      programId: program.programId,
-      marketContext: params.marketContext ?? "",
-      s: "",
-      ...params,
-    });
-    setRfiResponse(rfi);
-  };
+  const { modalOpen, rfiResponse, handleNextStep, handleProgramChange, handleClose, handleSkip, handleComplete } = useRFIFlow({
+    listings,
+    searchParams: Object.fromEntries(searchParams.entries()),
+    rfiEndpoint: "/api/rfi",
+    fetchListings: () =>
+      fetch(`/api/listings?${searchParams.toString()}`)
+        .then((r) => r.json())
+        .then((d) => d.listings ?? []),
+    onListingsUpdate: setClientListings,
+  });
 
   const handleApplyFilters = (values: Record<string, string | string[]>) => {
+    setClientListings(null);
     const params = new URLSearchParams();
     for (const [key, value] of Object.entries(values)) {
       if (Array.isArray(value)) {
@@ -54,23 +45,6 @@ export default function ListingsClient({ listings, filters, initialValues, messa
       }
     }
     router.push(`${pathname}?${params.toString()}`);
-  };
-
-  const handleNextStep = () => {
-    const programs = queue;
-    initQueue(programs);
-    initPrograms(groupPrograms(listings).rfis);
-    setModalOpen(true);
-    if (programs[0]) fetchRFIForProgram(programs[0]);
-  };
-
-  const handleProgramChange = (program: Program) => {
-    fetchRFIForProgram(program);
-  };
-
-  const handleClose = () => {
-    setModalOpen(false);
-    setRfiResponse(null);
   };
 
   return (
@@ -89,8 +63,9 @@ export default function ListingsClient({ listings, filters, initialValues, messa
           rfiResponse={rfiResponse}
           submitUrl={`/api/rfi?${searchParams.toString()}`}
           onClose={handleClose}
+          onComplete={handleComplete}
           onProgramChange={handleProgramChange}
-          onProgramSkip={handleClose}
+          onProgramSkip={handleSkip}
         />
       </QueryClientProvider>
     </>

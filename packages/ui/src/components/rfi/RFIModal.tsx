@@ -10,7 +10,7 @@ interface RFIModalProps {
   onClose: () => void;
   onComplete: () => void;
   onProgramChange: (program: Program) => void;
-  onProgramSkip: () => void;
+  onProgramSkip: (program: Program | null) => void;
 }
 
 const RFIModal = ({

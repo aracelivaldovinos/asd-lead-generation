@@ -163,6 +163,7 @@ export const mockRawRFIResponse: RawRFIResponse = {
 };
 
 export const mockRFIResponse: RFIResponse = {
+  programId: "",
   disclaimer: "<p>Disclaimer text...</p>",
   displayName: "AS - Management - Associate's",
   schoolName: "Post University",

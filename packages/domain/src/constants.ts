@@ -1,3 +1,5 @@
+export const PERDOCEO_SCHOOL_IDS = [568, 592]; // AIU, CTU
+
 export const PRIVACY_POLICY = `<p>Effective Date: December 5, 2025</p>
 <p>
     All Star Directories, Inc. and its related properties (

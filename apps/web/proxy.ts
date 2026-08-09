@@ -23,7 +23,7 @@ const CSP = [
 export const config = {
   matcher: [
     {
-      source: "/((?!_next/static|_next/image|favicon.ico|robots.txt).*)",
+      source: "/((?!_next/static|_next/image|favicon.ico|robots.txt|\\.well-known|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|woff|woff2|ttf|map|json)).*)",
       missing: [
         { type: "header", key: "next-router-prefetch" },
         { type: "header", key: "purpose", value: "prefetch" },
@@ -39,7 +39,7 @@ export async function proxy(request: NextRequest) {
     try {
       JSON.parse(existing.value); // validate
       const response = NextResponse.next();
-      response.headers.append("Set-Cookie", `${COOKIE_NAME}=${existing.value}; Path=/; Max-Age=${THIRTY_MINUTES}`);
+      response.cookies.set(COOKIE_NAME, existing.value, { path: "/", maxAge: THIRTY_MINUTES });
       response.headers.set("Content-Security-Policy", CSP);
       return response;
     } catch {
@@ -82,7 +82,7 @@ export async function proxy(request: NextRequest) {
   requestHeaders.set("cookie", existingCookies ? `${existingCookies}; ${COOKIE_NAME}=${cookieValue}` : `${COOKIE_NAME}=${cookieValue}`);
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
-  response.headers.append("Set-Cookie", `${COOKIE_NAME}=${cookieValue}; Path=/; Max-Age=${THIRTY_MINUTES}`);
+  response.cookies.set(COOKIE_NAME, cookieValue, { path: "/", maxAge: THIRTY_MINUTES });
   response.headers.set("Content-Security-Policy", CSP);
   return response;
 }

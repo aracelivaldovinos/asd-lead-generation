@@ -16,10 +16,10 @@ interface ProgramCardProps {
 }
 
 const ProgramCard = ({ program }: ProgramCardProps) => {
-  const { addToQueue, removeFromQueue, queue } = useRFIStore();
+  const { addToQueue, removeFromQueue, queue, isSuggestedMode } = useRFIStore();
   const [expanded, setExpanded] = useState(false);
 
-  const isSelected = queue.some((p) => p.programId === program.programId);
+  const isSelected = !isSuggestedMode && queue.some((p) => p.programId === program.programId);
 
   const {
     clickTrackingUrl,

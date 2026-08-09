@@ -56,9 +56,44 @@ describe('transformListings', () => {
     expect(result[0].schools).toHaveLength(1);
   });
 
-  it('limits programs per location with maxPrograms', () => {
+  it('limits programs per school with maxPrograms', () => {
     const result = transformListings(mockListings, { maxPrograms: 1 });
     expect(result[0].schools[0].locations[0].programs).toHaveLength(1);
+  });
+
+  it('caps total programs per school across multiple locations', () => {
+    const multiLocation = [{
+      name: "BAND1",
+      message: "",
+      schools: [{
+        id: 1,
+        displayName: "Test School",
+        logo: { src: "http://logo.png", width: 100, height: 100 },
+        locations: [
+          {
+            instructionMethod: "classroom",
+            programs: [
+              { programId: "1", displayName: "Business", degreeName: "Bachelor", programInfo: "" },
+              { programId: "2", displayName: "Nursing", degreeName: "Associate", programInfo: "" },
+            ],
+          },
+          {
+            instructionMethod: "online",
+            programs: [
+              { programId: "3", displayName: "Technology", degreeName: "Bachelor", programInfo: "" },
+              { programId: "4", displayName: "Arts", degreeName: "Associate", programInfo: "" },
+            ],
+          },
+        ],
+      }],
+    }];
+
+    const result = transformListings(multiLocation, { maxPrograms: 3 });
+    const school = result[0].schools[0];
+    const totalPrograms = school.locations.reduce((n, l) => n + l.programs.length, 0);
+    expect(totalPrograms).toBe(3);
+    expect(school.locations[0].programs).toHaveLength(2);
+    expect(school.locations[1].programs).toHaveLength(1);
   });
 
   it('filters out listings with no programs after truncation', () => {

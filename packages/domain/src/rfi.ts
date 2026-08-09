@@ -23,6 +23,7 @@ export const transformRFIResponse = (response: RawRFIResponse): RFIResponse => {
   });
 
   return {
+    programId: "",
     disclaimer: response.disclaimer ?? "",
     displayName: response.displayName,
     schoolName: response.schoolName,
