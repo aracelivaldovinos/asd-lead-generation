@@ -1,4 +1,5 @@
 import { RawRFIResponse, RFIQuestion, RFIResponse } from "./types";
+import { POSTAL_CODE_PATTERN } from "./constants";
 
 export const transformRFIResponse = (response: RawRFIResponse): RFIResponse => {
   const properties = response.questions.schema.properties;
@@ -12,7 +13,7 @@ export const transformRFIResponse = (response: RawRFIResponse): RFIResponse => {
       type: field.type,
       required: property.required,
       maxLength: property.maxLength,
-      pattern: property.pattern ?? null,
+      pattern: key === "postalCode" ? POSTAL_CODE_PATTERN : (property.pattern ?? null),
       options: property.enum
         ? property.enum.map((value, index) => ({
             value,

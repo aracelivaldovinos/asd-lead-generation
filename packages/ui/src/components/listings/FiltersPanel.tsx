@@ -11,7 +11,6 @@ interface FiltersPanelProps {
 
 const FiltersPanel = ({ filters, values: initialValues, onApply, onClose }: FiltersPanelProps) => {
   const [values, setValues] = useState<Record<string, string | string[]>>(initialValues);
-
   const setValue = (key: string, value: string) => {
     setValues((prev) => ({ ...prev, [key]: value }));
   };
@@ -32,7 +31,7 @@ const FiltersPanel = ({ filters, values: initialValues, onApply, onClose }: Filt
             type="text"
             id={filter.key}
             value={values[filter.key] ?? ""}
-            pattern={filter.pattern}
+            pattern={filter.pattern ?? undefined}
             placeholder={filter.title}
             onChange={(e) => setValue(filter.key, e.target.value)}
             className="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block p-3 outline-none transition-all duration-200 shadow-sm"
@@ -123,7 +122,10 @@ const FiltersPanel = ({ filters, values: initialValues, onApply, onClose }: Filt
   const specializationOptions = selectedSubjectArea?.specializations ?? [];
 
   return (
-    <div className="flex flex-col gap-2">
+    <form
+      className="flex flex-col gap-2"
+      onSubmit={(e) => { e.preventDefault(); onApply(values); onClose?.(); }}
+    >
       {onClose && (
         <div className="flex items-center justify-between">
           <span className="text-lg font-bold text-gray-900">Filters</span>
@@ -158,15 +160,12 @@ const FiltersPanel = ({ filters, values: initialValues, onApply, onClose }: Filt
         );
       })}
       <button
-        onClick={() => {
-          onApply(values);
-          onClose?.();
-        }}
+        type="submit"
         className="w-full bg-primary hover:bg-primaryHover text-white font-bold py-3 px-6 rounded-xl transition-colors duration-200"
       >
         Apply Filters
       </button>
-    </div>
+    </form>
   );
 };
 

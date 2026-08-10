@@ -1,4 +1,5 @@
 import { FiltersResponse, Listing, PrefilterQuestion, Program, RawFiltersResponse, RawRFIResponse, RFIResponse } from "./types";
+import { POSTAL_CODE_PATTERN } from "./constants";
 
 export const mockSchool = { id: 28, displayName: "Post University" };
 export const mockSchool2 = { id: 29, displayName: "Southern New Hampshire University" };
@@ -234,7 +235,7 @@ export const mockRFIResponse: RFIResponse = {
       type: "text",
       required: false,
       maxLength: 10,
-      pattern: "[0-9]{5}",
+      pattern: POSTAL_CODE_PATTERN,
       options: null,
     },
     {
@@ -443,7 +444,7 @@ export const mockPrefilterQuestions: PrefilterQuestion[] = [
     type: "text",
     required: true,
     maxLength: 255,
-    pattern: null,
+    pattern: POSTAL_CODE_PATTERN,
     options: null,
   },
   {
@@ -469,9 +470,9 @@ export const mockPrefilterQuestions: PrefilterQuestion[] = [
     pattern: null,
     options: [
       { value: "", displayName: "- Select One -" },
-      { value: "1", displayName: "Some High School" },
-      { value: "2", displayName: "High School Diploma (or GED)" },
-      { value: "3", displayName: "Some College (No Degree)" },
+      { value: "Some High School", displayName: "Some High School" },
+      { value: "High School Diploma (or GED)", displayName: "High School Diploma (or GED)" },
+      { value: "Some College (No Degree)", displayName: "Some College (No Degree)" },
     ],
   },
   {

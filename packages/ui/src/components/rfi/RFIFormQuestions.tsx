@@ -3,6 +3,7 @@ import { useFormStore } from "../../store/formStore";
 
 interface RFIFormQuestionsProps {
   questions: RFIQuestion[];
+  onBlur?: (key: string) => void;
 };
 
 const GROUP_LABELS: Record<string, string> = {
@@ -19,7 +20,16 @@ const ROW_GROUPS = [
   ["emailAddress", "primaryPhone"],
 ];
 
-const RFIFormQuestions = ({ questions }: RFIFormQuestionsProps) => {
+const VALIDATED_ON_BLUR = ["emailAddress", "primaryPhone"];
+
+const formatPhone = (value: string) => {
+  const digits = value.replace(/\D/g, "").slice(0, 10);
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+};
+
+const RFIFormQuestions = ({ questions, onBlur }: RFIFormQuestionsProps) => {
   const { setFormValue, formValues, fieldErrors } = useFormStore();
 
   const grouped = groupRFIQuestions(questions);
@@ -35,10 +45,20 @@ const RFIFormQuestions = ({ questions }: RFIFormQuestionsProps) => {
             id={question.key}
             name={question.key}
             required={question.required}
-            value={formValues[question.key] ?? ""}
+            value={question.key === "primaryPhone" ? formatPhone(formValues[question.key] ?? "") : (formValues[question.key] ?? "")}
+            maxLength={question.key === "primaryPhone" ? 12 : question.maxLength}
             pattern={question.pattern ?? undefined}
-            maxLength={question.maxLength}
-            onChange={(e) => setFormValue(question.key, e.target.value)}
+            onChange={(e) =>
+              setFormValue(
+                question.key,
+                question.key === "primaryPhone" ? formatPhone(e.target.value) : e.target.value,
+              )
+            }
+            onBlur={
+              VALIDATED_ON_BLUR.includes(question.key)
+                ? () => onBlur?.(question.key)
+                : undefined
+            }
             className="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block p-3 outline-none transition-all duration-200 shadow-sm placeholder-gray-400"
           />
         );

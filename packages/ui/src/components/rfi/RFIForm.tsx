@@ -10,6 +10,8 @@ import RFIFormDisclaimers from "./RFIFormDisclaimers";
 import ThirdPartyScript from "./scripts/ThirdPartyScripts";
 import Modal from "../modal/Modal";
 
+const CHECK_ENDPOINT = "/api/email-phone/check";
+
 interface RFIFormProps {
   response: RFIResponse;
   submitUrl: string;
@@ -35,9 +37,31 @@ const RFIForm = ({
     skipCurrent,
   } = useRFIStore();
   const schoolPrograms = useRFIStore(useShallow(selectSchoolProgramsById(response.schoolId)));
-  const { formValues, setFieldErrors } = useFormStore();
+  const { formValues, fieldErrors, dirtyFields, setFieldErrors, setFieldError, clearFieldError } = useFormStore();
   const { mutate } = useRFISubmit(submitUrl);
   const [privacyOpen, setPrivacyOpen] = useState(false);
+
+  const handleBlur = async (key: string) => {
+    if (!dirtyFields[key] || !formValues[key]) return;
+    const body = key === "emailAddress"
+      ? { emailAddress: formValues[key] }
+      : { primaryPhone: formValues[key] };
+    try {
+      const res = await fetch(CHECK_ENDPOINT, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (data.fieldErrors?.[key]) {
+        setFieldError(key, data.fieldErrors[key]);
+      } else {
+        clearFieldError(key);
+      }
+    } catch {
+      // fail silently — server validation will catch it on submit
+    }
+  };
 
   return (
     <div>
@@ -51,6 +75,7 @@ const RFIForm = ({
           id="rfi-form"
           onSubmit={(e) => {
             e.preventDefault();
+            if (Object.keys(fieldErrors).length > 0) return;
             const merged = { ...formValues };
             for (const question of response.questions) {
               if ((question.type === "select" || question.type === "radio") && merged[question.key] === undefined && question.options?.[0]) {
@@ -130,7 +155,7 @@ const RFIForm = ({
                 </select>
               )}
             </div>
-            <RFIFormQuestions questions={response.questions} />
+            <RFIFormQuestions questions={response.questions} onBlur={handleBlur} />
             {(response.disclaimer || response.tcpaDisclaimer) && (
               <RFIFormDisclaimers
                 captureConsent={response.useLeadId || response.useTrustedForm}

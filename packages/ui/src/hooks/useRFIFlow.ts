@@ -26,6 +26,7 @@ export function useRFIFlow({
 
   const getRFI = (program: Program): Promise<RFIResponse> => {
     useFormStore.getState().resetTransient();
+    useFormStore.getState().seedFromParams(searchParams);
     return fetchRFI(rfiEndpoint, {
       programId: program.programId,
       marketContext: searchParams.marketContext ?? "",

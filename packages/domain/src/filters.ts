@@ -1,4 +1,5 @@
 import { FiltersResponse, PrefilterQuestion, RawFiltersResponse } from "./types";
+import { POSTAL_CODE_PATTERN } from "./constants";
 
 export const transformPrefilter = (response: RawFiltersResponse): PrefilterQuestion[] => {
   const properties = response.prefilters.schema.properties;
@@ -12,12 +13,12 @@ export const transformPrefilter = (response: RawFiltersResponse): PrefilterQuest
       type: field.type,
       required: property.required,
       maxLength: property.maxLength,
-      pattern: property.pattern ?? null,
+      pattern: key === "postalCode" ? POSTAL_CODE_PATTERN : (property.pattern ?? null),
       options: property.enum
         ? [
             { value: "", displayName: "- Select One -" },
             ...property.enum.map((value, index) => ({
-              value: key === "education" ? String(index + 1) : value,
+              value,
               displayName: field.optionLabels?.[index] ?? value,
             })),
           ]
@@ -53,7 +54,7 @@ export const transformFiltersResponse = (response: RawFiltersResponse): FiltersR
       title: "ZIP or Postal Code",
       type: "input",
       options: null,
-      pattern: "^(\\d{5}|[A-Za-z]\\d[A-Za-z] ?\\d[A-Za-z]\\d)$",
+      pattern: POSTAL_CODE_PATTERN,
     },
     setting: {
       key: "setting",

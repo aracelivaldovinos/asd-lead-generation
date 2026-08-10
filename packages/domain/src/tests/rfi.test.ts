@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { groupRFIQuestions, transformRFIResponse } from "../rfi";
 import { mockRawRFIResponse, mockRFIResponse } from "../mocks";
+import { POSTAL_CODE_PATTERN } from "../constants";
 
 const mockGroupRFIQuestions = {
   personal: [
@@ -66,7 +67,7 @@ const mockGroupRFIQuestions = {
       "key": "postalCode",
       "maxLength": 10,
       "options": null,
-      "pattern": "[0-9]{5}",
+      "pattern": POSTAL_CODE_PATTERN,
       "required": false,
       "title": "Postal Code",
       "type": "text",

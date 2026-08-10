@@ -13,6 +13,7 @@ const CSP = [
   "style-src-attr 'self' 'unsafe-inline'",
   "font-src 'self'",
   "connect-src 'self' https://api.zippopotam.us https://*.leadid.com http://*.leadid.com https://*.trustedform.com https://*.cloudfront.net https://www.google-analytics.com",
+  "worker-src blob: data:",
   "frame-src https://*.cloudfront.net http://*.cloudfront.net https://*.lidstatic.com",
   "object-src 'none'",
   "base-uri 'none'",

@@ -32,10 +32,10 @@ describe("transformPrefilter", () => {
     expect(postalCode?.options).toBeNull();
   });
 
-  it("sets pattern to null when not defined", () => {
+  it("overrides postalCode pattern with POSTAL_CODE_PATTERN", () => {
     const questions = transformPrefilter(mockRawFiltersResponse);
     const postalCode = questions.find((q) => q.key === "postalCode");
-    expect(postalCode?.pattern).toBeNull();
+    expect(postalCode?.pattern).toBe("^(\\d{5}|[A-Za-z]\\d[A-Za-z] ?\\d[A-Za-z]\\d)$");
   });
 
   it("appends subjectArea from filter as a prefilter question", () => {
