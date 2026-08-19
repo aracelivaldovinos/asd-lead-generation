@@ -3,6 +3,8 @@ const OnlineIcon = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className="w-7 h-7"
+      width="28"
+      height="28"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
