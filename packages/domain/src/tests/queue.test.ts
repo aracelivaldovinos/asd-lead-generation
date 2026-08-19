@@ -7,6 +7,7 @@ const program: Program = {
         name: "BAND1",
         programId: "1",
         displayName: "Business",
+        rawDisplayName: "Business",
         degreeName: "Bachelor",
         clickTrackingUrl: "",
         instructionMethod: "campus",

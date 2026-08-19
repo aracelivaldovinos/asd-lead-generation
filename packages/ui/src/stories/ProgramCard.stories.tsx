@@ -14,6 +14,7 @@ export const RFI: Story = {
     program: {
       programId: "1",
       displayName: "Practical Nursing",
+      rawDisplayName: "Practical Nursing",
       degreeName: "Diploma",
       instructionMethod: "Campus",
       clickTrackingUrl: "",
@@ -32,6 +33,7 @@ export const Linkout: Story = {
     program: {
       programId: "2",
       displayName: "Diagnostic Medical Sonography",
+      rawDisplayName: "Diagnostic Medical Sonography",
       degreeName: "Associate's",
       instructionMethod: "Online",
       clickTrackingUrl: "http://click.com",

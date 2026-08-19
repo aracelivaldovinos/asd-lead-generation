@@ -130,6 +130,7 @@ const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, o
                           key={program.programId}
                           program={{
                             ...program,
+                            rawDisplayName: program.rawDisplayName ?? program.displayName,
                             name: listing.name,
                             school: { id: school.id, displayName: school.displayName },
                             instructionMethod: location.instructionMethod,

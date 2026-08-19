@@ -1,5 +1,6 @@
 import { RawRFIResponse, RFIQuestion, RFIResponse } from "./types";
 import { POSTAL_CODE_PATTERN } from "./constants";
+import { cleanProgramName } from "./cleanProgramName";
 
 export const transformRFIResponse = (response: RawRFIResponse): RFIResponse => {
   const properties = response.questions.schema.properties;
@@ -26,7 +27,7 @@ export const transformRFIResponse = (response: RawRFIResponse): RFIResponse => {
   return {
     programId: "",
     disclaimer: response.disclaimer ?? "",
-    displayName: response.displayName,
+    displayName: cleanProgramName(response.displayName),
     schoolName: response.schoolName,
     schoolId: response.schoolId,
     logo: response.logo,

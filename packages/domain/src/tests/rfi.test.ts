@@ -180,6 +180,11 @@ describe("transformRFIResponse", () => {
     const response = transformRFIResponse(mockRawRFIResponse);
     expect(response).toStrictEqual(mockRFIResponse);
   });
+
+  it("applies cleanProgramName to displayName", () => {
+    const response = transformRFIResponse(mockRawRFIResponse);
+    expect(response.displayName).toBe("Management");
+  });
 });
 
 describe("groupRFIQuestions", () => {

@@ -8,6 +8,7 @@ export const mockPrograms: Program[] = [
   {
     programId: "1",
     displayName: "Management - Associate's",
+    rawDisplayName: "Management - Associate's",
     name: "BAND1",
     degreeName: "Associate's",
     programInfo: "",
@@ -17,6 +18,7 @@ export const mockPrograms: Program[] = [
   {
     programId: "2",
     displayName: "Business Administration - Bachelor's",
+    rawDisplayName: "Business Administration - Bachelor's",
     name: "BAND1",
     degreeName: "Bachelor's",
     programInfo: "",
@@ -26,6 +28,7 @@ export const mockPrograms: Program[] = [
   {
     programId: "3",
     displayName: "Accounting - Master's",
+    rawDisplayName: "Accounting - Master's",
     name: "BAND_COLLAB",
     degreeName: "Master's",
     programInfo: "",
@@ -38,6 +41,7 @@ export const mockProgramsSchool2: Program[] = [
   {
     programId: "4",
     displayName: "Healthcare Administration - Bachelor's",
+    rawDisplayName: "Healthcare Administration - Bachelor's",
     name: "BAND1",
     degreeName: "Bachelor's",
     programInfo: "",
@@ -47,6 +51,7 @@ export const mockProgramsSchool2: Program[] = [
   {
     programId: "5",
     displayName: "Psychology - Master's",
+    rawDisplayName: "Psychology - Master's",
     name: "BAND1",
     degreeName: "Master's",
     programInfo: "",
@@ -166,7 +171,7 @@ export const mockRawRFIResponse: RawRFIResponse = {
 export const mockRFIResponse: RFIResponse = {
   programId: "",
   disclaimer: "<p>Disclaimer text...</p>",
-  displayName: "AS - Management - Associate's",
+  displayName: "Management",
   schoolName: "Post University",
   schoolId: 28,
   logo: { src: "https://example.com/logo.jpg", width: 350, height: 149 },

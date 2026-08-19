@@ -38,6 +38,7 @@ export interface ImpressionData {
 
 export interface RawProgram {
   displayName: string;
+  rawDisplayName?: string;
   degreeName: string;
   clickTrackingUrl?: string;
   programId: string;
@@ -46,6 +47,7 @@ export interface RawProgram {
 }
 
 export interface Program extends RawProgram {
+  rawDisplayName: string; // required (set by transformListings)
   name: string;
   school: Omit<School, "locations" | "logo">;
   instructionMethod: string;
@@ -115,6 +117,7 @@ export interface RFIResponse {
   tcpaDisclaimer: string;
   tcpaCheckboxRequired: boolean;
   questions: RFIQuestion[];
+  defaultValues?: Record<string, string>;
 }
 
 export interface RawRFISubmitResponse {

@@ -6,6 +6,7 @@ export * from './filters';
 export * from './types';
 export * from './mocks';
 export * from './urlParams';
+export { cleanProgramName } from './cleanProgramName';
 
 const DEFAULT_CONFIG: ListingsConfig = {
   maxSchools: Infinity,
@@ -27,7 +28,7 @@ export const transformListings = (
             ...location,
             programs: location.programs.slice(0, remaining).map((program) => {
               remaining--;
-              return { ...program, displayName: cleanProgramName(program.displayName) };
+              return { ...program, rawDisplayName: program.rawDisplayName ?? program.displayName, displayName: cleanProgramName(program.displayName) };
             }),
           })).filter((l) => l.programs.length > 0),
         };
@@ -44,6 +45,7 @@ export const groupPrograms = (
       school.locations.flatMap((location) =>
         location.programs.map((program: RawProgram) => ({
           ...program,
+          rawDisplayName: program.rawDisplayName ?? program.displayName,
           name: listing.name,
           instructionMethod: location.instructionMethod,
           school: { id: school.id, displayName: school.displayName },
@@ -58,14 +60,4 @@ export const groupPrograms = (
   };
 };
 
-export const cleanProgramName = (name: string | undefined | null): string => {
-  if (!name) return "";
-
-  const parts = name.split(" - ");
-
-  const cleanedPrefix = parts[0].replace(/\./g, "");
-  const isPrefix = cleanedPrefix.length <= 6 && !cleanedPrefix.includes(" ");
-
-  const programName = isPrefix && parts[1] ? parts[1] : parts[0];
-  return programName.replace(/\s*\(.*?\)\s*$/, "").trim();
-};
+import { cleanProgramName } from './cleanProgramName';

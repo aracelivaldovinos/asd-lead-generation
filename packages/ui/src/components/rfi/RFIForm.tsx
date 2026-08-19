@@ -11,6 +11,7 @@ import ThirdPartyScript from "./scripts/ThirdPartyScripts";
 import Modal from "../modal/Modal";
 
 const CHECK_ENDPOINT = "/api/email-phone/check";
+const GEO_ENDPOINT = "/api/geo";
 
 interface RFIFormProps {
   response: RFIResponse;
@@ -37,12 +38,24 @@ const RFIForm = ({
     skipCurrent,
   } = useRFIStore();
   const schoolPrograms = useRFIStore(useShallow(selectSchoolProgramsById(response.schoolId)));
-  const { formValues, fieldErrors, dirtyFields, setFieldErrors, setFieldError, clearFieldError } = useFormStore();
+  const { formValues, fieldErrors, dirtyFields, setFormValue, setFieldErrors, setFieldError, clearFieldError } = useFormStore();
   const { mutate } = useRFISubmit(submitUrl);
   const [privacyOpen, setPrivacyOpen] = useState(false);
 
   const handleBlur = async (key: string) => {
     if (!dirtyFields[key] || !formValues[key]) return;
+
+    if (key === "postalCode") {
+      try {
+        const res = await fetch(`${GEO_ENDPOINT}?postalCode=${formValues[key]}`);
+        const { city, state } = await res.json();
+        if (city) useFormStore.getState().seedFromParams({ city, state });
+      } catch {
+        // fail silently
+      }
+      return;
+    }
+
     const body = key === "emailAddress"
       ? { emailAddress: formValues[key] }
       : { primaryPhone: formValues[key] };
@@ -76,6 +89,10 @@ const RFIForm = ({
           onSubmit={(e) => {
             e.preventDefault();
             if (Object.keys(fieldErrors).length > 0) return;
+            const formData = new FormData(e.currentTarget);
+            const universalLeadId = formData.get('universal_leadid') as string ?? '';
+            const trustedFormCertUrl = formData.get('trustedFormCertUrl') as string ?? '';
+            if (universalLeadId) setFormValue('universalLeadid', universalLeadId);
             const merged = { ...formValues };
             for (const question of response.questions) {
               if ((question.type === "select" || question.type === "radio") && merged[question.key] === undefined && question.options?.[0]) {
@@ -95,7 +112,7 @@ const RFIForm = ({
             mutate(
               {
                 programId: currentProgram?.programId ?? "",
-                values: { ...rest, ...(Object.keys(custom).length > 0 && { custom }), band: currentProgram?.name ?? "", selection: isSuggestedMode ? "suggested" : "selected" },
+                values: { ...rest, ...(Object.keys(custom).length > 0 && { custom }), ...(universalLeadId && { universalLeadid: universalLeadId }), ...(trustedFormCertUrl && { trustedFormCertUrl }), band: currentProgram?.name ?? "", selection: isSuggestedMode ? "suggested" : "selected" },
               },
               {
                 onSuccess: (data) => {
@@ -110,6 +127,9 @@ const RFIForm = ({
             );
           }}
         >
+          {response.useLeadId && (
+            <input id="leadid_token" name="universal_leadid" type="hidden" defaultValue="" />
+          )}
           <div className="p-8 md:p-10 lg:p-12">
             <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
               <div className="flex items-center justify-between gap-4 w-full">
@@ -149,7 +169,7 @@ const RFIForm = ({
                 >
                   {schoolPrograms.map((program) => (
                     <option key={program.programId} value={program.programId}>
-                      {program.displayName}
+                      {program.rawDisplayName}
                     </option>
                   ))}
                 </select>
@@ -162,6 +182,8 @@ const RFIForm = ({
                 disclaimer={response.disclaimer}
                 tcpaDisclaimer={response.tcpaDisclaimer}
                 tcpaCheckboxRequired={response.tcpaCheckboxRequired}
+                consentChecked={formValues["consent"] === "yes"}
+                onConsentChange={(checked) => setFormValue("consent", checked ? "yes" : "")}
               />
             )}
             <button
@@ -210,6 +232,7 @@ const RFIForm = ({
         <ThirdPartyScript
           useLeadId={response.useLeadId}
           useTrustedForm={response.useTrustedForm}
+          programId={response.programId}
         />
       )}
     </div>

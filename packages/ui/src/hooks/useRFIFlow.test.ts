@@ -22,6 +22,7 @@ import { fetchRFI } from "@asd/services";
 const makeProgram = (schoolId: number, programId: string) => ({
   programId,
   displayName: `Program ${programId}`,
+  rawDisplayName: `Program ${programId}`,
   degreeName: "Bachelor",
   clickTrackingUrl: "",
   programInfo: "",

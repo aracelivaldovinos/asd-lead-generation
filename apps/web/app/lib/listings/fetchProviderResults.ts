@@ -66,8 +66,6 @@ export const fetchProviderResults = async (
 
   const eddyUrl = buildURL(providers.eddy, ctx);
 
-  console.log("[listings] page load URL:", `${process.env.API_BASE_URL}/api/v3/listings?${query}`);
-
   const [webui, mm, eddy] = await Promise.all([
     fetch(`${process.env.API_BASE_URL}/api/v3/listings?${query}`, {
       headers: wuiHeaders,
