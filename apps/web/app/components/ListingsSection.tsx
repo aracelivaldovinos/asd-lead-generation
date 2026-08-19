@@ -28,7 +28,7 @@ export default async function ListingsSection({ params }: ListingsSectionProps) 
     fp,
   };
 
-  const [{ filters }, raw] = await Promise.all([
+  const [{ filters, defaultValues }, raw] = await Promise.all([
     getCachedFilters(params),
     fetchProviderResults(params, ctx),
   ]);
@@ -38,7 +38,7 @@ export default async function ListingsSection({ params }: ListingsSectionProps) 
   const search = crypto.randomUUID();
   after(() => fireImpressions(listings, ctx, search));
 
-  const initialValues = Object.fromEntries(
+  const urlValues = Object.fromEntries(
     LISTING_PARAMS
       .filter((key) => key in params)
       .map((key) => {
@@ -47,6 +47,9 @@ export default async function ListingsSection({ params }: ListingsSectionProps) 
         return [key, Array.isArray(value) ? value[0] : value];
       })
   );
+
+  // geo defaults fill in; URL params always win
+  const initialValues = { ...defaultValues, ...urlValues };
 
   return (
     <ListingsClient

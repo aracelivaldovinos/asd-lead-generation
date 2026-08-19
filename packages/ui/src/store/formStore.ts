@@ -3,6 +3,8 @@ import { create } from "zustand";
 const isTransient = (key: string) =>
   key === "consent" || key.startsWith("custom[");
 
+const GEO_KEYS = new Set(["postalCode", "city", "state"]);
+
 export interface FormStore {
   //state
   formValues: Record<string, string>;
@@ -51,14 +53,17 @@ export const useFormStore = create<FormStore>((set) => ({
   seedFromParams: (params: Record<string, string>) =>
     set((state) => {
       const seeded: Record<string, string> = {};
+      const geoOverrides: Record<string, string> = {};
       for (const [key, value] of Object.entries(params)) {
         if (!value) continue;
         const formKey = key === "phoneNumber" ? "primaryPhone" : key;
-        if (!state.savedValues[formKey]) {
+        if (GEO_KEYS.has(formKey)) {
+          geoOverrides[formKey] = value;
+        } else if (!state.savedValues[formKey]) {
           seeded[formKey] = value;
         }
       }
-      return { formValues: { ...seeded, ...state.formValues } };
+      return { formValues: { ...seeded, ...state.formValues, ...geoOverrides } };
     }),
   resetForm: () => set(() => ({ formValues: {}, savedValues: {}, fieldErrors: {}, dirtyFields: {} })),
 }));

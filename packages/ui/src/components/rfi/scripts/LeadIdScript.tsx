@@ -7,7 +7,7 @@ const CAMPAIGN_ID = "a3728d68-5fc2-462b-3e12-6aba6ec39385";
 const CAMPAIGN_ID_CC = "8728cf05-abc7-dc18-385c-990b2410be07";
 
 interface LeadIDWindow extends Window {
-  LeadiD?: { destroy: () => void };
+  LeadiD?: { destroy: () => void; reInit: () => void };
 }
 
 const buildLeadIdSrc = (cc: boolean): string => {
@@ -29,18 +29,19 @@ const buildLeadIdImg = (cc: boolean): string => {
   return img.toString();
 };
 
-const removeLeadID = (window: LeadIDWindow) => {
-  if (window?.LeadiD?.destroy) {
-    window.LeadiD.destroy();
-  }
-};
-
-const LeadIdScripts = () => {
+const LeadIdScripts = ({ programId }: { programId?: string }) => {
   const cc = isCallCenter(new URLSearchParams(window.location.search));
   const src = buildLeadIdSrc(cc);
   const img = buildLeadIdImg(cc);
 
   useEffect(() => {
+    // If LeadID is already loaded, reInit is fast and works on any network speed
+    if ((window as LeadIDWindow).LeadiD?.reInit) {
+      (window as LeadIDWindow).LeadiD!.reInit();
+      return;
+    }
+    // First load — remove any stale script then load fresh
+    document.getElementById("LeadiDscript_campaign")?.remove();
     const script = document.createElement("script");
     script.id = "LeadiDscript_campaign";
     script.type = "text/javascript";
@@ -49,9 +50,9 @@ const LeadIdScripts = () => {
     document.head.appendChild(script);
 
     return () => {
-      removeLeadID(window as LeadIDWindow);
+      script.remove();
     };
-  }, []);
+  }, [programId]);
 
   return (
     <noscript>

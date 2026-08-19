@@ -3,6 +3,8 @@ interface RFIFormDisclaimersProps {
   disclaimer: string;
   tcpaDisclaimer: string;
   tcpaCheckboxRequired: boolean;
+  consentChecked: boolean;
+  onConsentChange: (checked: boolean) => void;
 }
 
 const RFIFormDiclaimers = ({
@@ -10,6 +12,8 @@ const RFIFormDiclaimers = ({
   disclaimer,
   tcpaDisclaimer,
   tcpaCheckboxRequired,
+  consentChecked,
+  onConsentChange,
 }: RFIFormDisclaimersProps) => {
   return (
     <div className="bg-gray-50 p-5 rounded-xl border border-gray-200 flex flex-col gap-3 hover:border-gray-300 transition-colors mb-6">
@@ -27,6 +31,8 @@ const RFIFormDiclaimers = ({
                 data-tf-element-role="consent-opt-in"
                 required={tcpaCheckboxRequired}
                 autoComplete="off"
+                checked={consentChecked}
+                onChange={(e) => onConsentChange(e.target.checked)}
               />
             ) : captureConsent ? (
               <input

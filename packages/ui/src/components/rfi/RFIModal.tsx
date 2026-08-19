@@ -6,6 +6,7 @@ import RFIForm from "./RFIForm";
 interface RFIModalProps {
   isOpen: boolean;
   rfiResponse: RFIResponse | null;
+  rfiError?: string | null;
   submitUrl: string;
   onClose: () => void;
   onComplete: () => void;
@@ -16,6 +17,7 @@ interface RFIModalProps {
 const RFIModal = ({
   isOpen,
   rfiResponse,
+  rfiError,
   submitUrl,
   onClose,
   onComplete,
@@ -44,6 +46,19 @@ const RFIModal = ({
             onProgramChange={onProgramChange}
             onProgramSkip={onProgramSkip}
           />
+        ) : rfiError ? (
+          <div className="flex items-center justify-center min-h-screen p-8">
+            <div className="bg-white rounded-2xl p-10 max-w-md w-full text-center flex flex-col gap-4 shadow-2xl">
+              <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto">
+                <span className="text-red-500 text-2xl font-bold">!</span>
+              </div>
+              <p className="text-gray-900 text-xl font-bold">{rfiError}</p>
+              <p className="text-gray-500 text-sm">Please choose another program from the listings.</p>
+              <button onClick={onClose} className="mt-2 bg-primary hover:bg-primaryHover text-white font-bold py-3 px-6 rounded-xl transition-colors duration-200">
+                Close
+              </button>
+            </div>
+          </div>
         ) : (
           <div className="flex items-center justify-center h-64">
             <p className="text-gray-500 text-sm">Loading...</p>

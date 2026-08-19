@@ -14,5 +14,10 @@ export async function GET(request: NextRequest) {
   const upstreamUrl = `${process.env.API_BASE_URL}/api/v3/filters?${params}`;
   const response = await fetch(upstreamUrl, { headers: upstreamHeaders });
   const data = await response.json();
-  return Response.json(data);
+
+  const postalCode = request.headers.get("x-vercel-ip-postal-code") ?? process.env.DEV_POSTAL_CODE ?? "";
+  const city = request.headers.get("x-vercel-ip-city") ?? process.env.DEV_CITY ?? "";
+  const state = request.headers.get("x-vercel-ip-country-region") ?? process.env.DEV_STATE ?? "";
+
+  return Response.json({ ...data, defaultValues: { postalCode, city, state } });
 }

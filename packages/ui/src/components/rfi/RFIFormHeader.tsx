@@ -13,7 +13,7 @@ const RFIFormHeader = ({displayName}: RFIFormHeaderProps) => {
             {displayName}
           </div>
           <div className="text-lg md:text-xl text-gray-300 font-light max-w-2xl leading-relaxed">
-            Take the next step in your healthcare career. Request free information about our accredited sonography program today.
+            Complete this form to request information from this school and other schools about programs, tuition, financial aid and more.
           </div>
         </div>
       </div>

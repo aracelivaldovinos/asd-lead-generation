@@ -20,7 +20,7 @@ const ROW_GROUPS = [
   ["emailAddress", "primaryPhone"],
 ];
 
-const VALIDATED_ON_BLUR = ["emailAddress", "primaryPhone"];
+const BLUR_HANDLED_KEYS = ["emailAddress", "primaryPhone", "postalCode"];
 
 const formatPhone = (value: string) => {
   const digits = value.replace(/\D/g, "").slice(0, 10);
@@ -55,7 +55,7 @@ const RFIFormQuestions = ({ questions, onBlur }: RFIFormQuestionsProps) => {
               )
             }
             onBlur={
-              VALIDATED_ON_BLUR.includes(question.key)
+              BLUR_HANDLED_KEYS.includes(question.key)
                 ? () => onBlur?.(question.key)
                 : undefined
             }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Listing, Program, RFIResponse, groupPrograms } from "@asd/domain";
-import { fetchRFI } from "@asd/services";
+import { fetchRFI, RFI_UNAVAILABLE_MESSAGE } from "@asd/services";
 import { useRFIStore, MAX_RFIS } from "../store/rfiStore";
 import { useFormStore } from "../store/formStore";
 
@@ -21,6 +21,7 @@ export function useRFIFlow({
 }: UseRFIFlowOptions) {
   const [modalOpen, setModalOpen] = useState(false);
   const [rfiResponse, setRfiResponse] = useState<RFIResponse | null>(null);
+  const [rfiError, setRfiError] = useState<string | null>(null);
 
   const { queue, initQueue, initSuggestedQueue, initPrograms, addSkippedSchool } = useRFIStore();
 
@@ -37,7 +38,17 @@ export function useRFIFlow({
 
   const fetchRFIForProgram = async (program: Program, showLoading = true) => {
     if (showLoading) setRfiResponse(null);
-    setRfiResponse(await getRFI(program));
+    setRfiError(null);
+    try {
+      const response = await getRFI(program);
+      if (response.defaultValues) {
+        useFormStore.getState().seedFromParams(response.defaultValues);
+      }
+      setRfiResponse(response);
+    } catch (e) {
+      setRfiError(e instanceof Error ? e.message : RFI_UNAVAILABLE_MESSAGE);
+      fetchListings().then(onListingsUpdate);
+    }
   };
 
   const handleNextStep = () => {
@@ -55,6 +66,7 @@ export function useRFIFlow({
   const handleClose = () => {
     setModalOpen(false);
     setRfiResponse(null);
+    setRfiError(null);
   };
 
   const handleSkip = async (skippedProgram: Program | null) => {
@@ -77,12 +89,17 @@ export function useRFIFlow({
     );
 
     if (suggested.length > 0) {
-      // Fetch first, then update store — prevents currentProgram/rfiResponse mismatch
-      const rfi = await getRFI(suggested[0]);
-      if (skippedSchoolId) addSkippedSchool(skippedSchoolId);
-      initSuggestedQueue(suggested);
-      initPrograms(allRfis);
-      setRfiResponse(rfi);
+      try {
+        // Fetch first, then update store — prevents currentProgram/rfiResponse mismatch
+        const rfi = await getRFI(suggested[0]);
+        if (skippedSchoolId) addSkippedSchool(skippedSchoolId);
+        initSuggestedQueue(suggested);
+        initPrograms(allRfis);
+        setRfiResponse(rfi);
+      } catch (e) {
+        setRfiError(e instanceof Error ? e.message : RFI_UNAVAILABLE_MESSAGE);
+        fetchListings().then(onListingsUpdate);
+      }
     } else {
       setModalOpen(false);
       setRfiResponse(null);
@@ -109,11 +126,16 @@ export function useRFIFlow({
       );
 
       if (suggested.length > 0) {
-        // Fetch first, then update store — prevents currentProgram/rfiResponse mismatch
-        const rfi = await getRFI(suggested[0]);
-        initSuggestedQueue(suggested);
-        initPrograms(allRfis);
-        setRfiResponse(rfi);
+        try {
+          // Fetch first, then update store — prevents currentProgram/rfiResponse mismatch
+          const rfi = await getRFI(suggested[0]);
+          initSuggestedQueue(suggested);
+          initPrograms(allRfis);
+          setRfiResponse(rfi);
+        } catch (e) {
+          setRfiError(e instanceof Error ? e.message : RFI_UNAVAILABLE_MESSAGE);
+          fetchListings().then(onListingsUpdate);
+        }
       } else {
         setModalOpen(false);
         setRfiResponse(null);
@@ -127,6 +149,7 @@ export function useRFIFlow({
   return {
     modalOpen,
     rfiResponse,
+    rfiError,
     handleNextStep,
     handleProgramChange,
     handleClose,

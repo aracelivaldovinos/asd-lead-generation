@@ -1,6 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { cookies } from "next/headers";
 import { fetchFilters } from "@asd/services";
+import { getGeoData } from "@/app/lib/geo";
 
 const API_BASE_URL = process.env.API_BASE_URL ?? "";
 
@@ -15,14 +16,19 @@ export const getCachedFilters = async (params: Record<string, string | string[]>
   const { session, fp } = metaValue ? JSON.parse(metaValue) : { session: "", fp: "" };
   const cacheKey = [query.toString(), session].join("|");
 
-  return unstable_cache(
-    () => fetchFilters(`${API_BASE_URL}/api/v3/filters?${query}`, {
-      headers: {
-        "Cookie": `asd_s_meta=${metaValue}`,
-        "x-asd-fp": fp,
-      },
-    }),
-    ["filters", cacheKey],
-    { revalidate: false }
-  )();
+  const [upstream, geo] = await Promise.all([
+    unstable_cache(
+      () => fetchFilters(`${API_BASE_URL}/api/v3/filters?${query}`, {
+        headers: {
+          "Cookie": `asd_s_meta=${metaValue}`,
+          "x-asd-fp": fp,
+        },
+      }),
+      ["filters", cacheKey],
+      { revalidate: false }
+    )(),
+    getGeoData(),
+  ]);
+
+  return { ...upstream, defaultValues: { ...upstream.defaultValues, ...geo } };
 };

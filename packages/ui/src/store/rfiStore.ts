@@ -111,16 +111,15 @@ export const useRFIStore = create<RFIStore>()(
       if (typeof document !== "undefined") {
         document.cookie = `asd_inquiries=${encodeURIComponent(JSON.stringify(newInquiries))}; Path=/; Max-Age=1800`;
 
-        const PREPING_KEYS = ["firstName", "lastName", "emailAddress", "address", "city", "state", "education"] as const;
+        const PREPING_KEYS = ["firstName", "lastName", "emailAddress", "address", "city", "state", "postalCode", "education", "startDate", "universalLeadid"] as const;
         const prepingData: Record<string, string> = {};
         for (const key of PREPING_KEYS) {
           if (formValues[key]) prepingData[key] = formValues[key];
         }
         const phone = formValues["primaryPhone"] || formValues["phoneNumber"];
         if (phone) prepingData["phoneNumber"] = phone;
-        if (Object.keys(prepingData).length > 0) {
-          document.cookie = `asd_preping=${encodeURIComponent(JSON.stringify(prepingData))}; Path=/; Max-Age=1800`;
-        }
+        prepingData["pingEnabled"] = "true";
+        document.cookie = `asd_preping=${encodeURIComponent(JSON.stringify(prepingData))}; Path=/; Max-Age=1800`;
       }
 
       return {

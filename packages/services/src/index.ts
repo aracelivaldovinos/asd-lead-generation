@@ -1,3 +1,5 @@
+export const RFI_UNAVAILABLE_MESSAGE = "This program is no longer available.";
+
 import {
   Listing,
   RawRFIResponse,
@@ -64,9 +66,11 @@ export const fetchRFI = async (
   const queryUrl = `${baseURL}?${queryString.toString()}`;
 
   const response = await fetch(queryUrl);
-  const raw: RawRFIResponse = await response.json();
+  const raw: RawRFIResponse & { defaultValues?: Record<string, string> } = await response.json();
 
-  return { ...transformRFIResponse(raw), programId: params.programId ?? "" };
+  if (!raw?.questions) throw new Error(RFI_UNAVAILABLE_MESSAGE);
+
+  return { ...transformRFIResponse(raw), programId: params.programId ?? "", defaultValues: raw.defaultValues };
 };
 
 export const useRFI = (baseURL: string, params: RFIParams) => {
@@ -107,14 +111,16 @@ export const useRFISubmit = (baseURL: string) => {
 interface FiltersData {
   filters: FiltersResponse;
   prefilter: PrefilterQuestion[];
+  defaultValues?: Record<string, string>;
 }
 
 export const fetchFilters = async (baseURL: string, init?: RequestInit): Promise<FiltersData> => {
   const response = await fetch(baseURL, init);
-  const raw: RawFiltersResponse = await response.json();
+  const raw: RawFiltersResponse & { defaultValues?: Record<string, string> } = await response.json();
   return {
     filters: transformFiltersResponse(raw),
     prefilter: transformPrefilter(raw),
+    defaultValues: raw.defaultValues,
   };
 };
 

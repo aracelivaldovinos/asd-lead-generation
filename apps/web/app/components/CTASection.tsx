@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import { selectPrefilterQuestions } from "@asd/domain";
 import CTA from "@asd/ui/src/components/cta/CTA";
 import { getCachedFilters } from "@/app/lib/filters";
-import { getGeoData } from "@/app/lib/geo";
 
 interface CTASectionProps {
   redirectPath?: string;
@@ -15,10 +14,8 @@ export default async function CTASection({
   prefilterQuestions,
   existingParams = {},
 }: CTASectionProps) {
-  const [{ prefilter }, { postalCode }] = await Promise.all([
-    getCachedFilters(existingParams),
-    getGeoData(),
-  ]);
+  const { prefilter, defaultValues } = await getCachedFilters(existingParams);
+  const { postalCode } = defaultValues ?? {};
 
   const questions = selectPrefilterQuestions(prefilter, prefilterQuestions);
 
@@ -36,5 +33,5 @@ export default async function CTASection({
     redirect(`${redirectPath}?${params.toString()}`);
   }
 
-  return <CTA questions={questions} action={handleSearch} defaultValues={{ postalCode }} />;
+  return <CTA questions={questions} action={handleSearch} defaultValues={defaultValues} />;
 }
