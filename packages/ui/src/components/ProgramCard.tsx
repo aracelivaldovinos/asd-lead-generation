@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Program } from "@asd/domain";
+import ExpandableText from "./ExpandableText";
 
 import CheckMarkIcon from "../assets/svg/CheckMarkIcon";
 import DegreeIcon from "../assets/svg/DegreeIcon";
@@ -17,8 +17,6 @@ interface ProgramCardProps {
 
 const ProgramCard = ({ program }: ProgramCardProps) => {
   const { addToQueue, removeFromQueue, queue, isSuggestedMode } = useRFIStore();
-  const [expanded, setExpanded] = useState(false);
-
   const isSelected = !isSuggestedMode && queue.some((p) => p.programId === program.programId);
 
   const {
@@ -86,20 +84,7 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
             </div>
           </div>
         </div>
-        <div>
-          <div
-            className={`text-sm text-slate-600 ${expanded ? "" : "line-clamp-3"}`}
-            dangerouslySetInnerHTML={{ __html: programInfo }}
-          />
-          {programInfo && (
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="text-sm font-semibold text-slate-600 border-b-2 border-slate-300 hover:text-primary hover:border-primary transition-all pb-0.5 hover:cursor-pointer"
-            >
-              {expanded ? "Show less" : "Read full description"}
-            </button>
-          )}
-        </div>
+        <ExpandableText html={programInfo} />
       </div>
       <div className="p-6 pt-0">
         {clickTrackingUrl ? (

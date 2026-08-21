@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { cleanProgramName, groupPrograms, transformListings } from "..";
+import { cleanProgramName, extractThankYouLinkouts, groupPrograms, transformListings } from "..";
 
 const mockListings = [
   {
@@ -143,6 +143,110 @@ describe('groupPrograms', () => {
 
         expect(result.rfis[0].instructionMethod).toBe("classroom");
     });
+});
+
+const logo = { src: "http://logo.png", width: 100, height: 100 };
+
+describe('extractThankYouLinkouts', () => {
+  it('returns only listings marked showOnThankYou', () => {
+    const listings = [
+      {
+        name: "ZETABAND",
+        message: "",
+        showOnThankYou: true,
+        schools: [{
+          id: "zeta",
+          displayName: "Zeta School",
+          logo,
+          locations: [{ instructionMethod: "Online", programs: [{ programId: "z1", displayName: "Prog A", degreeName: "", programInfo: "info", clickTrackingUrl: "http://click.com/z1" }] }],
+        }],
+      },
+      {
+        name: "BAND1",
+        message: "",
+        showOnThankYou: false,
+        schools: [{
+          id: 1,
+          displayName: "Other School",
+          logo,
+          locations: [{ instructionMethod: "Online", programs: [{ programId: "o1", displayName: "Prog B", degreeName: "", programInfo: "info", clickTrackingUrl: "http://click.com/o1" }] }],
+        }],
+      },
+    ];
+    const result = extractThankYouLinkouts(listings);
+    expect(result).toHaveLength(1);
+    expect(result[0].programId).toBe("z1");
+  });
+
+  it('excludes programs without a clickTrackingUrl', () => {
+    const listings = [{
+      name: "ZETABAND",
+      message: "",
+      showOnThankYou: true,
+      schools: [{
+        id: "zeta",
+        displayName: "Zeta School",
+        logo,
+        locations: [{ instructionMethod: "Online", programs: [
+          { programId: "z1", displayName: "Prog A", degreeName: "", programInfo: "info", clickTrackingUrl: "http://click.com/z1" },
+          { programId: "z2", displayName: "Prog B", degreeName: "", programInfo: "info" },
+        ]}],
+      }],
+    }];
+    const result = extractThankYouLinkouts(listings);
+    expect(result).toHaveLength(1);
+    expect(result[0].programId).toBe("z1");
+  });
+
+  it('preserves school logo on each linkout', () => {
+    const listings = [{
+      name: "ZETABAND",
+      message: "",
+      showOnThankYou: true,
+      schools: [{
+        id: "zeta",
+        displayName: "Zeta School",
+        logo,
+        locations: [{ instructionMethod: "Online", programs: [{ programId: "z1", displayName: "Prog A", degreeName: "", programInfo: "info", clickTrackingUrl: "http://click.com/z1" }] }],
+      }],
+    }];
+    const result = extractThankYouLinkouts(listings);
+    expect(result[0].school.logo).toEqual(logo);
+    expect(result[0].school.displayName).toBe("Zeta School");
+  });
+
+  it('flattens programs across multiple schools and locations', () => {
+    const listings = [{
+      name: "ZETABAND",
+      message: "",
+      showOnThankYou: true,
+      schools: [
+        {
+          id: "s1",
+          displayName: "School One",
+          logo,
+          locations: [
+            { instructionMethod: "Online", programs: [{ programId: "p1", displayName: "Prog A", degreeName: "", programInfo: "", clickTrackingUrl: "http://click.com/p1" }] },
+            { instructionMethod: "Campus", programs: [{ programId: "p2", displayName: "Prog B", degreeName: "", programInfo: "", clickTrackingUrl: "http://click.com/p2" }] },
+          ],
+        },
+        {
+          id: "s2",
+          displayName: "School Two",
+          logo,
+          locations: [{ instructionMethod: "Online", programs: [{ programId: "p3", displayName: "Prog C", degreeName: "", programInfo: "", clickTrackingUrl: "http://click.com/p3" }] }],
+        },
+      ],
+    }];
+    const result = extractThankYouLinkouts(listings);
+    expect(result).toHaveLength(3);
+    expect(result.map((l) => l.programId)).toEqual(["p1", "p2", "p3"]);
+  });
+
+  it('returns empty array when no listings are marked showOnThankYou', () => {
+    const result = extractThankYouLinkouts(mockListings);
+    expect(result).toHaveLength(0);
+  });
 });
 
 describe('cleanProgramName', () => {

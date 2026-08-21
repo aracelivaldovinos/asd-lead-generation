@@ -1,5 +1,33 @@
 export const PERDOCEO_SCHOOL_IDS = [568, 592]; // AIU, CTU
 
+export const PREPPED_FOR_SUCCESS_QUESTIONS = [
+  {
+    title: "Determine costs.",
+    description:
+      "How much is tuition? How much are the course materials going to cost? What about housing?",
+  },
+  {
+    title: "Find out about funding opportunities.",
+    description:
+      "What scholarships, grants or loans are available? How many students rely on financial aid? How much of that aid comes from student loans? How many classes must I take to remain eligible for financial aid? What's the average amount of debt students have when they graduate?",
+  },
+  {
+    title: "Research admissions requirements.",
+    description:
+      "What are the prerequisites for this program? How important are prior grades? Do I have to take an entrance exam, such as the SAT, GRE or GMAT? How do you factor work and life experience into your admissions decisions?",
+  },
+  {
+    title: "Ask about scheduling options.",
+    description:
+      "Can I take classes at night or on weekends? Can I study part-time some semesters and full-time during others?",
+  },
+  {
+    title: "Look into student support services.",
+    description:
+      "Can I sit in on a class before I decide? What kind of career counseling services does your school offer?",
+  },
+];
+
 export const POSTAL_CODE_PATTERN = "^(\\d{5}|[A-Za-z]\\d[A-Za-z] ?\\d[A-Za-z]\\d)$";
 
 export const PRIVACY_POLICY = `<p>Effective Date: December 5, 2025</p>

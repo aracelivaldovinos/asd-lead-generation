@@ -11,7 +11,7 @@ vi.mock("@asd/services", () => ({
 
 vi.mock("../store/formStore", () => ({
   useFormStore: {
-    getState: () => ({ resetTransient: vi.fn() }),
+    getState: () => ({ resetTransient: vi.fn(), seedFromParams: vi.fn() }),
   },
 }));
 
@@ -202,7 +202,7 @@ describe("useRFIFlow", () => {
       expect(result.current.rfiResponse?.schoolId).toBe(2);
     });
 
-    it("closes modal when no suggested programs remain", async () => {
+    it("shows thank you when no suggested programs remain", async () => {
       vi.mocked(defaultOptions.fetchListings).mockResolvedValue([]);
       useRFIStore.setState({ queue: [], submittedSchoolIds: [1, 2], skippedSchoolIds: [] });
 
@@ -214,8 +214,7 @@ describe("useRFIFlow", () => {
         result.current.handleComplete();
       });
 
-      expect(result.current.modalOpen).toBe(false);
-      expect(result.current.rfiResponse).toBeNull();
+      expect(result.current.showThankYou).toBe(true);
     });
 
     it("store updates happen AFTER getRFI resolves in suggested transition", async () => {
@@ -299,19 +298,17 @@ describe("useRFIFlow", () => {
       expect(result.current.rfiResponse?.schoolId).toBe(2);
     });
 
-    it("closes modal when no suggested programs remain", async () => {
+    it("shows thank you when no suggested programs remain", async () => {
       useRFIStore.setState({ queue: [], submittedSchoolIds: [1, 2], skippedSchoolIds: [] });
 
       const { result } = renderHook(() => useRFIFlow(defaultOptions));
 
-      // Open first
       act(() => { result.current.handleNextStep(); });
       expect(result.current.modalOpen).toBe(true);
 
       await act(async () => { result.current.handleSkip(makeProgram(1, "p1")); });
 
-      expect(result.current.modalOpen).toBe(false);
-      expect(result.current.rfiResponse).toBeNull();
+      expect(result.current.showThankYou).toBe(true);
     });
   });
 });

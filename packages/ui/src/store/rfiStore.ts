@@ -22,6 +22,7 @@ export interface RFIStore {
   // state
   queue: Program[];
   allPrograms: Program[];
+  submittedPrograms: Program[];
   submittedSchoolIds: (number | string)[];
   skippedSchoolIds: (number | string)[];
   currentProgram: Program | null;
@@ -45,11 +46,14 @@ export const selectSchoolProgramsById = (schoolId: number) => (state: RFIStore) 
     (p) => p.school.id === schoolId && (p.name === "BAND1" || p.name === "BAND_COLLAB"),
   );
 
+export const selectSubmittedPrograms = (state: RFIStore) => state.submittedPrograms;
+
 export const useRFIStore = create<RFIStore>()(
   persist(
     (set) => ({
   queue: [],
   allPrograms: [],
+  submittedPrograms: [],
   submittedSchoolIds: [],
   skippedSchoolIds: [],
   currentProgram: null,
@@ -124,6 +128,7 @@ export const useRFIStore = create<RFIStore>()(
 
       return {
         queue: remainingQueue,
+        submittedPrograms: [...state.submittedPrograms, current],
         submittedSchoolIds: updatedSubmittedSchoolIds,
         currentProgram: remainingQueue[0] ?? null,
         inquiries: newInquiries,

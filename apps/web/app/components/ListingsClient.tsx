@@ -23,7 +23,7 @@ export default function ListingsClient({ listings: initialListings, filters, ini
   const [clientListings, setClientListings] = useState<Listing[] | null>(null);
   const listings = clientListings ?? initialListings;
 
-  const { modalOpen, rfiResponse, rfiError, handleNextStep, handleProgramChange, handleClose, handleSkip, handleComplete } = useRFIFlow({
+  const { modalOpen, showThankYou, isLoadingNext, rfiResponse, rfiError, handleNextStep, handleProgramChange, handleClose, handleSkip, handleComplete } = useRFIFlow({
     listings,
     searchParams: Object.fromEntries(searchParams.entries()),
     rfiEndpoint: "/api/rfi",
@@ -60,13 +60,18 @@ export default function ListingsClient({ listings: initialListings, filters, ini
       <QueryClientProvider client={queryClient}>
         <RFIModal
           isOpen={modalOpen}
-          rfiResponse={rfiResponse}
-          rfiError={rfiError}
-          submitUrl={`/api/rfi?${searchParams.toString()}`}
+          showThankYou={showThankYou}
+          listings={listings}
           onClose={handleClose}
-          onComplete={handleComplete}
-          onProgramChange={handleProgramChange}
-          onProgramSkip={handleSkip}
+          rfi={{
+            response: rfiResponse,
+            error: rfiError,
+            submitUrl: `/api/rfi?${searchParams.toString()}`,
+            isLoadingNext,
+            onComplete: handleComplete,
+            onProgramChange: handleProgramChange,
+            onProgramSkip: handleSkip,
+          }}
         />
       </QueryClientProvider>
     </>

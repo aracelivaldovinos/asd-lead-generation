@@ -1,4 +1,4 @@
-import { Listing, ListingsConfig, Program, RawProgram } from './types';
+import { Listing, ListingsConfig, Program, RawProgram, ThankYouLinkout } from './types';
 export * from './queue';
 export * from './constants';
 export * from './rfi';
@@ -7,6 +7,25 @@ export * from './types';
 export * from './mocks';
 export * from './urlParams';
 export { cleanProgramName } from './cleanProgramName';
+
+export const extractThankYouLinkouts = (listings: Listing[]): ThankYouLinkout[] =>
+  listings
+    .filter((l) => l.showOnThankYou)
+    .flatMap((listing) =>
+      listing.schools.flatMap((school) =>
+        school.locations.flatMap((location) =>
+          location.programs
+            .filter((p) => !!p.clickTrackingUrl)
+            .map((p) => ({
+              programId: p.programId,
+              displayName: p.displayName,
+              programInfo: p.programInfo,
+              clickTrackingUrl: p.clickTrackingUrl!,
+              school: { displayName: school.displayName, logo: school.logo },
+            }))
+        )
+      )
+    );
 
 const DEFAULT_CONFIG: ListingsConfig = {
   maxSchools: Infinity,

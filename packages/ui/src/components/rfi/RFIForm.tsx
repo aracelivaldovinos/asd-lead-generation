@@ -16,6 +16,7 @@ const GEO_ENDPOINT = "/api/geo";
 interface RFIFormProps {
   response: RFIResponse;
   submitUrl: string;
+  isLoadingNext?: boolean;
   onComplete: () => void;
   onProgramChange: (program: Program) => void;
   onProgramSkip: (program: Program | null) => void;
@@ -23,6 +24,7 @@ interface RFIFormProps {
 const RFIForm = ({
   response,
   submitUrl,
+  isLoadingNext,
   onComplete,
   onProgramChange,
   onProgramSkip,
@@ -39,7 +41,8 @@ const RFIForm = ({
   } = useRFIStore();
   const schoolPrograms = useRFIStore(useShallow(selectSchoolProgramsById(response.schoolId)));
   const { formValues, fieldErrors, dirtyFields, setFormValue, setFieldErrors, setFieldError, clearFieldError } = useFormStore();
-  const { mutate } = useRFISubmit(submitUrl);
+  const { mutate, isPending } = useRFISubmit(submitUrl);
+  const isLoading = isPending || !!isLoadingNext;
   const [privacyOpen, setPrivacyOpen] = useState(false);
 
   const handleBlur = async (key: string) => {
@@ -187,10 +190,21 @@ const RFIForm = ({
               />
             )}
             <button
-              className="w-full flex items-center justify-center gap-3 bg-primary hover:bg-primaryHover text-white text-xl font-bold py-5 px-8 rounded-xl tracking-wide shadow-[0_8px_20px_-6px_rgba(255,107,0,0.6)] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-primary/30"
+              className="w-full flex items-center justify-center gap-3 bg-primary hover:bg-primaryHover text-white text-xl font-bold py-5 px-8 rounded-xl tracking-wide shadow-[0_8px_20px_-6px_rgba(255,107,0,0.6)] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-primary/30 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               type="submit"
+              disabled={isLoading}
             >
-              Request Information
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Submitting...
+                </>
+              ) : (
+                "Request Information"
+              )}
             </button>
             {queue.length > 1 && (submittedSchoolIds.length + skippedSchoolIds.length) < MAX_RFIS - 1 && (
               <button

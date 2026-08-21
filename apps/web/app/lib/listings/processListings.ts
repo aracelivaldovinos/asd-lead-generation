@@ -8,6 +8,10 @@ import type { ProviderRawResults } from "./fetchProviderResults";
 
 const DEFAULT_GROUPS = [["linkouts", "rfi"], ["zeta", "mm", "eddy"]];
 
+const THANK_YOU_PROVIDERS = new Set(
+  (process.env.THANK_YOU_PROVIDERS ?? "zeta,mm,eddy").split(",").map((s) => s.trim()),
+);
+
 export type ProcessListingsResult = { listings: Listing[]; message?: string };
 
 export const processListings = (
@@ -34,6 +38,12 @@ export const processListings = (
     eddy: raw.eddy ? applyClickURLs(mapResponse(raw.eddy, "eddy"), clickCfg("eddy")) : [],
     zeta: applyClickURLs(mapZeta(session), clickCfg("zeta")),
   };
+
+  for (const providerId of THANK_YOU_PROVIDERS) {
+    if (providerResults[providerId]?.length) {
+      providerResults[providerId] = providerResults[providerId].map((l) => ({ ...l, showOnThankYou: true }));
+    }
+  }
 
   const { listings, groupIndex } = resolveListingGroups(providerResults, groups, { maxSchools: 20, ...truncateConfig });
   const message = listings.length === 0 ? NO_RESULTS_MESSAGE : groupIndex > 0 ? FALLBACK_MESSAGE : undefined;

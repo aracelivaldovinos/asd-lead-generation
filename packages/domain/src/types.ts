@@ -9,6 +9,7 @@ export interface Listing {
   name: string;
   message: string;
   schools: School[];
+  showOnThankYou?: boolean;
 }
 
 export interface School {
@@ -51,6 +52,17 @@ export interface Program extends RawProgram {
   name: string;
   school: Omit<School, "locations" | "logo">;
   instructionMethod: string;
+}
+
+export interface ThankYouLinkout {
+  programId: string;
+  displayName: string;
+  programInfo: string;
+  clickTrackingUrl: string;
+  school: {
+    displayName: string;
+    logo: Logo;
+  };
 }
 
 export interface RawRFISchemaProperty {
