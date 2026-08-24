@@ -4,9 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Program Widget Test</title>
+    <link rel="stylesheet" href="./templates/asd-program-theme.css" />
   </head>
   <body>
-    <div class="asd-program-widget" data-max-schools="1" data-max-programs="2"></div>
+    <div class="asd-program-widget" data-title="Featured Programs" data-max-schools="1" data-max-programs="2"></div>
+    <script>
+      window.ASD_SETTINGS = {
+        marketContext: "api",
+        utm_medium: "direct",
+        utm_source: "other",
+        utm_campaign: "",
+        utm_content: "",
+        cid: "",
+        pid: "",
+        KTID: ""
+      };
+    </script>
     <script src="./dist/widget.js"></script>
   </body>
 </html>

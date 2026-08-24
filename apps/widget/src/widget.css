@@ -36,3 +36,57 @@
 .asd-cta-btn:hover {
   background-color: var(--asd-cta-btn-hover-color) !important;
 }
+
+/* ─── Program Widget ─────────────────────────────────────────────────────── */
+
+.asd-program-title {
+  color:       var(--asd-program-title-color, #111827) !important;
+  font-size:   var(--asd-program-title-size, 1.5rem) !important;
+  font-weight: var(--asd-program-title-weight, 800) !important;
+  margin-bottom: var(--asd-program-title-mb, 1rem) !important;
+}
+
+.asd-program-card {
+  background-color: var(--asd-program-card-bg, #ffffff) !important;
+  border-radius:    var(--asd-program-card-radius, 0.75rem) !important;
+  border-color:     var(--asd-program-card-border-color, #e5e7eb) !important;
+}
+
+.asd-program-card-header {
+  background-color:   var(--asd-program-header-bg, #1b2127) !important;
+  border-bottom-color: var(--asd-program-header-accent, #ff6900) !important;
+}
+
+.asd-program-card-school {
+  color: var(--asd-program-school-color, #8a949d) !important;
+}
+
+.asd-program-card-name {
+  color: var(--asd-program-name-color, #ffffff) !important;
+}
+
+.asd-program-btn {
+  background-color: var(--asd-program-btn-bg) !important;
+  color:            var(--asd-program-btn-color) !important;
+  border-color:     var(--asd-program-btn-border) !important;
+  border-radius:    var(--asd-program-btn-radius, 6px) !important;
+}
+
+.asd-program-btn:hover {
+  background-color: var(--asd-program-btn-hover-bg) !important;
+  color:            var(--asd-program-btn-hover-color) !important;
+}
+
+.asd-program-card-badge {
+  background-color: var(--asd-program-badge-bg, #10b981) !important;
+  color:            var(--asd-program-badge-color, #ffffff) !important;
+}
+
+.asd-program-card-icon-box {
+  background-color: var(--asd-program-icon-box-bg, #ffffff) !important;
+  color:            var(--asd-program-icon-box-color, #334155) !important;
+}
+
+.asd-program-card-desc {
+  color: var(--asd-program-desc-color, #475569) !important;
+}

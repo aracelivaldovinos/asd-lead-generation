@@ -1,0 +1,46 @@
+/**
+ * ASD Program Widget Theme Template
+ * ───────────────────────────────────
+ * Copy this file, adjust the values below, and include it on your page.
+ * No other changes needed — the widget reads these automatically.
+ */
+
+.asd-program-widget {
+  /* Title */
+  --asd-program-title-color:       #111827;
+  --asd-program-title-size:        1.5rem;
+  --asd-program-title-weight:      400;
+  --asd-program-title-mb:          1rem;
+
+  /* Card */
+  --asd-program-card-bg:           #ffffff;
+  --asd-program-card-radius:       0.75rem;
+  --asd-program-card-border-color: #e5e7eb;
+
+  /* Header */
+  --asd-program-header-bg:         #1b2127;
+  --asd-program-header-accent:     #ff6900;
+
+  /* Text */
+  --asd-program-school-color:      #8a949d;
+  --asd-program-name-color:        #ffffff;
+
+  /* Button (Learn More / Request Info) */
+  --asd-program-btn-bg:            #ffffff;
+  --asd-program-btn-color:         #374151;
+  --asd-program-btn-border:        #d1d5db;
+  --asd-program-btn-hover-bg:      #ffffff;
+  --asd-program-btn-hover-color:   #111827;
+  --asd-program-btn-radius:        6px;
+
+  /* Accredited badge */
+  --asd-program-badge-bg:          #10b981;
+  --asd-program-badge-color:       #ffffff;
+
+  /* Icon boxes (degree / format) */
+  --asd-program-icon-box-bg:       #ffffff;
+  --asd-program-icon-box-color:    #334155;
+
+  /* Description text */
+  --asd-program-desc-color:        #475569;
+}

@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
   if (postalCode) params.postalCode = postalCode;
 
   for (const [key, value] of searchParams.entries()) {
-    if (key === "postalCode" || key === "degree" || key === "offerType") continue;
+    if (key === "postalCode" || key === "degree") continue;
     params[key] = value;
   }
 

@@ -22,6 +22,7 @@ export const LISTING_PARAMS = [
   "resultSize",
   "utm_medium",
   "utm_source",
+  "offerType",
 ] as const;
 
 export type ListingParam = (typeof LISTING_PARAMS)[number];

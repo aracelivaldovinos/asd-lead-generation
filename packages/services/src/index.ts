@@ -18,7 +18,7 @@ export interface ListingsParams {
   marketContext: string;
   utm_medium: string;
   utm_source: string;
-  s: string;
+  s?: string;
   [key: string]: string | undefined;
 }
 
