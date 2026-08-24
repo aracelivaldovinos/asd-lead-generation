@@ -26,7 +26,7 @@ const ExpandableText = ({ html, lines = 3 }: ExpandableTextProps) => {
       />
       {isClamped && (
         <button
-          onClick={() => setExpanded(!expanded)}
+          onClick={(e) => { e.stopPropagation(); setExpanded(!expanded); }}
           className="text-sm font-semibold text-slate-600 border-b-2 border-slate-300 hover:text-primary hover:border-primary transition-all pb-0.5 hover:cursor-pointer"
         >
           {expanded ? "Show less" : "Read full description"}

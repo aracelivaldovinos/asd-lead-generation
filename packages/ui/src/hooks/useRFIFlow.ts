@@ -27,7 +27,10 @@ export function useRFIFlow({
 
   // Unmount guard — prevents state updates after modal unmounts
   const mountedRef = useRef(true);
-  useEffect(() => () => { mountedRef.current = false; }, []);
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; };
+  }, []);
 
   // AbortController — cancels stale in-flight RFI requests
   const abortRef = useRef<AbortController | null>(null);

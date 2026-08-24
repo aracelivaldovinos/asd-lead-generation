@@ -1,7 +1,7 @@
 "use client";
 
 import { FiltersResponse, Listing, IMPORTANT_INFORMATION } from "@asd/domain";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useRFIStore } from "../../store/rfiStore";
 import Modal from "../modal/Modal";
 import ProgramCard from "../ProgramCard";
@@ -40,6 +40,8 @@ const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, o
     )
   ).length;
 
+  const heading = `Available Programs (${programCount})`;
+
   const hasRFIPrograms = listings.some((listing) =>
     listing.schools.some((school) =>
       school.locations.some((location) =>
@@ -61,7 +63,7 @@ const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, o
       </Modal>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold text-gray-900">
-          Available Programs ({programCount})
+          {heading}
         </h1>
         {/* Mobile filter button */}
         <button
@@ -116,31 +118,29 @@ const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, o
               </div>
             </div>
           )}
-          <div className="flex flex-col gap-8">
-            {listings.filter((listing) => listing.schools.length > 0).map((listing) => (
-              <div key={`${listing.name}-${listing.schools[0]?.id}`}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {listings.filter((listing) => listing.schools.length > 0).map((listing, i) => (
+              <Fragment key={`${listing.name}-${i}`}>
                 {listing.message && (
-                  <p className="text-sm font-semibold text-muted mb-4">{listing.message}</p>
+                  <p className="col-span-full text-sm font-semibold text-muted">{listing.message}</p>
                 )}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {listing.schools.map((school) =>
-                    school.locations.map((location) =>
-                      location.programs.map((program) => (
-                        <ProgramCard
-                          key={program.programId}
-                          program={{
-                            ...program,
-                            rawDisplayName: program.rawDisplayName ?? program.displayName,
-                            name: listing.name,
-                            school: { id: school.id, displayName: school.displayName },
-                            instructionMethod: location.instructionMethod,
-                          }}
-                        />
-                      ))
-                    )
-                  )}
-                </div>
-              </div>
+                {listing.schools.map((school) =>
+                  school.locations.map((location) =>
+                    location.programs.map((program) => (
+                      <ProgramCard
+                        key={program.programId}
+                        program={{
+                          ...program,
+                          rawDisplayName: program.rawDisplayName ?? program.displayName,
+                          name: listing.name,
+                          school: { id: school.id, displayName: school.displayName },
+                          instructionMethod: location.instructionMethod,
+                        }}
+                      />
+                    ))
+                  )
+                )}
+              </Fragment>
             ))}
           </div>
         </main>

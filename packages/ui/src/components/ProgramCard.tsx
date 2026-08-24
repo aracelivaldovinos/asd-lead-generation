@@ -28,10 +28,10 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
     school,
   } = program;
 
-  return (
-    <div
-      className={`bg-white rounded-xl border-2 flex flex-col gap-4 transition-all duration-200 ease-in-out cursor-pointer relative overflow-hidden hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] ${isSelected ? "border-primary shadow-[0_0_0_4px_rgba(255,107,0,0.1)]" : "border-gray-200"}`}
-    >
+  const cardClass = `bg-white rounded-xl border-2 flex flex-col gap-4 transition-all duration-200 ease-in-out cursor-pointer relative overflow-hidden hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] ${isSelected ? "border-primary shadow-[0_0_0_4px_rgba(255,107,0,0.1)]" : "border-gray-200"}`;
+
+  const cardContent = (
+    <>
       <div className="absolute top-0 right-0 bg-emerald-500 text-white py-1 px-3 text-sm font-extrabold rounded-bl-lg uppercase tracking-[0.2em] uppercase shadow-lg z-10 flex items-center gap-1.5">
         <CheckMarkIcon />
         Accredited
@@ -58,7 +58,7 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
             </div>
             <div>
               <div className="text-base font-extrabold text-slate-900 tracking-tight">
-                {degreeName}
+                {degreeName || "All Degrees"}
               </div>
               <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-0.5">
                 Degree
@@ -75,7 +75,7 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
               )}
             </div>
             <div>
-              <div className="text-base font-extrabold text-slate-900 tracking-tight">
+              <div className="text-base font-extrabold text-slate-900 tracking-tight capitalize">
                 {instructionMethod}
               </div>
               <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-0.5">
@@ -86,7 +86,7 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
         </div>
         <ExpandableText html={programInfo} />
       </div>
-      <div className="p-6 pt-0">
+      <div className="p-6 pt-0" onClick={(e) => e.stopPropagation()}>
         {clickTrackingUrl ? (
           <ProgramButton
             label="Learn More"
@@ -103,6 +103,20 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
           />
         )}
       </div>
+    </>
+  );
+
+  const handleCardClick = () => {
+    if (clickTrackingUrl) {
+      window.open(clickTrackingUrl, "_blank", "noreferrer");
+    } else {
+      isSelected ? removeFromQueue(program.programId) : addToQueue(program);
+    }
+  };
+
+  return (
+    <div className={cardClass} onClick={handleCardClick}>
+      {cardContent}
     </div>
   );
 };
