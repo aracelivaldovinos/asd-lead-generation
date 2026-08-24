@@ -1,0 +1,52 @@
+/**
+ * ASD CTA Widget Theme Template
+ * ─────────────────────────────
+ * Copy this file, adjust the values below, and include it on your page.
+ * No other changes needed — the widget reads these automatically.
+ */
+
+/* ─── Prefilter CTA ─────────────────────────────────────────────────────── */
+
+.asd-cta-prefilter {
+  --asd-cta-bg:              #1b2127;
+  --asd-cta-width:           100%;
+  --asd-cta-border:          none;
+  --asd-cta-radius:          0px;
+  --asd-cta-padding:         1rem;
+  --asd-cta-text-color:      #33da4c;
+  --asd-cta-title-color:     #a7caed;
+  --asd-cta-btn-color:       #721ed3;
+  --asd-cta-btn-hover-color: #3ac5b0;
+  --asd-cta-btn-text-color:  #eb4bdb;
+  --asd-cta-btn-padding-x:   1.5rem;
+  --asd-cta-btn-padding-y:   0.75rem;
+}
+
+/* ─── Single Dropdown CTA ───────────────────────────────────────────────── */
+
+.asd-cta-single-dropdown {
+  --asd-cta-bg:              #1b2127;
+  --asd-cta-width:           25%;
+  --asd-cta-border:          none;
+  --asd-cta-radius:          8px;
+  --asd-cta-padding:         1rem;
+  --asd-cta-text-color:      #ffffff;
+  --asd-cta-title-color:     #3376cd;
+  --asd-cta-btn-color:       #ff6900;
+  --asd-cta-btn-hover-color: #e66000;
+  --asd-cta-btn-text-color:  #ffffff;
+  --asd-cta-btn-padding-x:   1.5rem;
+  --asd-cta-btn-padding-y:   0.75rem;
+}
+
+/* ─── Button CTA ────────────────────────────────────────────────────────── */
+
+.asd-cta-button {
+  --asd-cta-width:           100%;
+  --asd-cta-radius:          8px;
+  --asd-cta-btn-color:       #2c83c6;
+  --asd-cta-btn-hover-color: #e66000;
+  --asd-cta-btn-text-color:  #2ccc99;
+  --asd-cta-btn-padding-x:   2rem;
+  --asd-cta-btn-padding-y:   1rem;
+}

@@ -7,3 +7,32 @@
   --color-dark: #1b2127;
   --color-muted: #8a949d;
 }
+
+.asd-cta-container {
+  background-color: var(--asd-cta-bg);
+  border:           var(--asd-cta-border);
+  border-radius:    var(--asd-cta-radius);
+  color:            var(--asd-cta-text-color);
+  padding:          var(--asd-cta-padding, 0) !important;
+}
+
+.asd-cta-title {
+  color: var(--asd-cta-title-color);
+}
+
+.asd-cta-btn {
+  background-color: var(--asd-cta-btn-color) !important;
+  color:            var(--asd-cta-btn-text-color) !important;
+  border-radius:    var(--asd-cta-radius);
+  width:            var(--asd-cta-width) !important;
+  padding-left:     var(--asd-cta-btn-padding-x) !important;
+  padding-right:    var(--asd-cta-btn-padding-x) !important;
+  padding-top:      var(--asd-cta-btn-padding-y) !important;
+  padding-bottom:   var(--asd-cta-btn-padding-y) !important;
+  text-align:       center;
+  justify-content:  center;
+}
+
+.asd-cta-btn:hover {
+  background-color: var(--asd-cta-btn-hover-color) !important;
+}

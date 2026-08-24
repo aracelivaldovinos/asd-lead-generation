@@ -63,10 +63,10 @@ const CTA = (props: CTAProps) => {
 
   if (props.variant === "button") {
     return (
-      <form action={props.action as any} onSubmit={handleSubmit}>
+      <form action={props.action as any} onSubmit={handleSubmit} className="asd-cta-container">
         <button
           type="submit"
-          className="inline-flex items-center justify-center bg-primary hover:bg-primaryHover text-white font-bold py-4 px-8 rounded-xl transition-colors duration-200 min-w-[360px]"
+          className="asd-cta-btn inline-flex items-center justify-center bg-primary hover:bg-primaryHover text-white font-bold py-4 px-8 rounded-xl transition-colors duration-200 min-w-[360px]"
         >
           {props.label}
         </button>
@@ -77,8 +77,8 @@ const CTA = (props: CTAProps) => {
   if (props.variant === "single-dropdown") {
     const { question } = props;
     return (
-      <form action={props.action as any} onSubmit={handleSubmit} className="flex flex-col gap-3">
-        {title && <h2 className="text-2xl font-bold text-inherit text-center">{title}</h2>}
+      <form action={props.action as any} onSubmit={handleSubmit} className="asd-cta-container flex flex-col gap-3">
+        {title && <h2 className="asd-cta-title text-2xl font-bold text-inherit text-center">{title}</h2>}
         <label className="text-md font-semibold text-inherit" htmlFor={question.key}>
           {question.title}
         </label>
@@ -88,7 +88,7 @@ const CTA = (props: CTAProps) => {
           </div>
           <button
             type="submit"
-            className="bg-primary hover:bg-primaryHover text-white font-bold py-3 px-6 rounded-xl transition-colors duration-200 min-[600px]:min-w-[200px]"
+            className="asd-cta-btn bg-primary hover:bg-primaryHover text-white font-bold py-3 px-6 rounded-xl transition-colors duration-200 min-[600px]:min-w-[200px]"
           >
             {buttonLabel}
           </button>
@@ -100,8 +100,8 @@ const CTA = (props: CTAProps) => {
   const { questions } = props;
   const defaultValues = props.defaultValues ?? {};
   return (
-    <form action={props.action as any} onSubmit={handleSubmit} className="flex flex-col gap-4 w-full p-4 lg:max-w-[300px]">
-      {title && <h2 className="text-2xl font-bold text-inherit text-center">{title}</h2>}
+    <form action={props.action as any} onSubmit={handleSubmit} className="asd-cta-container flex flex-col gap-4 w-full p-4 lg:max-w-[300px]">
+      {title && <h2 className="asd-cta-title text-2xl font-bold text-inherit text-center">{title}</h2>}
       <div className="flex flex-col md:flex-row lg:flex-col gap-4">
         {questions.map((question) => (
           <div key={question.key} className="flex flex-col gap-2 md:flex-1 lg:flex-none">
@@ -114,7 +114,7 @@ const CTA = (props: CTAProps) => {
       </div>
       <button
         type="submit"
-        className="bg-primary hover:bg-primaryHover text-white font-bold py-3 px-6 rounded-xl transition-colors duration-200"
+        className="asd-cta-btn bg-primary hover:bg-primaryHover text-white font-bold py-3 px-6 rounded-xl transition-colors duration-200"
       >
         {buttonLabel}
       </button>

@@ -8,9 +8,49 @@ interface CTAWidgetProps {
   dataset: DOMStringMap;
 }
 
+declare global {
+  interface Window {
+    ASD_SETTINGS?: {
+      marketContext?: string;
+      utm_medium?: string;
+      utm_source?: string;
+      utm_campaign?: string;
+      utm_content?: string;
+      cid?: string;
+      pid?: string;
+      KTID?: string;
+    };
+  }
+}
+
+// Read a param from the current page URL
+function getUrlParam(name: string): string {
+  return new URLSearchParams(window.location.search).get(name) ?? "";
+}
+
+// Priority: ASD_SETTINGS → URL param
+function getAttribution() {
+  const asd = window.ASD_SETTINGS ?? {};
+  const pick = (key: keyof typeof asd) =>
+    asd[key] || getUrlParam(key as string);
+
+  return {
+    marketContext: pick("marketContext"),
+    utm_medium:    pick("utm_medium"),
+    utm_source:    pick("utm_source"),
+    utm_campaign:  pick("utm_campaign"),
+    utm_content:   pick("utm_content"),
+    cid:           pick("cid"),
+    pid:           pick("pid"),
+    KTID:          pick("KTID"),
+  };
+}
+
 function CTAWidgetInner({ dataset }: CTAWidgetProps) {
   const apiUrl = dataset.apiUrl ?? import.meta.env.VITE_API_URL ?? "";
-  const { data } = useFilters(`${apiUrl}/api/filters`);
+  const attribution = getAttribution();
+
+  const { data } = useFilters(`${apiUrl}/api/filters?${new URLSearchParams(attribution)}`);
 
   if (!data) return null;
 
@@ -24,10 +64,18 @@ function CTAWidgetInner({ dataset }: CTAWidgetProps) {
     buttonLabel: dataset.buttonLabel,
   };
 
+  const defaultValues = data.defaultValues ?? {};
+  const postalCode = defaultValues.postalCode ?? "";
+
   const handleSubmit = (formData: FormData) => {
     const params = new URLSearchParams();
     formData.forEach((value, key) => {
       if (value) params.set(key, value.toString());
+    });
+    if (postalCode && !params.has("postalCode")) params.set("postalCode", postalCode);
+    // Forward attribution params
+    Object.entries(attribution).forEach(([key, value]) => {
+      if (value) params.set(key, value);
     });
     const redirectUrl = dataset.redirectUrl ?? `${apiUrl}/listings`;
     window.location.href = `${redirectUrl}?${params.toString()}`;
@@ -35,12 +83,14 @@ function CTAWidgetInner({ dataset }: CTAWidgetProps) {
 
   if (ctaType === "button") {
     return (
-      <CTA
-        variant="button"
-        label={config.buttonLabel ?? "Find Schools"}
-        action="#"
-        onClientSubmit={handleSubmit}
-      />
+      <div className="asd-cta-button">
+        <CTA
+          variant="button"
+          label={config.buttonLabel ?? "FIND SCHOOLS"}
+          action="#"
+          onClientSubmit={handleSubmit}
+        />
+      </div>
     );
   }
 
@@ -51,21 +101,33 @@ function CTAWidgetInner({ dataset }: CTAWidgetProps) {
     ]);
     if (!questions[0]) return null;
     return (
-      <CTA
-        variant="single-dropdown"
-        question={questions[0]}
-        action="#"
-        onClientSubmit={handleSubmit}
-        config={config}
-      />
+      <div className="asd-cta-single-dropdown">
+        <CTA
+          variant="single-dropdown"
+          question={questions[0]}
+          action="#"
+          onClientSubmit={handleSubmit}
+          config={config}
+        />
+      </div>
     );
   }
 
-  const keys = (dataset.questionKeys ?? "subjectArea,hsGraduation,education")
+  const keys = (dataset.questionKeys ?? "postalCode,hsGraduation,education")
     .split(",")
     .map((k) => k.trim()) as any[];
   const questions = selectPrefilterQuestions(data.prefilter, keys);
-  return <CTA questions={questions} action="#" onClientSubmit={handleSubmit} config={config} />;
+  return (
+    <div className="asd-cta-prefilter">
+      <CTA
+        questions={questions}
+        action="#"
+        onClientSubmit={handleSubmit}
+        config={config}
+        defaultValues={defaultValues}
+      />
+    </div>
+  );
 }
 
 export default function CTAWidget({ dataset }: CTAWidgetProps) {
