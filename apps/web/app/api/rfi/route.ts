@@ -26,8 +26,10 @@ export async function GET(request: NextRequest) {
   // If user supplied a postal code but not city/state, look them up from zippopotam
   const needsLookup = paramPostalCode && (!paramCity || !paramState);
 
+  const upstreamUrl = `${process.env.API_BASE_URL}/api/v3/rfi/${programId}?${params}`;
+
   const [response, zipGeo] = await Promise.all([
-    fetch(`${process.env.API_BASE_URL}/api/v3/rfi/${programId}?${params}`, {
+    fetch(upstreamUrl, {
       headers: {
         "Cookie": `asd_s_meta=${metaValue}`,
         "x-asd-fp": fp,

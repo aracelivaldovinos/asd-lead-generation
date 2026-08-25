@@ -16,7 +16,7 @@ function ProgramWidgetInner({ dataset }: Props) {
   const maxSchools = dataset.maxSchools ?? "1";
   const maxPrograms = dataset.maxPrograms ?? "1";
 
-  const listingsParams = { ...attribution, offerType: "LINKOUT", maxSchools, maxPrograms };
+  const listingsParams = { ...attribution, offerType: "LINKOUT", providers: "linkouts", maxSchools, maxPrograms };
   const { data: listings = [], isLoading } = useListings(
     `${apiUrl}/api/listings`,
     listingsParams

@@ -13,6 +13,7 @@ export type ProviderRawResults = {
 export const fetchProviderResults = async (
   params: Record<string, string | string[]>,
   ctx: RequestContext,
+  activeProviders: Set<string> | null = null,
 ): Promise<ProviderRawResults> => {
   const providers = createProviders({ webUiHost: process.env.API_BASE_URL! });
 
@@ -66,23 +67,34 @@ export const fetchProviderResults = async (
 
   const eddyUrl = buildURL(providers.eddy, ctx);
 
-  const [webui, mm, eddy] = await Promise.all([
+  const should = (id: string) => !activeProviders || activeProviders.has(id);
+
+  const externalFetchers: Record<string, () => Promise<unknown>> = {
+    mm: () =>
+      fetch(buildURL(providers.mm, ctx).toString())
+        .then((r) => r.ok ? r.json() : null)
+        .catch(() => null),
+    eddy: () =>
+      fetch(`${providers.eddy.host}${providers.eddy.path}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(eddyUrl.searchParams)),
+      })
+        .then((r) => r.ok ? r.json() : null)
+        .catch(() => null),
+  };
+
+  const [webui, ...externalResults] = await Promise.all([
     fetch(`${process.env.API_BASE_URL}/api/v3/listings?${query}`, {
       headers: wuiHeaders,
     })
       .then((r) => r.ok ? r.json() : { listings: [] })
       .catch(() => ({ listings: [] })),
-    fetch(buildURL(providers.mm, ctx).toString())
-      .then((r) => r.ok ? r.json() : null)
-      .catch(() => null),
-    fetch(`${providers.eddy.host}${providers.eddy.path}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(Object.fromEntries(eddyUrl.searchParams)),
-    })
-      .then((r) => r.ok ? r.json() : null)
-      .catch(() => null),
+    ...Object.entries(externalFetchers).map(([id, fetch]) =>
+      should(id) ? fetch() : Promise.resolve(null)
+    ),
   ]);
 
+  const [mm, eddy] = externalResults;
   return { webui, mm, eddy };
 };

@@ -3,6 +3,7 @@ import "./widget.css";
 import CTAWidget from "./CTAWidget";
 import ListingsWidget from "./ListingsWidget";
 import ProgramWidget from "./ProgramWidget";
+import RFIWidget from "./RFIWidget";
 
 document.querySelectorAll<HTMLElement>(".asd-cta-widget").forEach((el) => {
   if (el.dataset.buttonColor) {
@@ -20,4 +21,8 @@ document.querySelectorAll<HTMLElement>(".asd-listings-widget").forEach((el) => {
 
 document.querySelectorAll<HTMLElement>(".asd-program-widget").forEach((el) => {
   createRoot(el).render(<ProgramWidget dataset={el.dataset} />);
+});
+
+document.querySelectorAll<HTMLElement>(".asd-rfi-widget").forEach((el) => {
+  createRoot(el).render(<RFIWidget dataset={el.dataset} />);
 });

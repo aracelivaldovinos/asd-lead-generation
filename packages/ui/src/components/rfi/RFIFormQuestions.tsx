@@ -59,7 +59,7 @@ const RFIFormQuestions = ({ questions, onBlur }: RFIFormQuestionsProps) => {
                 ? () => onBlur?.(question.key)
                 : undefined
             }
-            className="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block p-3 outline-none transition-all duration-200 shadow-sm placeholder-gray-400"
+            className="asd-rfi-input w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block p-3 outline-none transition-all duration-200 shadow-sm placeholder-gray-400"
           />
         );
       case "select":
@@ -70,7 +70,7 @@ const RFIFormQuestions = ({ questions, onBlur }: RFIFormQuestionsProps) => {
             required={question.required}
             value={formValues[question.key] ?? ""}
             onChange={(e) => setFormValue(question.key, e.target.value)}
-            className="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block p-3 outline-none transition-all duration-200 shadow-sm cursor-pointer"
+            className="asd-rfi-input w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block p-3 outline-none transition-all duration-200 shadow-sm cursor-pointer"
           >
             {question.options?.map((option) => (
               <option key={option.value} value={option.value}>
@@ -124,7 +124,7 @@ const RFIFormQuestions = ({ questions, onBlur }: RFIFormQuestionsProps) => {
           <div key={question.key} className="flex flex-col sm:flex-row gap-4 mb-4">
             {rowQuestions.map((q) => (
               <div key={q.key} className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor={q.type !== "radio" ? q.key : undefined}>
+                <label className="asd-rfi-label block text-sm font-medium text-gray-700 mb-1.5" htmlFor={q.type !== "radio" ? q.key : undefined}>
                   {q.title}
                 </label>
                 {renderQuestionField(q)}
@@ -140,7 +140,7 @@ const RFIFormQuestions = ({ questions, onBlur }: RFIFormQuestionsProps) => {
       rendered.add(question.key);
       return (
         <div key={question.key} className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor={question.type !== "radio" ? question.key : undefined}>
+          <label className="asd-rfi-label block text-sm font-medium text-gray-700 mb-1.5" htmlFor={question.type !== "radio" ? question.key : undefined}>
             {question.title}
           </label>
           {renderQuestionField(question)}
@@ -158,7 +158,7 @@ const RFIFormQuestions = ({ questions, onBlur }: RFIFormQuestionsProps) => {
         ([group, questions]) =>
           questions.length > 0 && (
             <div key={group}>
-              <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-5 flex items-center gap-2">
+              <h3 className="asd-rfi-section-title text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-5 flex items-center gap-2">
                 {GROUP_LABELS[group]}
               </h3>
               {renderQuestions(questions)}

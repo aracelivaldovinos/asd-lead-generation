@@ -24,8 +24,8 @@ export interface ListingsParams {
 
 export interface RFIParams {
   programId: string;
-  marketContext: string;
-  s: string;
+  marketContext?: string;
+  s?: string;
   [key: string]: string | undefined;
 }
 

@@ -10,8 +10,8 @@ import RFIFormDisclaimers from "./RFIFormDisclaimers";
 import ThirdPartyScript from "./scripts/ThirdPartyScripts";
 import Modal from "../modal/Modal";
 
-const CHECK_ENDPOINT = "/api/email-phone/check";
 const GEO_ENDPOINT = "/api/geo";
+const CHECK_ENDPOINT = "/api/email-phone/check";
 
 interface RFIFormProps {
   response: RFIResponse;
@@ -50,7 +50,8 @@ const RFIForm = ({
 
     if (key === "postalCode") {
       try {
-        const res = await fetch(`${GEO_ENDPOINT}?postalCode=${formValues[key]}`);
+        const apiBase = submitUrl.split("/api/")[0];
+        const res = await fetch(`${apiBase}${GEO_ENDPOINT}?postalCode=${formValues[key]}`);
         const { city, state } = await res.json();
         if (city) useFormStore.getState().seedFromParams({ city, state });
       } catch {
@@ -63,7 +64,8 @@ const RFIForm = ({
       ? { emailAddress: formValues[key] }
       : { primaryPhone: formValues[key] };
     try {
-      const res = await fetch(CHECK_ENDPOINT, {
+      const apiBase = submitUrl.split("/api/")[0];
+      const res = await fetch(`${apiBase}${CHECK_ENDPOINT}`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(body),
@@ -87,7 +89,7 @@ const RFIForm = ({
       />
       <div className="w-full sm:max-w-5xl sm:mx-auto px-0 sm:px-6 -mt-20 relative z-10 pb-24">
         <form
-          className="bg-white rounded-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] border border-gray-100 overflow-hidden"
+          className="asd-rfi-form-card bg-white rounded-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] border border-gray-100 overflow-hidden"
           id="rfi-form"
           onSubmit={(e) => {
             e.preventDefault();
@@ -190,7 +192,7 @@ const RFIForm = ({
               />
             )}
             <button
-              className="w-full flex items-center justify-center gap-3 bg-primary hover:bg-primaryHover text-white text-xl font-bold py-5 px-8 rounded-xl tracking-wide shadow-[0_8px_20px_-6px_rgba(255,107,0,0.6)] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-primary/30 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+              className="asd-rfi-submit-btn w-full flex items-center justify-center gap-3 bg-primary hover:bg-primaryHover text-white text-xl font-bold py-5 px-8 rounded-xl tracking-wide shadow-[0_8px_20px_-6px_rgba(255,107,0,0.6)] transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-primary/30 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               type="submit"
               disabled={isLoading}
             >

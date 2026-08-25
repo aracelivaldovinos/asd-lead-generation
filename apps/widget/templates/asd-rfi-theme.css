@@ -1,0 +1,30 @@
+/**
+ * ASD RFI Widget Theme Template
+ * ──────────────────────────────
+ * Copy this file, adjust the values below, and include it on your page.
+ * No other changes needed — the widget reads these automatically.
+ */
+
+.asd-rfi-widget {
+  /* Header */
+  --asd-rfi-header-bg:              #1b2127;
+  --asd-rfi-header-title-color:     #ffffff;
+  --asd-rfi-header-subtitle-color:  #d1d5db;
+  --asd-rfi-header-accent:          #ff6900;
+
+  /* Form card */
+  --asd-rfi-form-bg:                #ffffff;
+
+  /* Form sections */
+  --asd-rfi-section-title-color:    #111827;
+  --asd-rfi-section-border-color:   #e5e7eb;
+
+  /* Labels & inputs */
+  --asd-rfi-label-color:            #374151;
+  --asd-rfi-input-border-color:     #d1d5db;
+
+  /* Submit button */
+  --asd-rfi-btn-bg:                 #ff6900;
+  --asd-rfi-btn-color:              #ffffff;
+  --asd-rfi-btn-hover-bg:           #e66000;
+}

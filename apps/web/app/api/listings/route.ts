@@ -45,12 +45,6 @@ export async function GET(request: NextRequest) {
 
   const clickConfig = buildClickConfig(params);
 
-  // offerType drives which provider groups to use
-  const offerTypes = searchParams.getAll("offerType");
-  const groups = offerTypes.length
-    ? [offerTypes.map((t) => OFFER_TYPE_MAP[t] ?? t.toLowerCase())]
-    : undefined;
-
   const maxSchools = searchParams.get("maxSchools");
   const maxPrograms = searchParams.get("maxPrograms");
   const truncateConfig = {
@@ -58,7 +52,19 @@ export async function GET(request: NextRequest) {
     ...(maxPrograms ? { maxPrograms: parseInt(maxPrograms) } : {}),
   };
 
-  const raw = await fetchProviderResults(params, ctx);
+  // offerType drives which provider groups to use
+  const offerTypes = searchParams.getAll("offerType");
+  const groups = offerTypes.length
+    ? [offerTypes.map((t) => OFFER_TYPE_MAP[t] ?? t.toLowerCase())]
+    : undefined;
+
+  // providers limits which external APIs are called (skips mm/eddy when not needed)
+  const providersParam = searchParams.get("providers");
+  const activeProviders = providersParam
+    ? new Set(providersParam.split(",").map((s) => s.trim()))
+    : null;
+
+  const raw = await fetchProviderResults(params, ctx, activeProviders);
   const { listings, message } = processListings(raw, session, clickConfig, groups, truncateConfig);
 
   const search = crypto.randomUUID();

@@ -90,3 +90,47 @@
 .asd-program-card-desc {
   color: var(--asd-program-desc-color, #475569) !important;
 }
+
+/* ─── RFI Widget ─────────────────────────────────────────────────────────── */
+
+.asd-rfi-header {
+  background-color: var(--asd-rfi-header-bg, #1b2127) !important;
+}
+
+.asd-rfi-header-title {
+  color: var(--asd-rfi-header-title-color, #ffffff) !important;
+}
+
+.asd-rfi-header-subtitle {
+  color: var(--asd-rfi-header-subtitle-color, #d1d5db) !important;
+}
+
+.asd-rfi-header-accent {
+  background-color: var(--asd-rfi-header-accent, #ff6900) !important;
+}
+
+.asd-rfi-form-card {
+  background-color: var(--asd-rfi-form-bg, #ffffff) !important;
+}
+
+.asd-rfi-section-title {
+  color:        var(--asd-rfi-section-title-color, #111827) !important;
+  border-color: var(--asd-rfi-section-border-color, #e5e7eb) !important;
+}
+
+.asd-rfi-label {
+  color: var(--asd-rfi-label-color, #374151) !important;
+}
+
+.asd-rfi-input {
+  border-color: var(--asd-rfi-input-border-color, #d1d5db) !important;
+}
+
+.asd-rfi-submit-btn {
+  background-color: var(--asd-rfi-btn-bg, #ff6900) !important;
+  color:            var(--asd-rfi-btn-color, #ffffff) !important;
+}
+
+.asd-rfi-submit-btn:hover:not(:disabled) {
+  background-color: var(--asd-rfi-btn-hover-bg, #e66000) !important;
+}
