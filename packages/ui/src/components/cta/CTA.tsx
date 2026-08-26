@@ -50,6 +50,8 @@ const renderField = (question: PrefilterQuestion, defaultValue?: string) => {
   );
 };
 
+const btnClass = "asd-cta-btn inline-flex items-center justify-center bg-primary hover:bg-primaryHover active:scale-95 text-white font-bold rounded-xl transition-all duration-200";
+
 const CTA = (props: CTAProps) => {
   const title = props.variant !== "button" ? (props.config?.title ?? "Search for programs near you") : null;
   const buttonLabel = props.variant === "button" ? props.label : (props.config?.buttonLabel ?? "FIND SCHOOLS");
@@ -64,10 +66,7 @@ const CTA = (props: CTAProps) => {
   if (props.variant === "button") {
     return (
       <form action={props.action as any} onSubmit={handleSubmit} className="asd-cta-container">
-        <button
-          type="submit"
-          className="asd-cta-btn inline-flex items-center justify-center bg-primary hover:bg-primaryHover text-white font-bold py-4 px-8 rounded-xl transition-colors duration-200 min-w-[360px]"
-        >
+        <button type="submit" className={`${btnClass} py-4 px-8 min-w-[360px]`}>
           {props.label}
         </button>
       </form>
@@ -86,10 +85,7 @@ const CTA = (props: CTAProps) => {
           <div className="min-[600px]:flex-1">
             {renderField(question)}
           </div>
-          <button
-            type="submit"
-            className="asd-cta-btn bg-primary hover:bg-primaryHover text-white font-bold py-3 px-6 rounded-xl transition-colors duration-200 min-[600px]:min-w-[200px]"
-          >
+          <button type="submit" className={`${btnClass} py-3 px-6 min-[600px]:min-w-[200px]`}>
             {buttonLabel}
           </button>
         </div>
@@ -112,10 +108,7 @@ const CTA = (props: CTAProps) => {
           </div>
         ))}
       </div>
-      <button
-        type="submit"
-        className="asd-cta-btn bg-primary hover:bg-primaryHover text-white font-bold py-3 px-6 rounded-xl transition-colors duration-200"
-      >
+      <button type="submit" className={`${btnClass} py-3 px-6`}>
         {buttonLabel}
       </button>
     </form>

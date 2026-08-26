@@ -13,9 +13,11 @@
   --asd-program-title-mb:          1rem;
 
   /* Card */
-  --asd-program-card-bg:           #ffffff;
-  --asd-program-card-radius:       0.75rem;
-  --asd-program-card-border-color: #e5e7eb;
+  --asd-program-card-bg:              #ffffff;
+  --asd-program-card-radius:          0.75rem;
+  --asd-program-card-border-color:    #e5e7eb;
+  --asd-program-card-selected-border: #ff6900;
+  --asd-program-card-selected-glow:   rgba(255, 107, 0, 0.1);
 
   /* Header */
   --asd-program-header-bg:         #1b2127;
@@ -25,17 +27,25 @@
   --asd-program-school-color:      #8a949d;
   --asd-program-name-color:        #ffffff;
 
-  /* Button (Learn More / Request Info) */
-  --asd-program-btn-bg:            #ffffff;
-  --asd-program-btn-color:         #374151;
-  --asd-program-btn-border:        #d1d5db;
-  --asd-program-btn-hover-bg:      #ffffff;
-  --asd-program-btn-hover-color:   #111827;
-  --asd-program-btn-radius:        6px;
+  /* Button shared */
+  --asd-program-btn-radius:               6px;
+  /* Outline button (Learn More / linkout) */
+  --asd-program-btn-outline-bg:           #ffffff;
+  --asd-program-btn-outline-color:        #374151;
+  --asd-program-btn-outline-border:       #d1d5db;
+  --asd-program-btn-outline-hover-bg:     #ffffff;
+  --asd-program-btn-outline-hover-color:  #111827;
+  /* Primary button (Request Info / RFI) */
+  --asd-program-btn-primary-bg:           #ff6900;
+  --asd-program-btn-primary-color:        #ffffff;
+  --asd-program-btn-primary-hover-bg:     #e66000;
 
   /* Accredited badge */
-  --asd-program-badge-bg:          #10b981;
-  --asd-program-badge-color:       #ffffff;
+  --asd-program-badge-bg:              #10b981;
+  --asd-program-badge-color:           #ffffff;
+  /* Selected badge */
+  --asd-program-selected-badge-bg:     #ff6900;
+  --asd-program-selected-badge-color:  #ffffff;
 
   /* Icon boxes (degree / format) */
   --asd-program-icon-box-bg:       #ffffff;

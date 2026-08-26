@@ -71,7 +71,7 @@ const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, o
         <div dangerouslySetInnerHTML={{ __html: IMPORTANT_INFORMATION }} />
       </Modal>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className="asd-listings-heading text-3xl font-bold text-gray-900">
           {heading}
         </h1>
         {/* Mobile filter button */}
@@ -114,13 +114,13 @@ const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, o
           )}
           {hasRFIPrograms && (
             <div className="fixed bottom-6 left-1/2 lg:left-[calc(50%+8rem)] -translate-x-1/2 z-20">
-              <div className="inline-flex items-center gap-4 md:gap-8 bg-dark border-2 border-primary rounded-full px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
+              <div className="asd-listings-cta-bar inline-flex items-center gap-4 md:gap-8 bg-dark border-2 border-primary rounded-full px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                 <span className="font-semibold text-white">
-                  <span className="text-primary font-extrabold">{visibleQueueCount}</span>&nbsp;&nbsp;Program{visibleQueueCount > 1 ? "s" : ""} selected for submission
+                  <span className="asd-listings-cta-count text-primary font-extrabold">{visibleQueueCount}</span>&nbsp;&nbsp;Program{visibleQueueCount > 1 ? "s" : ""} selected for submission
                 </span>
                 <button
                   onClick={onNextStep}
-                  className="bg-primary hover:bg-primaryHover text-white font-bold py-2 px-6 rounded-lg transition-colors duration-200"
+                  className="asd-listings-cta-btn bg-primary hover:bg-primaryHover text-white font-bold py-2 px-6 rounded-lg transition-colors duration-200"
                 >
                   Next Step →
                 </button>

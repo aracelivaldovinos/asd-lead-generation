@@ -28,7 +28,7 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
     school,
   } = program;
 
-  const cardClass = `asd-program-card bg-white rounded-xl border-2 flex flex-col gap-4 transition-all duration-200 ease-in-out cursor-pointer relative overflow-hidden hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] ${isSelected ? "border-primary shadow-[0_0_0_4px_rgba(255,107,0,0.1)]" : "border-gray-200"}`;
+  const cardClass = `asd-program-card bg-white rounded-xl border-2 flex flex-col gap-4 transition-all duration-200 ease-in-out cursor-pointer relative overflow-hidden hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] ${isSelected ? "asd-program-card--selected border-primary shadow-[0_0_0_4px_rgba(255,107,0,0.1)]" : "border-gray-200"}`;
 
   const cardContent = (
     <>
@@ -37,7 +37,7 @@ const ProgramCard = ({ program }: ProgramCardProps) => {
         Accredited
       </div>
       {isSelected && (
-        <div className="absolute top-0 left-0 bg-primary text-white py-1 px-3 text-sm font-extrabold rounded-br-lg uppercase tracking-[0.2em] shadow-lg z-10 flex items-center gap-1.5">
+        <div className="asd-program-card-selected-badge absolute top-0 left-0 bg-primary text-white py-1 px-3 text-sm font-extrabold rounded-br-lg uppercase tracking-[0.2em] shadow-lg z-10 flex items-center gap-1.5">
           <CheckMarkIcon />
           Selected
         </div>

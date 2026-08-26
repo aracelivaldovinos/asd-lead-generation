@@ -1,0 +1,72 @@
+/**
+ * ASD Listings Widget Theme Template
+ * ────────────────────────────────────
+ * Copy this file, adjust the values below, and include it on your page.
+ * No other changes needed — the widget reads these automatically.
+ */
+
+.asd-listings-widget {
+  /* Page heading */
+  --asd-listings-heading-color:       #111827;
+
+  /* Bottom "Next Step" CTA bar */
+  --asd-listings-cta-bar-bg:          #1b2127;
+  --asd-listings-cta-bar-border:      #ff6900;
+  --asd-listings-cta-bar-text:        #ffffff;
+  --asd-listings-cta-count-color:     #ff6900;
+  --asd-listings-cta-btn-bg:          #ff6900;
+  --asd-listings-cta-btn-color:       #ffffff;
+  --asd-listings-cta-btn-hover-bg:    #e66000;
+
+  /* Filters panel */
+  --asd-filters-bg:                   transparent;
+  --asd-filters-label-color:          #111827;
+  --asd-filters-btn-bg:               #ff6900;
+  --asd-filters-btn-color:            #ffffff;
+  --asd-filters-btn-hover-bg:         #e66000;
+
+  /* Program cards */
+  --asd-program-card-bg:              #ffffff;
+  --asd-program-card-radius:          0.75rem;
+  --asd-program-card-border-color:    #e5e7eb;
+  --asd-program-card-selected-border: #969b36;
+  --asd-program-card-selected-glow:   rgba(73, 97, 80, 0.1);
+  --asd-program-header-bg:            #2c3444;
+  --asd-program-header-accent:        #969b36;
+  --asd-program-school-color:         #8a949d;
+  --asd-program-name-color:           #ffffff;
+  --asd-program-btn-radius:               6px;
+  /* Outline button (Learn More / linkout) */
+  --asd-program-btn-outline-bg:           #ffffff;
+  --asd-program-btn-outline-color:        #374151;
+  --asd-program-btn-outline-border:       #d1d5db;
+  --asd-program-btn-outline-hover-bg:     #ffffff;
+  --asd-program-btn-outline-hover-color:  #111827;
+  /* Primary button (Request Info / RFI) */
+  --asd-program-btn-primary-bg:           #ff6900;
+  --asd-program-btn-primary-color:        #ffffff;
+  --asd-program-btn-primary-hover-bg:     #e66000;
+  --asd-program-badge-bg:              #2350d8;
+  --asd-program-badge-color:           #ffffff;
+  --asd-program-selected-badge-bg:     #969b36;
+  --asd-program-selected-badge-color:  #ffffff;
+  --asd-program-desc-color:           #475569;
+
+  /* RFI modal — header */
+  --asd-rfi-header-bg:                #1b2127;
+  --asd-rfi-header-title-color:       #ffffff;
+  --asd-rfi-header-subtitle-color:    #d1d5db;
+  --asd-rfi-header-accent:            #ff6900;
+
+  /* RFI modal — form */
+  --asd-rfi-form-bg:                  #ffffff;
+  --asd-rfi-section-title-color:      #111827;
+  --asd-rfi-section-border-color:     #e5e7eb;
+  --asd-rfi-label-color:              #374151;
+  --asd-rfi-input-border-color:       #d1d5db;
+
+  /* RFI modal — submit button */
+  --asd-rfi-btn-bg:                   #ff6900;
+  --asd-rfi-btn-color:                #ffffff;
+  --asd-rfi-btn-hover-bg:             #e66000;
+}

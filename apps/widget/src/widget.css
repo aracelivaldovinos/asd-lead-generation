@@ -37,6 +37,48 @@
   background-color: var(--asd-cta-btn-hover-color) !important;
 }
 
+/* ─── Listings Widget ───────────────────────────────────────────────────── */
+
+.asd-listings-heading {
+  color: var(--asd-listings-heading-color, #111827) !important;
+}
+
+.asd-listings-cta-bar {
+  background-color: var(--asd-listings-cta-bar-bg, #1b2127) !important;
+  border-color:     var(--asd-listings-cta-bar-border, #ff6900) !important;
+  color:            var(--asd-listings-cta-bar-text, #ffffff) !important;
+}
+
+.asd-listings-cta-count {
+  color: var(--asd-listings-cta-count-color, #ff6900) !important;
+}
+
+.asd-listings-cta-btn {
+  background-color: var(--asd-listings-cta-btn-bg, #ff6900) !important;
+  color:            var(--asd-listings-cta-btn-color, #ffffff) !important;
+}
+
+.asd-listings-cta-btn:hover {
+  background-color: var(--asd-listings-cta-btn-hover-bg, #e66000) !important;
+}
+
+.asd-filters-panel {
+  background-color: var(--asd-filters-bg, transparent) !important;
+}
+
+.asd-filters-label {
+  color: var(--asd-filters-label-color, #111827) !important;
+}
+
+.asd-filters-btn {
+  background-color: var(--asd-filters-btn-bg, #ff6900) !important;
+  color:            var(--asd-filters-btn-color, #ffffff) !important;
+}
+
+.asd-filters-btn:hover {
+  background-color: var(--asd-filters-btn-hover-bg, #e66000) !important;
+}
+
 /* ─── Program Widget ─────────────────────────────────────────────────────── */
 
 .asd-program-title {
@@ -50,6 +92,11 @@
   background-color: var(--asd-program-card-bg, #ffffff) !important;
   border-radius:    var(--asd-program-card-radius, 0.75rem) !important;
   border-color:     var(--asd-program-card-border-color, #e5e7eb) !important;
+}
+
+.asd-program-card--selected {
+  border-color: var(--asd-program-card-selected-border, #ff6900) !important;
+  box-shadow:   0 0 0 4px var(--asd-program-card-selected-glow, rgba(255, 107, 0, 0.1)) !important;
 }
 
 .asd-program-card-header {
@@ -66,20 +113,37 @@
 }
 
 .asd-program-btn {
-  background-color: var(--asd-program-btn-bg) !important;
-  color:            var(--asd-program-btn-color) !important;
-  border-color:     var(--asd-program-btn-border) !important;
-  border-radius:    var(--asd-program-btn-radius, 6px) !important;
+  border-radius: var(--asd-program-btn-radius, 6px) !important;
 }
 
-.asd-program-btn:hover {
-  background-color: var(--asd-program-btn-hover-bg) !important;
-  color:            var(--asd-program-btn-hover-color) !important;
+.asd-program-btn--outline {
+  background-color: var(--asd-program-btn-outline-bg) !important;
+  color:            var(--asd-program-btn-outline-color) !important;
+  border-color:     var(--asd-program-btn-outline-border) !important;
+}
+
+.asd-program-btn--outline:hover {
+  background-color: var(--asd-program-btn-outline-hover-bg) !important;
+  color:            var(--asd-program-btn-outline-hover-color) !important;
+}
+
+.asd-program-btn--primary {
+  background-color: var(--asd-program-btn-primary-bg) !important;
+  color:            var(--asd-program-btn-primary-color) !important;
+}
+
+.asd-program-btn--primary:hover {
+  background-color: var(--asd-program-btn-primary-hover-bg) !important;
 }
 
 .asd-program-card-badge {
   background-color: var(--asd-program-badge-bg, #10b981) !important;
   color:            var(--asd-program-badge-color, #ffffff) !important;
+}
+
+.asd-program-card-selected-badge {
+  background-color: var(--asd-program-selected-badge-bg, #ff6900) !important;
+  color:            var(--asd-program-selected-badge-color, #ffffff) !important;
 }
 
 .asd-program-card-icon-box {

@@ -123,7 +123,7 @@ const FiltersPanel = ({ filters, values: initialValues, onApply, onClose }: Filt
 
   return (
     <form
-      className="flex flex-col gap-2"
+      className="asd-filters-panel flex flex-col gap-2"
       onSubmit={(e) => { e.preventDefault(); onApply(values); onClose?.(); }}
     >
       {onClose && (
@@ -142,7 +142,7 @@ const FiltersPanel = ({ filters, values: initialValues, onApply, onClose }: Filt
           : filter;
         return (
           <div key={resolvedFilter.key} className={`pb-4 ${isDisabled ? "opacity-50" : ""}`}>
-            <label className={`block text-sm font-semibold text-gray-900 pb-2 mb-3 ${resolvedFilter.key !== "postalCode" ? "border-t border-gray-200 pt-3" : ""}`} htmlFor={resolvedFilter.key}>
+            <label className={`asd-filters-label block text-sm font-semibold text-gray-900 pb-2 mb-3 ${resolvedFilter.key !== "postalCode" ? "border-t border-gray-200 pt-3" : ""}`} htmlFor={resolvedFilter.key}>
               {resolvedFilter.title}
             </label>
             {isDisabled ? (
@@ -161,7 +161,7 @@ const FiltersPanel = ({ filters, values: initialValues, onApply, onClose }: Filt
       })}
       <button
         type="submit"
-        className="w-full bg-primary hover:bg-primaryHover text-white font-bold py-3 px-6 rounded-xl transition-colors duration-200"
+        className="asd-filters-btn w-full bg-primary hover:bg-primaryHover active:scale-95 text-white font-bold py-3 px-6 rounded-xl transition-all duration-200"
       >
         Apply Filters
       </button>
