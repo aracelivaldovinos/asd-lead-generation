@@ -39,6 +39,7 @@ export interface RFIStore {
   submitCurrent: () => void;
   removeFromQueue: (programId: string) => void;
   syncQueue: (validSchoolIds: Set<number | string>) => void;
+  clearQueue: () => void;
 }
 
 export const selectSchoolProgramsById = (schoolId: number) => (state: RFIStore) =>
@@ -150,6 +151,13 @@ export const useRFIStore = create<RFIStore>()(
         currentProgram: currentStillValid ? state.currentProgram : filteredQueue[0] ?? null,
       };
     }),
+  clearQueue: () =>
+    set(() => ({
+      queue: [],
+      currentProgram: null,
+      isSuggestedMode: false,
+      skippedSchoolIds: [],
+    })),
     }),
     {
       name: getSessionKey(),

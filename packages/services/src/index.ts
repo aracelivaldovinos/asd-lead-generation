@@ -2,6 +2,9 @@ export const RFI_UNAVAILABLE_MESSAGE = "This program is no longer available.";
 
 import {
   Listing,
+  DEFAULT_GROUPS,
+  NO_RESULTS_MESSAGE,
+  FALLBACK_MESSAGE,
   RawRFIResponse,
   RawRFISubmitResponse,
   RawFiltersResponse,
@@ -12,7 +15,9 @@ import {
   FiltersResponse,
   PrefilterQuestion,
 } from "@asd/domain";
-import { useMutation, useQuery } from "@tanstack/react-query";
+
+export { DEFAULT_GROUPS } from "@asd/domain";
+import { useMutation, useQuery, useQueries } from "@tanstack/react-query";
 
 export interface ListingsParams {
   marketContext: string;
@@ -29,28 +34,61 @@ export interface RFIParams {
   [key: string]: string | undefined;
 }
 
-const fetchListings = async (
+export const fetchListings = async (
   baseURL: string,
   params: ListingsParams,
-): Promise<Listing[]> => {
+): Promise<{ listings: Listing[]; message?: string }> => {
   const queryString = new URLSearchParams(
-    Object.entries(params).filter(([_, v]) => v !== undefined && v !== "") as [
-      string,
-      string,
-    ][],
+    Object.entries(params).filter(([_, v]) => v !== undefined && v !== "") as [string, string][],
   );
-  const queryUrl = `${baseURL}?${queryString.toString()}`;
-
-  const response = await fetch(queryUrl);
+  const response = await fetch(`${baseURL}?${queryString.toString()}`);
   const data = await response.json();
-  return data.listings ?? data;
+  return { listings: data.listings ?? [], message: data.message };
 };
 
 export const useListings = (baseURL: string, params: ListingsParams) => {
   return useQuery({
     queryKey: ["listings", params],
-    queryFn: () => fetchListings(baseURL, params),
+    queryFn: async () => {
+      const { listings } = await fetchListings(baseURL, params);
+      return listings;
+    },
   });
+};
+
+export const useGroupedListings = (
+  baseURL: string,
+  params: ListingsParams,
+  groups: string[][] = DEFAULT_GROUPS,
+  initialData?: Listing[],
+) => {
+  const results = useQueries({
+    queries: groups.map((group, i) => ({
+      queryKey: ["listings", group, params],
+      queryFn: () => fetchListings(baseURL, { ...params, groups: group.join(",") }),
+      staleTime: Infinity,
+      ...(i === 0 && initialData !== undefined && { initialData: { listings: initialData } }),
+    })),
+  });
+
+  const activeIndex = results.findIndex((r) => r.isSuccess && (r.data?.listings?.length ?? 0) > 0);
+  const listings: Listing[] = activeIndex >= 0 ? (results[activeIndex].data?.listings ?? []) : [];
+  const allListings: Listing[] = results.flatMap((r) => r.isSuccess ? (r.data?.listings ?? []) : []);
+  const isLoading = results.some((r) => r.isPending);
+
+  const message = listings.length === 0 && !isLoading
+    ? NO_RESULTS_MESSAGE
+    : activeIndex > 0
+    ? FALLBACK_MESSAGE
+    : undefined;
+
+  const refetchAll = async (): Promise<Listing[]> => {
+    const refetched = await Promise.all(results.map((r) => r.refetch()));
+    const activeResult = refetched.find((r) => (r.data?.listings?.length ?? 0) > 0);
+    return activeResult?.data?.listings ?? [];
+  };
+
+  return { listings, allListings, refetchAll, isLoading, message };
 };
 
 export const fetchRFI = async (

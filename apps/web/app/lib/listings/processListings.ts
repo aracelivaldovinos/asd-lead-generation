@@ -1,4 +1,4 @@
-import { Listing } from "@asd/domain";
+import { Listing, DEFAULT_GROUPS } from "@asd/domain";
 import { mapResponse, mapZeta } from "./mapResponse";
 import { applyClickURLs, type ClickConfig } from "./clickURL";
 import { splitWebUIListings, resolveListingGroups } from "./filter";
@@ -6,7 +6,6 @@ import { PROVIDER_CLICK_ENVS } from "./providers";
 import { NO_RESULTS_MESSAGE, FALLBACK_MESSAGE } from "./messages";
 import type { ProviderRawResults } from "./fetchProviderResults";
 
-const DEFAULT_GROUPS = [["linkouts", "rfi"], ["zeta", "mm", "eddy"]];
 
 const THANK_YOU_PROVIDERS = new Set(
   (process.env.THANK_YOU_PROVIDERS ?? "zeta,mm,eddy").split(",").map((s) => s.trim()),

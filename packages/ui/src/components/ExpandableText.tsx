@@ -21,7 +21,8 @@ const ExpandableText = ({ html, lines = 3 }: ExpandableTextProps) => {
     <div>
       <div
         ref={ref}
-        className={`asd-program-card-desc text-sm text-slate-600 ${expanded ? "" : `line-clamp-${lines}`}`}
+        className="asd-program-card-desc text-sm text-slate-600"
+        style={expanded ? undefined : { display: "-webkit-box", WebkitLineClamp: lines, WebkitBoxOrient: "vertical", overflow: "hidden" }}
         dangerouslySetInnerHTML={{ __html: html }}
       />
       {isClamped && (

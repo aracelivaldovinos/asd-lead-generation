@@ -58,7 +58,7 @@ export const useFormStore = create<FormStore>((set) => ({
         if (!value) continue;
         const formKey = key === "phoneNumber" ? "primaryPhone" : key;
         if (GEO_KEYS.has(formKey)) {
-          geoOverrides[formKey] = value;
+          if (!state.savedValues[formKey]) geoOverrides[formKey] = value;
         } else if (!state.savedValues[formKey]) {
           seeded[formKey] = value;
         }

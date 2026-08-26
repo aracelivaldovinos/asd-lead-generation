@@ -159,6 +159,7 @@ export const createProviders = (config: ProvidersConfig): Record<string, Provide
     host: config.webUiHost,
     path: "/api/v3/listings",
     method: "GET",
+    providerType: "webui",
     params: wuiParams("RFI"),
   },
   linkouts: {
@@ -167,6 +168,7 @@ export const createProviders = (config: ProvidersConfig): Record<string, Provide
     host: config.webUiHost,
     path: "/api/v3/listings",
     method: "GET",
+    providerType: "webui",
     params: wuiParams("LINKOUT"),
   },
   mm: {
@@ -175,6 +177,7 @@ export const createProviders = (config: ProvidersConfig): Record<string, Provide
     host: "https://api.media-matchers.com",
     path: "/search",
     method: "GET",
+    providerType: "external",
     params: mmParams,
   },
   eddy: {
@@ -183,6 +186,7 @@ export const createProviders = (config: ProvidersConfig): Record<string, Provide
     host: "https://ags.educationdynamics.com",
     path: "/api/listing",
     method: "POST",
+    providerType: "external",
     params: eddyParams,
   },
   zeta: {
@@ -191,6 +195,13 @@ export const createProviders = (config: ProvidersConfig): Record<string, Provide
     host: "",
     path: "",
     method: "STATIC",
+    providerType: "static",
     params: [],
   },
 });
+
+export const EXTERNAL_PROVIDERS = new Set(
+  Object.values(createProviders({ webUiHost: "" }))
+    .filter((p) => p.providerType === "external")
+    .map((p) => p.id),
+);

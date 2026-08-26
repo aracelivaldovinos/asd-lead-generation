@@ -3,6 +3,7 @@ import { fetchProviderResults } from "@/app/lib/listings/fetchProviderResults";
 import { processListings } from "@/app/lib/listings/processListings";
 import { parseMetaCookie, buildClickConfig } from "@/app/lib/listings/context";
 import { fireImpressions } from "@/app/lib/listings/fireImpressions";
+import { EXTERNAL_PROVIDERS } from "@/app/lib/listings/providers";
 import type { RequestContext } from "@/app/lib/listings/types";
 
 const OFFER_TYPE_MAP: Record<string, string> = { LINKOUT: "linkouts", RFI: "rfi" };
@@ -52,17 +53,28 @@ export async function GET(request: NextRequest) {
     ...(maxPrograms ? { maxPrograms: parseInt(maxPrograms) } : {}),
   };
 
-  // offerType drives which provider groups to use
+  // groups param: "linkouts,rfi|zeta,mm,eddy" — | separates groups, , separates providers within group
+  // offerType is the legacy single-group override
+  const groupsParam = searchParams.get("groups");
   const offerTypes = searchParams.getAll("offerType");
-  const groups = offerTypes.length
-    ? [offerTypes.map((t) => OFFER_TYPE_MAP[t] ?? t.toLowerCase())]
-    : undefined;
+  let groups: string[][] | undefined;
+  if (groupsParam) {
+    groups = groupsParam.split("|").map((g) => g.split(",").map((s) => s.trim()).filter(Boolean));
+  } else if (offerTypes.length) {
+    groups = [offerTypes.map((t) => OFFER_TYPE_MAP[t] ?? t.toLowerCase())];
+  }
 
-  // providers limits which external APIs are called (skips mm/eddy when not needed)
+  // providers limits which external APIs are called
+  // when groups is specified, auto-derive from external providers mentioned in groups
   const providersParam = searchParams.get("providers");
-  const activeProviders = providersParam
-    ? new Set(providersParam.split(",").map((s) => s.trim()))
-    : null;
+  let activeProviders: Set<string> | null;
+  if (providersParam) {
+    activeProviders = new Set(providersParam.split(",").map((s) => s.trim()));
+  } else if (groups) {
+    activeProviders = new Set(groups.flat().filter((p) => EXTERNAL_PROVIDERS.has(p)));
+  } else {
+    activeProviders = null;
+  }
 
   const raw = await fetchProviderResults(params, ctx, activeProviders);
   const { listings, message } = processListings(raw, session, clickConfig, groups, truncateConfig);

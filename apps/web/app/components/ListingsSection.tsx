@@ -8,6 +8,7 @@ import { processListings } from "@/app/lib/listings/processListings";
 import { parseMetaCookie, buildClickConfig } from "@/app/lib/listings/context";
 import { fireImpressions } from "@/app/lib/listings/fireImpressions";
 import type { RequestContext } from "@/app/lib/listings/types";
+import { DEFAULT_GROUPS } from "@asd/domain";
 
 interface ListingsSectionProps {
   params: Record<string, string | string[]>;
@@ -30,10 +31,10 @@ export default async function ListingsSection({ params }: ListingsSectionProps) 
 
   const [{ filters, defaultValues }, raw] = await Promise.all([
     getCachedFilters(params),
-    fetchProviderResults(params, ctx),
+    fetchProviderResults(params, ctx, new Set()), // skip external providers — group 2 loads client-side
   ]);
 
-  const { listings, message } = processListings(raw, session, clickConfig);
+  const { listings } = processListings(raw, session, clickConfig, [DEFAULT_GROUPS[0]]);
 
   const search = crypto.randomUUID();
   after(() => fireImpressions(listings, ctx, search));
@@ -56,7 +57,6 @@ export default async function ListingsSection({ params }: ListingsSectionProps) 
       listings={listings}
       filters={filters}
       initialValues={initialValues}
-      message={message}
     />
   );
 }

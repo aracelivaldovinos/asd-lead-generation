@@ -20,6 +20,15 @@ interface ListingsPageProps {
 const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, onApplyFilters }: ListingsPageProps) => {
   const { queue } = useRFIStore();
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const visibleProgramIds = new Set(
+    listings.flatMap((l) =>
+      l.schools.flatMap((s) =>
+        s.locations.flatMap((loc) => loc.programs.map((p) => p.programId))
+      )
+    )
+  );
+  const visibleQueueCount = queue.filter((p) => visibleProgramIds.has(p.programId)).length;
   const [infoOpen, setInfoOpen] = useState(false);
   const [filterValues, setFilterValues] = useState<Record<string, string | string[]>>(initialValues ?? {});
 
@@ -107,7 +116,7 @@ const ListingsPage = ({ listings, filters, initialValues, message, onNextStep, o
             <div className="fixed bottom-6 left-1/2 lg:left-[calc(50%+8rem)] -translate-x-1/2 z-20">
               <div className="inline-flex items-center gap-4 md:gap-8 bg-dark border-2 border-primary rounded-full px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                 <span className="font-semibold text-white">
-                  <span className="text-primary font-extrabold">{queue.length}</span>&nbsp;&nbsp;Program{queue.length > 1 ? "s" : ""} selected for submission
+                  <span className="text-primary font-extrabold">{visibleQueueCount}</span>&nbsp;&nbsp;Program{visibleQueueCount > 1 ? "s" : ""} selected for submission
                 </span>
                 <button
                   onClick={onNextStep}

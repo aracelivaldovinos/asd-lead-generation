@@ -41,11 +41,14 @@ export type ComputedParam = {
 
 export type ProviderParam = HardcodeParam | PassthroughParam | MappingParam | ComputedParam;
 
+export type ProviderType = "webui" | "external" | "static";
+
 export type ProviderDef = {
   id: string;
   name: string;
   host: string;
   path: string;
   method: "GET" | "POST" | "STATIC";
+  providerType: ProviderType;
   params: ProviderParam[];
 };

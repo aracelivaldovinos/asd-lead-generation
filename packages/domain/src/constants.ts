@@ -1,5 +1,13 @@
 export const PERDOCEO_SCHOOL_IDS = [568, 592]; // AIU, CTU
 
+export const NO_RESULTS_MESSAGE =
+  "No programs are available in your area. Try expanding your search geographically by changing the 'Distance from Your Location' filter directly above.";
+
+export const FALLBACK_MESSAGE =
+  "We couldn't find exact matches for your search, but here are some programs you might be interested in.";
+
+export const DEFAULT_GROUPS = [["linkouts", "rfi"], ["zeta", "mm", "eddy"]];
+
 export const PREPPED_FOR_SUCCESS_QUESTIONS = [
   {
     title: "Determine costs.",

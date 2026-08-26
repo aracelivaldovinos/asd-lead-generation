@@ -208,7 +208,7 @@ const RFIForm = ({
                 "Request Information"
               )}
             </button>
-            {queue.length > 1 && (submittedSchoolIds.length + skippedSchoolIds.length) < MAX_RFIS - 1 && (
+            {isSuggestedMode && queue.length > 1 && (submittedSchoolIds.length + skippedSchoolIds.length) < MAX_RFIS - 1 && (
               <button
                 type="button"
                 className="w-full flex items-center gap-4 mt-4 p-4 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-colors duration-200 text-left"

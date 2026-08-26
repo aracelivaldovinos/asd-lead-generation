@@ -30,7 +30,7 @@ const formatPhone = (value: string) => {
 };
 
 const RFIFormQuestions = ({ questions, onBlur }: RFIFormQuestionsProps) => {
-  const { setFormValue, formValues, fieldErrors } = useFormStore();
+  const { setFormValue, formValues, fieldErrors, clearFieldError } = useFormStore();
 
   const grouped = groupRFIQuestions(questions);
 
@@ -48,12 +48,11 @@ const RFIFormQuestions = ({ questions, onBlur }: RFIFormQuestionsProps) => {
             value={question.key === "primaryPhone" ? formatPhone(formValues[question.key] ?? "") : (formValues[question.key] ?? "")}
             maxLength={question.key === "primaryPhone" ? 12 : question.maxLength}
             pattern={question.pattern ?? undefined}
-            onChange={(e) =>
-              setFormValue(
-                question.key,
-                question.key === "primaryPhone" ? formatPhone(e.target.value) : e.target.value,
-              )
-            }
+            onChange={(e) => {
+              const value = question.key === "primaryPhone" ? formatPhone(e.target.value) : e.target.value;
+              setFormValue(question.key, value);
+              if (fieldErrors[question.key]) clearFieldError(question.key);
+            }}
             onBlur={
               BLUR_HANDLED_KEYS.includes(question.key)
                 ? () => onBlur?.(question.key)

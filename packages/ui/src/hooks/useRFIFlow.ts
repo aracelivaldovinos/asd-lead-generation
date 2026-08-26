@@ -71,7 +71,10 @@ export function useRFIFlow({
   };
 
   const handleNextStep = () => {
-    const programs = queue;
+    const visibleProgramIds = new Set(
+      listings.flatMap((l) => l.schools.flatMap((s) => s.locations.flatMap((loc) => loc.programs.map((p) => p.programId))))
+    );
+    const programs = queue.filter((p) => visibleProgramIds.has(p.programId));
     initQueue(programs);
     initPrograms(groupPrograms(listings).rfis);
     setModalOpen(true);
@@ -134,11 +137,8 @@ export function useRFIFlow({
     const { queue: currentQueue, submittedSchoolIds } = useRFIStore.getState();
 
     if (currentQueue.length > 0 && submittedSchoolIds.length < MAX_RFIS) {
-      // Run both in parallel, wait for both before clearing loading state
-      await Promise.all([
-        fetchRFIForProgram(currentQueue[0], false),
-        fetchListings().then(onListingsUpdate),
-      ]);
+      fetchListings().then(onListingsUpdate);
+      await fetchRFIForProgram(currentQueue[0], false);
       if (mountedRef.current) setIsLoadingNext(false);
       return;
     }
